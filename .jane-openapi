@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'openapi-file' => __DIR__ . '/openai-openapi/openapi.yaml',
+    'namespace' => 'Sourceability\OpenAIClient\Generated',
+    'directory' => __DIR__ . '/generated',
+];
