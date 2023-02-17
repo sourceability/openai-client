@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenaiClient;
 
+use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\AddPathPlugin;
+use Http\Client\Common\PluginClient;
 use Http\Client\HttpAsyncClient;
 use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Promise\Promise;
 use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -19,15 +25,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class Client extends BaseClient
 {
-    private HttpAsyncClient $httpAsyncClient;
-
     public function __construct(
-        HttpAsyncClient $httpAsyncClient,
+        private HttpAsyncClient $httpAsyncClient,
         RequestFactoryInterface $requestFactory,
         SerializerInterface $serializer,
         StreamFactoryInterface $streamFactory
     ) {
-        $this->httpAsyncClient = $httpAsyncClient;
         $this->requestFactory = $requestFactory;
         $this->serializer = $serializer;
         $this->streamFactory = $streamFactory;
@@ -40,13 +43,11 @@ class Client extends BaseClient
      *
      * @return array<K, null|CreateCompletionResponse>
      */
-    public function createCompletions(array $requests)
+    public function createCompletions(array $requests): array
     {
         return $this->executeEndpoints(
             array_map(
-                function (CreateCompletionRequest $request) {
-                    return new CreateCompletion($request);
-                },
+                fn (CreateCompletionRequest $request): CreateCompletion => new CreateCompletion($request),
                 $requests
             )
         );
@@ -54,8 +55,8 @@ class Client extends BaseClient
 
     public function executeEndpoint(Endpoint $endpoint, string $fetch = self::FETCH_OBJECT)
     {
-        if (self::FETCH_RESPONSE === $fetch) {
-            trigger_deprecation('jane-php/open-api-common', '7.3', 'Using %s::%s method with $fetch parameter equals to response is deprecated, use %s::%s instead.', __CLASS__, __METHOD__, __CLASS__, 'executeRawEndpoint');
+        if ($fetch === self::FETCH_RESPONSE) {
+            trigger_deprecation('jane-php/open-api-common', '7.3', 'Using %s::%s method with $fetch parameter equals to response is deprecated, use %s::%s instead.', self::class, __METHOD__, self::class, 'executeRawEndpoint');
             return $this->executeRawEndpoint($endpoint);
         }
         return $endpoint->parseResponse($this->processEndpoint($endpoint)->wait(), $this->serializer, $fetch);
@@ -63,8 +64,9 @@ class Client extends BaseClient
 
     /**
      * @param array<Endpoint> $endpoints
+     * @return mixed[]
      */
-    public function executeEndpoints(array $endpoints)
+    public function executeEndpoints(array $endpoints): array
     {
         $promises = array_map(
             [$this, 'processEndpoint'],
@@ -80,15 +82,34 @@ class Client extends BaseClient
 
         return $results;
     }
-    public function executeRawEndpoint(Endpoint $endpoint) : ResponseInterface
+
+    public function executeRawEndpoint(Endpoint $endpoint): ResponseInterface
     {
         return $this->processEndpoint($endpoint)->wait();
     }
-    private function processEndpoint(Endpoint $endpoint) : Promise
+
+    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = []): static
+    {
+        if ($httpClient === null) {
+            $httpClient = HttpAsyncClientDiscovery::find();
+            $plugins = [];
+            $uri = Psr17FactoryDiscovery::findUrlFactory()->createUri('https://api.openai.com/v1');
+            $plugins[] = new AddHostPlugin($uri);
+            $plugins[] = new AddPathPlugin($uri);
+            if (count($additionalPlugins) > 0) {
+                $plugins = array_merge($plugins, $additionalPlugins);
+            }
+            $httpClient = new PluginClient($httpClient, $plugins);
+        }
+
+        return parent::create($httpClient, $additionalPlugins, $additionalNormalizers);
+    }
+
+    private function processEndpoint(Endpoint $endpoint): Promise
     {
         [$bodyHeaders, $body] = $endpoint->getBody($this->serializer, $this->streamFactory);
         $queryString = $endpoint->getQueryString();
-        $uriGlue = false === strpos($endpoint->getUri(), '?') ? '?' : '&';
+        $uriGlue = ! str_contains($endpoint->getUri(), '?') ? '?' : '&';
         $uri = $queryString !== '' ? $endpoint->getUri() . $uriGlue . $queryString : $endpoint->getUri();
         $request = $this->requestFactory->createRequest($endpoint->getMethod(), $uri);
         if ($body) {
@@ -114,22 +135,5 @@ class Client extends BaseClient
             $request = $request->withHeader(AuthenticationRegistry::SCOPES_HEADER, $scopes);
         }
         return $this->httpAsyncClient->sendAsyncRequest($request);
-    }
-
-    public static function create($httpClient = null, array $additionalPlugins = array(), array $additionalNormalizers = array())
-    {
-        if (null === $httpClient) {
-            $httpClient = HttpAsyncClientDiscovery::find();
-            $plugins = array();
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://api.openai.com/v1');
-            $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
-            $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
-            if (count($additionalPlugins) > 0) {
-                $plugins = array_merge($plugins, $additionalPlugins);
-            }
-            $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
-        }
-
-        return parent::create($httpClient, $additionalPlugins, $additionalNormalizers);
     }
 }
