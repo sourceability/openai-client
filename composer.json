@@ -10,10 +10,10 @@
     },
     "require": {
         "php": ">7.4",
-        "php-http/httplug": "^2.3",
-        "php-http/discovery": "^1.15",
-        "php-http/message": "^1.13",
-        "jane-php/open-api-runtime": "^7.4"
+        "php-http/httplug": "^2.0",
+        "php-http/discovery": "^1.0",
+        "php-http/message": "^1.0",
+        "jane-php/open-api-runtime": "^7.0"
     },
     "require-dev": {
         "guzzlehttp/psr7": "^2.4",
