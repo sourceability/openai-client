@@ -13,7 +13,7 @@ class CreateEditRequest extends ArrayObject
     /**
      * ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
      */
-    protected string $model;
+    protected ?string $model = null;
 
     /**
      * The input text to use as a starting point for the edit.
@@ -23,7 +23,7 @@ class CreateEditRequest extends ArrayObject
     /**
      * The instruction that tells the model how to edit the prompt.
      */
-    protected string $instruction;
+    protected ?string $instruction = null;
 
     /**
      * How many edits to generate for the input and instruction.
@@ -32,19 +32,35 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
-
-     *
-     * @var float|null
+    We generally recommend altering this or `top_p` but not both.
      */
-    protected $temperature = 1;
+    protected ?float $temperature;
 
     /**
      * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
-
-     *
-     * @var float|null
+    We generally recommend altering this or `temperature` but not both.
      */
-    protected $topP = 1;
+    protected ?float $topP;
+
+    /**
+     * @param string|null $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * @param string|null $input The input text to use as a starting point for the edit.
+     * @param string|null $instruction The instruction that tells the model how to edit the prompt.
+     * @param int|null $n How many edits to generate for the input and instruction.
+     * @param float|null $temperature What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     *                                We generally recommend altering this or `top_p` but not both.
+     * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+     *                         We generally recommend altering this or `temperature` but not both.
+     */
+    public function __construct(?string $model = null, ?string $input = '', ?string $instruction = null, ?int $n = 1, ?float $temperature = 1, ?float $topP = 1)
+    {
+        $this->model = $model;
+        $this->input = $input;
+        $this->instruction = $instruction;
+        $this->n = $n;
+        $this->temperature = $temperature;
+        $this->topP = $topP;
+    }
 
     public function isInitialized($property): bool
     {

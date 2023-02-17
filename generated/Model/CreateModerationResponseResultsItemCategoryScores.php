@@ -10,19 +10,30 @@ class CreateModerationResponseResultsItemCategoryScores extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected float $hate;
+    protected ?float $hate = null;
 
-    protected float $hateThreatening;
+    protected ?float $hateThreatening = null;
 
-    protected float $selfHarm;
+    protected ?float $selfHarm = null;
 
-    protected float $sexual;
+    protected ?float $sexual = null;
 
-    protected float $sexualMinors;
+    protected ?float $sexualMinors = null;
 
-    protected float $violence;
+    protected ?float $violence = null;
 
-    protected float $violenceGraphic;
+    protected ?float $violenceGraphic = null;
+
+    public function __construct(?float $hate = null, ?float $hateThreatening = null, ?float $selfHarm = null, ?float $sexual = null, ?float $sexualMinors = null, ?float $violence = null, ?float $violenceGraphic = null)
+    {
+        $this->hate = $hate;
+        $this->hateThreatening = $hateThreatening;
+        $this->selfHarm = $selfHarm;
+        $this->sexual = $sexual;
+        $this->sexualMinors = $sexualMinors;
+        $this->violence = $violence;
+        $this->violenceGraphic = $violenceGraphic;
+    }
 
     public function isInitialized($property): bool
     {

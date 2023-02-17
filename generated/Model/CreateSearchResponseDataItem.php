@@ -10,11 +10,18 @@ class CreateSearchResponseDataItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $document;
+    protected ?int $document = null;
 
-    protected float $score;
+    protected ?float $score = null;
+
+    public function __construct(?string $object = null, ?int $document = null, ?float $score = null)
+    {
+        $this->object = $object;
+        $this->document = $document;
+        $this->score = $score;
+    }
 
     public function isInitialized($property): bool
     {

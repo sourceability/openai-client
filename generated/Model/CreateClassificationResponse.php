@@ -10,20 +10,33 @@ class CreateClassificationResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
-    protected string $searchModel;
+    protected ?string $searchModel = null;
 
-    protected string $completion;
+    protected ?string $completion = null;
 
-    protected string $label;
+    protected ?string $label = null;
 
     /**
      * @var CreateClassificationResponseSelectedExamplesItem[]|null
      */
     protected ?array $selectedExamples = null;
+
+    /**
+     * @param CreateClassificationResponseSelectedExamplesItem[]|null $selectedExamples
+     */
+    public function __construct(?string $object = null, ?string $model = null, ?string $searchModel = null, ?string $completion = null, ?string $label = null, ?array $selectedExamples = null)
+    {
+        $this->object = $object;
+        $this->model = $model;
+        $this->searchModel = $searchModel;
+        $this->completion = $completion;
+        $this->label = $label;
+        $this->selectedExamples = $selectedExamples;
+    }
 
     public function isInitialized($property): bool
     {

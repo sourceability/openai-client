@@ -10,13 +10,21 @@ class FineTuneEvent extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $createdAt;
+    protected ?int $createdAt = null;
 
-    protected string $level;
+    protected ?string $level = null;
 
-    protected string $message;
+    protected ?string $message = null;
+
+    public function __construct(?string $object = null, ?int $createdAt = null, ?string $level = null, ?string $message = null)
+    {
+        $this->object = $object;
+        $this->createdAt = $createdAt;
+        $this->level = $level;
+        $this->message = $message;
+    }
 
     public function isInitialized($property): bool
     {

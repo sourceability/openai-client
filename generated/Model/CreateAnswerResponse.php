@@ -10,13 +10,13 @@ class CreateAnswerResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
-    protected string $searchModel;
+    protected ?string $searchModel = null;
 
-    protected string $completion;
+    protected ?string $completion = null;
 
     /**
      * @var string[]|null
@@ -27,6 +27,20 @@ class CreateAnswerResponse extends ArrayObject
      * @var CreateAnswerResponseSelectedDocumentsItem[]|null
      */
     protected ?array $selectedDocuments = null;
+
+    /**
+     * @param string[]|null $answers
+     * @param CreateAnswerResponseSelectedDocumentsItem[]|null $selectedDocuments
+     */
+    public function __construct(?string $object = null, ?string $model = null, ?string $searchModel = null, ?string $completion = null, ?array $answers = null, ?array $selectedDocuments = null)
+    {
+        $this->object = $object;
+        $this->model = $model;
+        $this->searchModel = $searchModel;
+        $this->completion = $completion;
+        $this->answers = $answers;
+        $this->selectedDocuments = $selectedDocuments;
+    }
 
     public function isInitialized($property): bool
     {

@@ -15,13 +15,24 @@ class CreateModerationRequest extends ArrayObject
      *
      * @var mixed
      */
-    protected $input;
+    protected $input = null;
 
     /**
      * Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
     The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
      */
     protected string $model = 'text-moderation-latest';
+
+    /**
+     * @param mixed $input The input text to classify
+     * @param string $model Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
+     *                      The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+     */
+    public function __construct(mixed $input = null, string $model = 'text-moderation-latest')
+    {
+        $this->input = $input;
+        $this->model = $model;
+    }
 
     public function isInitialized($property): bool
     {

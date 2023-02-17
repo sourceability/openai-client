@@ -10,24 +10,39 @@ class OpenAIFile extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $bytes;
+    protected ?int $bytes = null;
 
-    protected int $createdAt;
+    protected ?int $createdAt = null;
 
-    protected string $filename;
+    protected ?string $filename = null;
 
-    protected string $purpose;
+    protected ?string $purpose = null;
 
-    protected string $status;
+    protected ?string $status = null;
 
     /**
      * @var mixed[]|null
      */
     protected ?iterable $statusDetails = null;
+
+    /**
+     * @param mixed[]|null $statusDetails
+     */
+    public function __construct(?string $id = null, ?string $object = null, ?int $bytes = null, ?int $createdAt = null, ?string $filename = null, ?string $purpose = null, ?string $status = null, ?array $statusDetails = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->bytes = $bytes;
+        $this->createdAt = $createdAt;
+        $this->filename = $filename;
+        $this->purpose = $purpose;
+        $this->status = $status;
+        $this->statusDetails = $statusDetails;
+    }
 
     public function isInitialized($property): bool
     {

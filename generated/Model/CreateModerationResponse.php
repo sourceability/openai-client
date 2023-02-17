@@ -10,14 +10,24 @@ class CreateModerationResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
     /**
      * @var CreateModerationResponseResultsItem[]|null
      */
     protected ?array $results = null;
+
+    /**
+     * @param CreateModerationResponseResultsItem[]|null $results
+     */
+    public function __construct(?string $id = null, ?string $model = null, ?array $results = null)
+    {
+        $this->id = $id;
+        $this->model = $model;
+        $this->results = $results;
+    }
 
     public function isInitialized($property): bool
     {

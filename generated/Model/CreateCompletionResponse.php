@@ -10,20 +10,33 @@ class CreateCompletionResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $created;
+    protected ?int $created = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
     /**
      * @var CreateCompletionResponseChoicesItem[]|null
      */
     protected ?array $choices = null;
 
-    protected CreateCompletionResponseUsage $usage;
+    protected ?CreateCompletionResponseUsage $usage = null;
+
+    /**
+     * @param CreateCompletionResponseChoicesItem[]|null $choices
+     */
+    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?string $model = null, ?array $choices = null, ?CreateCompletionResponseUsage $usage = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->created = $created;
+        $this->model = $model;
+        $this->choices = $choices;
+        $this->usage = $usage;
+    }
 
     public function isInitialized($property): bool
     {

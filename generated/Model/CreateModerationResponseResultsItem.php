@@ -10,11 +10,18 @@ class CreateModerationResponseResultsItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected bool $flagged;
+    protected ?bool $flagged = null;
 
-    protected CreateModerationResponseResultsItemCategories $categories;
+    protected ?CreateModerationResponseResultsItemCategories $categories = null;
 
-    protected CreateModerationResponseResultsItemCategoryScores $categoryScores;
+    protected ?CreateModerationResponseResultsItemCategoryScores $categoryScores = null;
+
+    public function __construct(?bool $flagged = null, ?CreateModerationResponseResultsItemCategories $categories = null, ?CreateModerationResponseResultsItemCategoryScores $categoryScores = null)
+    {
+        $this->flagged = $flagged;
+        $this->categories = $categories;
+        $this->categoryScores = $categoryScores;
+    }
 
     public function isInitialized($property): bool
     {

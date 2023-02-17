@@ -10,11 +10,18 @@ class CreateClassificationResponseSelectedExamplesItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected int $document;
+    protected ?int $document = null;
 
-    protected string $text;
+    protected ?string $text = null;
 
-    protected string $label;
+    protected ?string $label = null;
+
+    public function __construct(?int $document = null, ?string $text = null, ?string $label = null)
+    {
+        $this->document = $document;
+        $this->text = $text;
+        $this->label = $label;
+    }
 
     public function isInitialized($property): bool
     {

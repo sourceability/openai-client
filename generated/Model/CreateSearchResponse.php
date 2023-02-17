@@ -10,14 +10,24 @@ class CreateSearchResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
     /**
      * @var CreateSearchResponseDataItem[]|null
      */
     protected ?array $data = null;
+
+    /**
+     * @param CreateSearchResponseDataItem[]|null $data
+     */
+    public function __construct(?string $object = null, ?string $model = null, ?array $data = null)
+    {
+        $this->object = $object;
+        $this->model = $model;
+        $this->data = $data;
+    }
 
     public function isInitialized($property): bool
     {

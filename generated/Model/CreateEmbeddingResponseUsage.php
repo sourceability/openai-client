@@ -10,9 +10,15 @@ class CreateEmbeddingResponseUsage extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected int $promptTokens;
+    protected ?int $promptTokens = null;
 
-    protected int $totalTokens;
+    protected ?int $totalTokens = null;
+
+    public function __construct(?int $promptTokens = null, ?int $totalTokens = null)
+    {
+        $this->promptTokens = $promptTokens;
+        $this->totalTokens = $totalTokens;
+    }
 
     public function isInitialized($property): bool
     {

@@ -10,12 +10,21 @@ class ImagesResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected int $created;
+    protected ?int $created = null;
 
     /**
      * @var ImagesResponseDataItem[]|null
      */
     protected ?array $data = null;
+
+    /**
+     * @param ImagesResponseDataItem[]|null $data
+     */
+    public function __construct(?int $created = null, ?array $data = null)
+    {
+        $this->created = $created;
+        $this->data = $data;
+    }
 
     public function isInitialized($property): bool
     {

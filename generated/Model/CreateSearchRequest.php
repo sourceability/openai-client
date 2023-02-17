@@ -13,7 +13,7 @@ class CreateSearchRequest extends ArrayObject
     /**
      * Query to search against the documents.
      */
-    protected string $query;
+    protected ?string $query = null;
 
     /**
      * Up to 200 documents to search over, provided as a list of strings.
@@ -44,7 +44,30 @@ class CreateSearchRequest extends ArrayObject
     /**
      * A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    protected string $user;
+    protected ?string $user = null;
+
+    /**
+     * @param string|null $query Query to search against the documents.
+     * @param string[]|null $documents Up to 200 documents to search over, provided as a list of strings.
+     *                                 The maximum document length (in tokens) is 2034 minus the number of tokens in the query.
+     *                                 You should specify either `documents` or a `file`, but not both.
+     * @param string|null $file The ID of an uploaded file that contains documents to search over.
+     *                          You should specify either `documents` or a `file`, but not both.
+     * @param int|null $maxRerank The maximum number of documents to be re-ranked and returned by search.
+     *                            This flag only takes effect when `file` is set.
+     * @param bool|null $returnMetadata A special boolean flag for showing metadata. If set to `true`, each document entry in the returned JSON will contain a "metadata" field.
+     *                                  This flag only takes effect when `file` is set.
+     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     */
+    public function __construct(?string $query = null, ?array $documents = null, ?string $file = null, ?int $maxRerank = 200, ?bool $returnMetadata = false, ?string $user = null)
+    {
+        $this->query = $query;
+        $this->documents = $documents;
+        $this->file = $file;
+        $this->maxRerank = $maxRerank;
+        $this->returnMetadata = $returnMetadata;
+        $this->user = $user;
+    }
 
     public function isInitialized($property): bool
     {

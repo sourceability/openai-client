@@ -10,13 +10,21 @@ class Engine extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
     protected ?int $created = null;
 
-    protected bool $ready;
+    protected ?bool $ready = null;
+
+    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?bool $ready = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->created = $created;
+        $this->ready = $ready;
+    }
 
     public function isInitialized($property): bool
     {

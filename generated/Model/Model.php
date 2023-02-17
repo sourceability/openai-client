@@ -10,13 +10,21 @@ class Model extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $created;
+    protected ?int $created = null;
 
-    protected string $ownedBy;
+    protected ?string $ownedBy = null;
+
+    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?string $ownedBy = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->created = $created;
+        $this->ownedBy = $ownedBy;
+    }
 
     public function isInitialized($property): bool
     {

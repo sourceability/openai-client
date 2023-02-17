@@ -10,11 +10,18 @@ class DeleteFileResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected bool $deleted;
+    protected ?bool $deleted = null;
+
+    public function __construct(?string $id = null, ?string $object = null, ?bool $deleted = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->deleted = $deleted;
+    }
 
     public function isInitialized($property): bool
     {

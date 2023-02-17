@@ -10,13 +10,21 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $text;
+    protected ?string $text = null;
 
-    protected int $index;
+    protected ?int $index = null;
 
     protected ?CreateCompletionResponseChoicesItemLogprobs $logprobs = null;
 
-    protected string $finishReason;
+    protected ?string $finishReason = null;
+
+    public function __construct(?string $text = null, ?int $index = null, ?CreateCompletionResponseChoicesItemLogprobs $logprobs = null, ?string $finishReason = null)
+    {
+        $this->text = $text;
+        $this->index = $index;
+        $this->logprobs = $logprobs;
+        $this->finishReason = $finishReason;
+    }
 
     public function isInitialized($property): bool
     {

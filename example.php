@@ -15,16 +15,18 @@ $apiClient = Client::create(
 );
 
 $requests = [
-    (new CreateCompletionRequest())
-        ->setModel('text-davinci-003')
-        ->setTemperature(0)
-        ->setMaxTokens(512)
-        ->setPrompt('The jane php library is very useful because'),
-    (new CreateCompletionRequest())
-        ->setModel('text-davinci-003')
-        ->setTemperature(0.7)
-        ->setMaxTokens(512)
-        ->setPrompt('Symfony symfony symfony is like sourceability on a'),
+    new CreateCompletionRequest(
+        model: 'text-davinci-003',
+        temperature: 0,
+        maxTokens: 512,
+        prompt: 'The jane php library is very useful because'
+    ),
+    new CreateCompletionRequest(
+        model: 'text-davinci-003',
+        temperature: 0,
+        maxTokens: 512,
+        prompt: 'Symfony symfony symfony is like sourceability on a'
+    ),
 ];
 $completionResponses = $apiClient->createCompletions($requests);
 

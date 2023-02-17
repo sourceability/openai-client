@@ -10,19 +10,30 @@ class CreateModerationResponseResultsItemCategories extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected bool $hate;
+    protected ?bool $hate = null;
 
-    protected bool $hateThreatening;
+    protected ?bool $hateThreatening = null;
 
-    protected bool $selfHarm;
+    protected ?bool $selfHarm = null;
 
-    protected bool $sexual;
+    protected ?bool $sexual = null;
 
-    protected bool $sexualMinors;
+    protected ?bool $sexualMinors = null;
 
-    protected bool $violence;
+    protected ?bool $violence = null;
 
-    protected bool $violenceGraphic;
+    protected ?bool $violenceGraphic = null;
+
+    public function __construct(?bool $hate = null, ?bool $hateThreatening = null, ?bool $selfHarm = null, ?bool $sexual = null, ?bool $sexualMinors = null, ?bool $violence = null, ?bool $violenceGraphic = null)
+    {
+        $this->hate = $hate;
+        $this->hateThreatening = $hateThreatening;
+        $this->selfHarm = $selfHarm;
+        $this->sexual = $sexual;
+        $this->sexualMinors = $sexualMinors;
+        $this->violence = $violence;
+        $this->violenceGraphic = $violenceGraphic;
+    }
 
     public function isInitialized($property): bool
     {

@@ -10,16 +10,27 @@ class CreateEmbeddingResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
     /**
      * @var CreateEmbeddingResponseDataItem[]|null
      */
     protected ?array $data = null;
 
-    protected CreateEmbeddingResponseUsage $usage;
+    protected ?CreateEmbeddingResponseUsage $usage = null;
+
+    /**
+     * @param CreateEmbeddingResponseDataItem[]|null $data
+     */
+    public function __construct(?string $object = null, ?string $model = null, ?array $data = null, ?CreateEmbeddingResponseUsage $usage = null)
+    {
+        $this->object = $object;
+        $this->model = $model;
+        $this->data = $data;
+        $this->usage = $usage;
+    }
 
     public function isInitialized($property): bool
     {

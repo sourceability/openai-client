@@ -10,26 +10,26 @@ class FineTune extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected string $object;
+    protected ?string $object = null;
 
-    protected int $createdAt;
+    protected ?int $createdAt = null;
 
-    protected int $updatedAt;
+    protected ?int $updatedAt = null;
 
-    protected string $model;
+    protected ?string $model = null;
 
     protected ?string $fineTunedModel = null;
 
-    protected string $organizationId;
+    protected ?string $organizationId = null;
 
-    protected string $status;
+    protected ?string $status = null;
 
     /**
-     * @var mixed[]
+     * @var mixed[]|null
      */
-    protected iterable $hyperparams;
+    protected ?iterable $hyperparams = null;
 
     /**
      * @var OpenAIFile[]|null
@@ -50,6 +50,30 @@ class FineTune extends ArrayObject
      * @var FineTuneEvent[]|null
      */
     protected ?array $events = null;
+
+    /**
+     * @param mixed[] $hyperparams
+     * @param OpenAIFile[]|null $trainingFiles
+     * @param OpenAIFile[]|null $validationFiles
+     * @param OpenAIFile[]|null $resultFiles
+     * @param FineTuneEvent[]|null $events
+     */
+    public function __construct(?string $id = null, ?string $object = null, ?int $createdAt = null, ?int $updatedAt = null, ?string $model = null, ?string $fineTunedModel = null, ?string $organizationId = null, ?string $status = null, $hyperparams = null, ?array $trainingFiles = null, ?array $validationFiles = null, ?array $resultFiles = null, ?array $events = null)
+    {
+        $this->id = $id;
+        $this->object = $object;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->model = $model;
+        $this->fineTunedModel = $fineTunedModel;
+        $this->organizationId = $organizationId;
+        $this->status = $status;
+        $this->hyperparams = $hyperparams;
+        $this->trainingFiles = $trainingFiles;
+        $this->validationFiles = $validationFiles;
+        $this->resultFiles = $resultFiles;
+        $this->events = $events;
+    }
 
     public function isInitialized($property): bool
     {

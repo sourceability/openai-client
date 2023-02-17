@@ -10,11 +10,18 @@ class CreateEditResponseUsage extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected int $promptTokens;
+    protected ?int $promptTokens = null;
 
-    protected int $completionTokens;
+    protected ?int $completionTokens = null;
 
-    protected int $totalTokens;
+    protected ?int $totalTokens = null;
+
+    public function __construct(?int $promptTokens = null, ?int $completionTokens = null, ?int $totalTokens = null)
+    {
+        $this->promptTokens = $promptTokens;
+        $this->completionTokens = $completionTokens;
+        $this->totalTokens = $totalTokens;
+    }
 
     public function isInitialized($property): bool
     {

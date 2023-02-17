@@ -10,9 +10,15 @@ class ImagesResponseDataItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $url;
+    protected ?string $url = null;
 
-    protected string $b64Json;
+    protected ?string $b64Json = null;
+
+    public function __construct(?string $url = null, ?string $b64Json = null)
+    {
+        $this->url = $url;
+        $this->b64Json = $b64Json;
+    }
 
     public function isInitialized($property): bool
     {

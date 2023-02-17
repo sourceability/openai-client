@@ -10,12 +10,21 @@ class ListEnginesResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected string $object;
+    protected ?string $object = null;
 
     /**
      * @var Engine[]|null
      */
     protected ?array $data = null;
+
+    /**
+     * @param Engine[]|null $data
+     */
+    public function __construct(?string $object = null, ?array $data = null)
+    {
+        $this->object = $object;
+        $this->data = $data;
+    }
 
     public function isInitialized($property): bool
     {

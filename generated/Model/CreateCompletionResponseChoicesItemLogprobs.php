@@ -30,6 +30,20 @@ class CreateCompletionResponseChoicesItemLogprobs extends ArrayObject
      */
     protected ?array $textOffset = null;
 
+    /**
+     * @param string[]|null $tokens
+     * @param float[]|null $tokenLogprobs
+     * @param mixed[][]|null $topLogprobs
+     * @param int[]|null $textOffset
+     */
+    public function __construct(?array $tokens = null, ?array $tokenLogprobs = null, ?array $topLogprobs = null, ?array $textOffset = null)
+    {
+        $this->tokens = $tokens;
+        $this->tokenLogprobs = $tokenLogprobs;
+        $this->topLogprobs = $topLogprobs;
+        $this->textOffset = $textOffset;
+    }
+
     public function isInitialized($property): bool
     {
         return array_key_exists($property, $this->initialized);
