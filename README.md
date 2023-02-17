@@ -21,16 +21,11 @@ composer require sourceability/openai-client
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use Http\Client\Common\Plugin\AuthenticationPlugin;
-use Http\Message\Authentication\Bearer;
 use Sourceability\OpenAIClient\Client;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
 
 $apiClient = Client::create(
-    null,
-    [
-        new AuthenticationPlugin(new Bearer(getenv('OPENAI_API_KEY')))
-    ]
+    apiKey: getenv('OPENAI_API_KEY')
 );
 
 $requests = [

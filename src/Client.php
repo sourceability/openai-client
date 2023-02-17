@@ -6,10 +6,12 @@ namespace Sourceability\OpenaiClient;
 
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\AddPathPlugin;
+use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\HttpAsyncClient;
 use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Message\Authentication\Bearer;
 use Http\Promise\Promise;
 use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -88,8 +90,12 @@ class Client extends BaseClient
         return $this->processEndpoint($endpoint)->wait();
     }
 
-    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = []): static
+    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [], ?string $apiKey = null): static
     {
+        if ($apiKey !== null) {
+            $additionalPlugins[] = new AuthenticationPlugin(new Bearer($apiKey));
+        }
+
         if ($httpClient === null) {
             $httpClient = HttpAsyncClientDiscovery::find();
             $plugins = [];
