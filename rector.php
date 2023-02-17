@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\Class_\PropertyTypeFromStrictSetterGetterRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddMethodCallBasedStrictParamTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeFromPropertyTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ArrayShapeFromConstantArrayReturnRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\ParamAnnotationIncorrectNullableRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ParamTypeByMethodCallTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromReturnDirectArrayRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromReturnNewRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictBoolReturnExprRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictConstantReturnRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNativeCallRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNewArrayRector;
 use Rector\TypeDeclaration\Rector\Param\ParamTypeFromStrictTypedPropertyRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
@@ -25,6 +23,7 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictGetterMethodRe
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->importNames(true);
     $rectorConfig->paths([
+        __DIR__ . '/build',
         __DIR__ . '/generated',
         __DIR__ . '/src',
     ]);
@@ -46,5 +45,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_80,
         SetList::TYPE_DECLARATION,
+    ]);
+    $rectorConfig->skip([
+        ClassPropertyAssignToConstructorPromotionRector::class => [
+            __DIR__ . '/generated/Model'
+        ],
     ]);
 };

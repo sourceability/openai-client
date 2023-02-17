@@ -8,6 +8,11 @@
             "Sourceability\\OpenAIClient\\Generated\\": "generated/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Sourceability\\OpenAIClient\\Build\\": "build/"
+        }
+    },
     "require": {
         "php": ">8.0",
         "php-http/httplug": "^2.0",

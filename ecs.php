@@ -6,6 +6,7 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([
+        __DIR__ . '/build',
         __DIR__ . '/generated',
         __DIR__ . '/src',
     ]);
