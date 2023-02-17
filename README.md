@@ -13,7 +13,7 @@ Features:
 ## Installation
 
 ```
-composer require sourceability/openai-client:*@dev
+composer require sourceability/openai-client
 ```
 
 ## Getting started
