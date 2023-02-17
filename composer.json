@@ -1,5 +1,7 @@
 {
     "name": "sourceability/openai-client",
+    "description": "PHP 8.0+ OpenAI API client with fully typed/documented requests+responses models, guzzle and symfony/http-client support and async/parallel requests.",
+    "keywords": ["php", "OpenAI", "GPT", "GPT-3", "guzzle", "sdk"],
     "type": "library",
     "license": "MIT",
     "autoload": {

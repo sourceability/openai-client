@@ -1,13 +1,16 @@
 # sourceability/openai-client
 
-An [OpenAI API][openai_api] client generated using [jane-php][janephp] from [openai's OpenAPI][openai_openapi].
+PHP 8.0+ [OpenAI API][openai_api] client with fully typed/documented requests+responses models,
+`guzzlehttp/guzzle` + `symfony/http-client` support through [HTTPPug][httplug], and async/parallel requests.
+
+The client is generated using [openai's OpenAPI][openai_openapi] with [jane-php][janephp].
 
 Features:
 - The requests models are typed and include descriptions from the OpenAPI documentation.
-- Uses [HTTPPug][httplug] as the HTTP Abstraction. The library also includes:
-  - [Many http clients like guzzle or symfony/http-client][httplug_adapters]
+- Uses [HTTPPug][httplug] as the HTTP Abstraction
+  - [Many supported http clients like `guzzlehttp/guzzle` or `symfony/http-client`][httplug_adapters]
   - [A lot of useful plugins like Cache or Retry][httplug_plugins]
-  - [A Symfony Bundle][httplug_sf_bundle]
+  - [Symfony Bundle][httplug_sf_bundle]
 - Async/parallel requests.
 
 ## Installation
