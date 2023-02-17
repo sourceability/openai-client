@@ -26,15 +26,21 @@ class CreateEmbeddingRequest
     protected ?string $user = null;
 
     /**
-     * @param string|null $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * @param string $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
      * @param mixed $input Input text to get embeddings for, encoded as a string or array of tokens. To get embeddings for multiple inputs in a single request, pass an array of strings or array of token arrays. Each input must not exceed 8192 tokens in length.
-     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct(?string $model = null, mixed $input = null, ?string $user = null)
+    public function __construct($model = null, mixed $input = null, $user = null)
     {
-        $this->model = $model;
-        $this->input = $input;
-        $this->user = $user;
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($input !== null) {
+            $this->setInput($input);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
+        }
     }
 
     public function isInitialized($property): bool

@@ -8,8 +8,10 @@ use Jane\Component\JsonSchema\Guesser\Guess\ClassGuess as BaseClassGuess;
 use Jane\Component\JsonSchema\Guesser\Guess\Property;
 use Jane\Component\OpenApiCommon\Generator\ModelGenerator;
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\BinaryOp\NotIdentical;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
@@ -17,6 +19,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\If_;
 
 class ModelWithConstructorGenerator extends ModelGenerator
 {
@@ -91,14 +94,27 @@ class ModelWithConstructorGenerator extends ModelGenerator
                 new Variable($property->getPhpName()),
                 $this->getDefaultAsExpr($property->getDefault())->expr
             );
-            $constructorStatements[] = new Expression(
-                new Assign(
-                    new PropertyFetch(
-                        new Variable('this'),
-                        $property->getPhpName()
-                    ),
-                    new Variable($property->getPhpName())
-                )
+
+            $constructorStatements[] = new If_(
+                new NotIdentical(
+                    new Variable($property->getPhpName()),
+                    new ConstFetch(new Name('null'))
+                ),
+                [
+                    'stmts' => [
+                        new Expression(
+                            new MethodCall(
+                                new Variable('this'),
+                                sprintf('set%s', ucfirst($property->getPhpName())),
+                                [
+                                    new Arg(
+                                        new Variable($property->getPhpName())
+                                    ),
+                                ]
+                            )
+                        ),
+                    ],
+                ]
             );
             $constructorDocumentation[] = $this->createConstructorArgumentDoc($property);
         }

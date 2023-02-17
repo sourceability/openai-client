@@ -20,13 +20,21 @@ class CreateModerationResponse extends ArrayObject
     protected ?array $results = null;
 
     /**
-     * @param CreateModerationResponseResultsItem[]|null $results
+     * @param string $id
+     * @param string $model
+     * @param CreateModerationResponseResultsItem[] $results
      */
-    public function __construct(?string $id = null, ?string $model = null, ?array $results = null)
+    public function __construct($id = null, $model = null, $results = null)
     {
-        $this->id = $id;
-        $this->model = $model;
-        $this->results = $results;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($results !== null) {
+            $this->setResults($results);
+        }
     }
 
     public function isInitialized($property): bool

@@ -31,17 +31,25 @@ class CreateEditResponseChoicesItemLogprobs extends ArrayObject
     protected ?array $textOffset = null;
 
     /**
-     * @param string[]|null $tokens
-     * @param float[]|null $tokenLogprobs
-     * @param mixed[][]|null $topLogprobs
-     * @param int[]|null $textOffset
+     * @param string[] $tokens
+     * @param float[] $tokenLogprobs
+     * @param mixed[][] $topLogprobs
+     * @param int[] $textOffset
      */
-    public function __construct(?array $tokens = null, ?array $tokenLogprobs = null, ?array $topLogprobs = null, ?array $textOffset = null)
+    public function __construct($tokens = null, $tokenLogprobs = null, $topLogprobs = null, $textOffset = null)
     {
-        $this->tokens = $tokens;
-        $this->tokenLogprobs = $tokenLogprobs;
-        $this->topLogprobs = $topLogprobs;
-        $this->textOffset = $textOffset;
+        if ($tokens !== null) {
+            $this->setTokens($tokens);
+        }
+        if ($tokenLogprobs !== null) {
+            $this->setTokenLogprobs($tokenLogprobs);
+        }
+        if ($topLogprobs !== null) {
+            $this->setTopLogprobs($topLogprobs);
+        }
+        if ($textOffset !== null) {
+            $this->setTextOffset($textOffset);
+        }
     }
 
     public function isInitialized($property): bool

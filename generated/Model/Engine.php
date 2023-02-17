@@ -18,12 +18,26 @@ class Engine extends ArrayObject
 
     protected ?bool $ready = null;
 
-    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?bool $ready = null)
+    /**
+     * @param string $id
+     * @param string $object
+     * @param int|null $created
+     * @param bool $ready
+     */
+    public function __construct($id = null, $object = null, $created = null, $ready = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->created = $created;
-        $this->ready = $ready;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($created !== null) {
+            $this->setCreated($created);
+        }
+        if ($ready !== null) {
+            $this->setReady($ready);
+        }
     }
 
     public function isInitialized($property): bool

@@ -36,19 +36,29 @@ class CreateImageVariationRequest extends ArrayObject
     protected ?string $user = null;
 
     /**
-     * @param string|null $image The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
+     * @param string $image The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
      * @param int|null $n The number of images to generate. Must be between 1 and 10.
      * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct(?string $image = null, ?int $n = 1, ?string $size = '1024x1024', ?string $responseFormat = 'url', ?string $user = null)
+    public function __construct($image = null, $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
     {
-        $this->image = $image;
-        $this->n = $n;
-        $this->size = $size;
-        $this->responseFormat = $responseFormat;
-        $this->user = $user;
+        if ($image !== null) {
+            $this->setImage($image);
+        }
+        if ($n !== null) {
+            $this->setN($n);
+        }
+        if ($size !== null) {
+            $this->setSize($size);
+        }
+        if ($responseFormat !== null) {
+            $this->setResponseFormat($responseFormat);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
+        }
     }
 
     public function isInitialized($property): bool

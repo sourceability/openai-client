@@ -52,27 +52,61 @@ class FineTune extends ArrayObject
     protected ?array $events = null;
 
     /**
+     * @param string $id
+     * @param string $object
+     * @param int $createdAt
+     * @param int $updatedAt
+     * @param string $model
+     * @param string|null $fineTunedModel
+     * @param string $organizationId
+     * @param string $status
      * @param mixed[] $hyperparams
-     * @param OpenAIFile[]|null $trainingFiles
-     * @param OpenAIFile[]|null $validationFiles
-     * @param OpenAIFile[]|null $resultFiles
-     * @param FineTuneEvent[]|null $events
+     * @param OpenAIFile[] $trainingFiles
+     * @param OpenAIFile[] $validationFiles
+     * @param OpenAIFile[] $resultFiles
+     * @param FineTuneEvent[] $events
      */
-    public function __construct(?string $id = null, ?string $object = null, ?int $createdAt = null, ?int $updatedAt = null, ?string $model = null, ?string $fineTunedModel = null, ?string $organizationId = null, ?string $status = null, $hyperparams = null, ?array $trainingFiles = null, ?array $validationFiles = null, ?array $resultFiles = null, ?array $events = null)
+    public function __construct($id = null, $object = null, $createdAt = null, $updatedAt = null, $model = null, $fineTunedModel = null, $organizationId = null, $status = null, $hyperparams = null, $trainingFiles = null, $validationFiles = null, $resultFiles = null, $events = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-        $this->model = $model;
-        $this->fineTunedModel = $fineTunedModel;
-        $this->organizationId = $organizationId;
-        $this->status = $status;
-        $this->hyperparams = $hyperparams;
-        $this->trainingFiles = $trainingFiles;
-        $this->validationFiles = $validationFiles;
-        $this->resultFiles = $resultFiles;
-        $this->events = $events;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($createdAt !== null) {
+            $this->setCreatedAt($createdAt);
+        }
+        if ($updatedAt !== null) {
+            $this->setUpdatedAt($updatedAt);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($fineTunedModel !== null) {
+            $this->setFineTunedModel($fineTunedModel);
+        }
+        if ($organizationId !== null) {
+            $this->setOrganizationId($organizationId);
+        }
+        if ($status !== null) {
+            $this->setStatus($status);
+        }
+        if ($hyperparams !== null) {
+            $this->setHyperparams($hyperparams);
+        }
+        if ($trainingFiles !== null) {
+            $this->setTrainingFiles($trainingFiles);
+        }
+        if ($validationFiles !== null) {
+            $this->setValidationFiles($validationFiles);
+        }
+        if ($resultFiles !== null) {
+            $this->setResultFiles($resultFiles);
+        }
+        if ($events !== null) {
+            $this->setEvents($events);
+        }
     }
 
     public function isInitialized($property): bool

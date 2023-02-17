@@ -24,15 +24,38 @@ class CreateModerationResponseResultsItemCategories extends ArrayObject
 
     protected ?bool $violenceGraphic = null;
 
-    public function __construct(?bool $hate = null, ?bool $hateThreatening = null, ?bool $selfHarm = null, ?bool $sexual = null, ?bool $sexualMinors = null, ?bool $violence = null, ?bool $violenceGraphic = null)
+    /**
+     * @param bool $hate
+     * @param bool $hateThreatening
+     * @param bool $selfHarm
+     * @param bool $sexual
+     * @param bool $sexualMinors
+     * @param bool $violence
+     * @param bool $violenceGraphic
+     */
+    public function __construct($hate = null, $hateThreatening = null, $selfHarm = null, $sexual = null, $sexualMinors = null, $violence = null, $violenceGraphic = null)
     {
-        $this->hate = $hate;
-        $this->hateThreatening = $hateThreatening;
-        $this->selfHarm = $selfHarm;
-        $this->sexual = $sexual;
-        $this->sexualMinors = $sexualMinors;
-        $this->violence = $violence;
-        $this->violenceGraphic = $violenceGraphic;
+        if ($hate !== null) {
+            $this->setHate($hate);
+        }
+        if ($hateThreatening !== null) {
+            $this->setHateThreatening($hateThreatening);
+        }
+        if ($selfHarm !== null) {
+            $this->setSelfHarm($selfHarm);
+        }
+        if ($sexual !== null) {
+            $this->setSexual($sexual);
+        }
+        if ($sexualMinors !== null) {
+            $this->setSexualMinors($sexualMinors);
+        }
+        if ($violence !== null) {
+            $this->setViolence($violence);
+        }
+        if ($violenceGraphic !== null) {
+            $this->setViolenceGraphic($violenceGraphic);
+        }
     }
 
     public function isInitialized($property): bool

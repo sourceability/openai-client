@@ -20,13 +20,21 @@ class CreateSearchResponse extends ArrayObject
     protected ?array $data = null;
 
     /**
-     * @param CreateSearchResponseDataItem[]|null $data
+     * @param string $object
+     * @param string $model
+     * @param CreateSearchResponseDataItem[] $data
      */
-    public function __construct(?string $object = null, ?string $model = null, ?array $data = null)
+    public function __construct($object = null, $model = null, $data = null)
     {
-        $this->object = $object;
-        $this->model = $model;
-        $this->data = $data;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($data !== null) {
+            $this->setData($data);
+        }
     }
 
     public function isInitialized($property): bool

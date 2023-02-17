@@ -30,18 +30,41 @@ class OpenAIFile extends ArrayObject
     protected ?iterable $statusDetails = null;
 
     /**
+     * @param string $id
+     * @param string $object
+     * @param int $bytes
+     * @param int $createdAt
+     * @param string $filename
+     * @param string $purpose
+     * @param string $status
      * @param mixed[]|null $statusDetails
      */
-    public function __construct(?string $id = null, ?string $object = null, ?int $bytes = null, ?int $createdAt = null, ?string $filename = null, ?string $purpose = null, ?string $status = null, ?array $statusDetails = null)
+    public function __construct($id = null, $object = null, $bytes = null, $createdAt = null, $filename = null, $purpose = null, $status = null, $statusDetails = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->bytes = $bytes;
-        $this->createdAt = $createdAt;
-        $this->filename = $filename;
-        $this->purpose = $purpose;
-        $this->status = $status;
-        $this->statusDetails = $statusDetails;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($bytes !== null) {
+            $this->setBytes($bytes);
+        }
+        if ($createdAt !== null) {
+            $this->setCreatedAt($createdAt);
+        }
+        if ($filename !== null) {
+            $this->setFilename($filename);
+        }
+        if ($purpose !== null) {
+            $this->setPurpose($purpose);
+        }
+        if ($status !== null) {
+            $this->setStatus($status);
+        }
+        if ($statusDetails !== null) {
+            $this->setStatusDetails($statusDetails);
+        }
     }
 
     public function isInitialized($property): bool

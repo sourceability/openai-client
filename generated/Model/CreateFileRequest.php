@@ -21,15 +21,19 @@ class CreateFileRequest
     protected ?string $purpose = null;
 
     /**
-     * @param string|null $file Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
-                   If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
-     * @param string|null $purpose The intended purpose of the uploaded documents.
-                      Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
+     * @param string $file Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
+     *                     If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
+     * @param string $purpose The intended purpose of the uploaded documents.
+     *                        Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
      */
-    public function __construct(?string $file = null, ?string $purpose = null)
+    public function __construct($file = null, $purpose = null)
     {
-        $this->file = $file;
-        $this->purpose = $purpose;
+        if ($file !== null) {
+            $this->setFile($file);
+        }
+        if ($purpose !== null) {
+            $this->setPurpose($purpose);
+        }
     }
 
     public function isInitialized($property): bool

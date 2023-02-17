@@ -14,10 +14,18 @@ class CreateAnswerResponseSelectedDocumentsItem extends ArrayObject
 
     protected ?string $text = null;
 
-    public function __construct(?int $document = null, ?string $text = null)
+    /**
+     * @param int $document
+     * @param string $text
+     */
+    public function __construct($document = null, $text = null)
     {
-        $this->document = $document;
-        $this->text = $text;
+        if ($document !== null) {
+            $this->setDocument($document);
+        }
+        if ($text !== null) {
+            $this->setText($text);
+        }
     }
 
     public function isInitialized($property): bool

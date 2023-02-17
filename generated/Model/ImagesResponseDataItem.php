@@ -14,10 +14,18 @@ class ImagesResponseDataItem extends ArrayObject
 
     protected ?string $b64Json = null;
 
-    public function __construct(?string $url = null, ?string $b64Json = null)
+    /**
+     * @param string $url
+     * @param string $b64Json
+     */
+    public function __construct($url = null, $b64Json = null)
     {
-        $this->url = $url;
-        $this->b64Json = $b64Json;
+        if ($url !== null) {
+            $this->setUrl($url);
+        }
+        if ($b64Json !== null) {
+            $this->setB64Json($b64Json);
+        }
     }
 
     public function isInitialized($property): bool

@@ -26,16 +26,33 @@ class CreateEditResponse extends ArrayObject
     protected ?CreateEditResponseUsage $usage = null;
 
     /**
-     * @param CreateEditResponseChoicesItem[]|null $choices
+     * @param string $id
+     * @param string $object
+     * @param int $created
+     * @param string $model
+     * @param CreateEditResponseChoicesItem[] $choices
+     * @param CreateEditResponseUsage $usage
      */
-    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?string $model = null, ?array $choices = null, ?CreateEditResponseUsage $usage = null)
+    public function __construct($id = null, $object = null, $created = null, $model = null, $choices = null, $usage = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->created = $created;
-        $this->model = $model;
-        $this->choices = $choices;
-        $this->usage = $usage;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($created !== null) {
+            $this->setCreated($created);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($choices !== null) {
+            $this->setChoices($choices);
+        }
+        if ($usage !== null) {
+            $this->setUsage($usage);
+        }
     }
 
     public function isInitialized($property): bool

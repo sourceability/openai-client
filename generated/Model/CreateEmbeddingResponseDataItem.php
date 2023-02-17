@@ -20,13 +20,21 @@ class CreateEmbeddingResponseDataItem extends ArrayObject
     protected ?array $embedding = null;
 
     /**
-     * @param float[]|null $embedding
+     * @param int $index
+     * @param string $object
+     * @param float[] $embedding
      */
-    public function __construct(?int $index = null, ?string $object = null, ?array $embedding = null)
+    public function __construct($index = null, $object = null, $embedding = null)
     {
-        $this->index = $index;
-        $this->object = $object;
-        $this->embedding = $embedding;
+        if ($index !== null) {
+            $this->setIndex($index);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($embedding !== null) {
+            $this->setEmbedding($embedding);
+        }
     }
 
     public function isInitialized($property): bool

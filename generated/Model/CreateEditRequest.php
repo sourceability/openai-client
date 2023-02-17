@@ -32,34 +32,50 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
-    We generally recommend altering this or `top_p` but not both.
+
+     *
+     * @var float|null
      */
-    protected ?float $temperature;
+    protected $temperature = 1;
 
     /**
      * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
-    We generally recommend altering this or `temperature` but not both.
+
+     *
+     * @var float|null
      */
-    protected ?float $topP;
+    protected $topP = 1;
 
     /**
-     * @param string|null $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * @param string $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
      * @param string|null $input The input text to use as a starting point for the edit.
-     * @param string|null $instruction The instruction that tells the model how to edit the prompt.
+     * @param string $instruction The instruction that tells the model how to edit the prompt.
      * @param int|null $n How many edits to generate for the input and instruction.
      * @param float|null $temperature What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
      *                                We generally recommend altering this or `top_p` but not both.
      * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      *                         We generally recommend altering this or `temperature` but not both.
      */
-    public function __construct(?string $model = null, ?string $input = '', ?string $instruction = null, ?int $n = 1, ?float $temperature = 1, ?float $topP = 1)
+    public function __construct($model = null, $input = '', $instruction = null, $n = 1, $temperature = 1, $topP = 1)
     {
-        $this->model = $model;
-        $this->input = $input;
-        $this->instruction = $instruction;
-        $this->n = $n;
-        $this->temperature = $temperature;
-        $this->topP = $topP;
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($input !== null) {
+            $this->setInput($input);
+        }
+        if ($instruction !== null) {
+            $this->setInstruction($instruction);
+        }
+        if ($n !== null) {
+            $this->setN($n);
+        }
+        if ($temperature !== null) {
+            $this->setTemperature($temperature);
+        }
+        if ($topP !== null) {
+            $this->setTopP($topP);
+        }
     }
 
     public function isInitialized($property): bool

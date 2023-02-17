@@ -22,14 +22,25 @@ class CreateEmbeddingResponse extends ArrayObject
     protected ?CreateEmbeddingResponseUsage $usage = null;
 
     /**
-     * @param CreateEmbeddingResponseDataItem[]|null $data
+     * @param string $object
+     * @param string $model
+     * @param CreateEmbeddingResponseDataItem[] $data
+     * @param CreateEmbeddingResponseUsage $usage
      */
-    public function __construct(?string $object = null, ?string $model = null, ?array $data = null, ?CreateEmbeddingResponseUsage $usage = null)
+    public function __construct($object = null, $model = null, $data = null, $usage = null)
     {
-        $this->object = $object;
-        $this->model = $model;
-        $this->data = $data;
-        $this->usage = $usage;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($data !== null) {
+            $this->setData($data);
+        }
+        if ($usage !== null) {
+            $this->setUsage($usage);
+        }
     }
 
     public function isInitialized($property): bool

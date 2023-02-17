@@ -16,11 +16,22 @@ class DeleteModelResponse extends ArrayObject
 
     protected ?bool $deleted = null;
 
-    public function __construct(?string $id = null, ?string $object = null, ?bool $deleted = null)
+    /**
+     * @param string $id
+     * @param string $object
+     * @param bool $deleted
+     */
+    public function __construct($id = null, $object = null, $deleted = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->deleted = $deleted;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($deleted !== null) {
+            $this->setDeleted($deleted);
+        }
     }
 
     public function isInitialized($property): bool

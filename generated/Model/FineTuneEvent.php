@@ -18,12 +18,26 @@ class FineTuneEvent extends ArrayObject
 
     protected ?string $message = null;
 
-    public function __construct(?string $object = null, ?int $createdAt = null, ?string $level = null, ?string $message = null)
+    /**
+     * @param string $object
+     * @param int $createdAt
+     * @param string $level
+     * @param string $message
+     */
+    public function __construct($object = null, $createdAt = null, $level = null, $message = null)
     {
-        $this->object = $object;
-        $this->createdAt = $createdAt;
-        $this->level = $level;
-        $this->message = $message;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($createdAt !== null) {
+            $this->setCreatedAt($createdAt);
+        }
+        if ($level !== null) {
+            $this->setLevel($level);
+        }
+        if ($message !== null) {
+            $this->setMessage($message);
+        }
     }
 
     public function isInitialized($property): bool

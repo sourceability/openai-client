@@ -36,19 +36,29 @@ class CreateImageRequest extends ArrayObject
     protected ?string $user = null;
 
     /**
-     * @param string|null $prompt A text description of the desired image(s). The maximum length is 1000 characters.
+     * @param string $prompt A text description of the desired image(s). The maximum length is 1000 characters.
      * @param int|null $n The number of images to generate. Must be between 1 and 10.
      * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct(?string $prompt = null, ?int $n = 1, ?string $size = '1024x1024', ?string $responseFormat = 'url', ?string $user = null)
+    public function __construct($prompt = null, $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
     {
-        $this->prompt = $prompt;
-        $this->n = $n;
-        $this->size = $size;
-        $this->responseFormat = $responseFormat;
-        $this->user = $user;
+        if ($prompt !== null) {
+            $this->setPrompt($prompt);
+        }
+        if ($n !== null) {
+            $this->setN($n);
+        }
+        if ($size !== null) {
+            $this->setSize($size);
+        }
+        if ($responseFormat !== null) {
+            $this->setResponseFormat($responseFormat);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
+        }
     }
 
     public function isInitialized($property): bool

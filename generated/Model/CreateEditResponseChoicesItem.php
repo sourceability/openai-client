@@ -18,12 +18,26 @@ class CreateEditResponseChoicesItem extends ArrayObject
 
     protected ?string $finishReason = null;
 
-    public function __construct(?string $text = null, ?int $index = null, ?CreateEditResponseChoicesItemLogprobs $logprobs = null, ?string $finishReason = null)
+    /**
+     * @param string $text
+     * @param int $index
+     * @param CreateEditResponseChoicesItemLogprobs|null $logprobs
+     * @param string $finishReason
+     */
+    public function __construct($text = null, $index = null, $logprobs = null, $finishReason = null)
     {
-        $this->text = $text;
-        $this->index = $index;
-        $this->logprobs = $logprobs;
-        $this->finishReason = $finishReason;
+        if ($text !== null) {
+            $this->setText($text);
+        }
+        if ($index !== null) {
+            $this->setIndex($index);
+        }
+        if ($logprobs !== null) {
+            $this->setLogprobs($logprobs);
+        }
+        if ($finishReason !== null) {
+            $this->setFinishReason($finishReason);
+        }
     }
 
     public function isInitialized($property): bool

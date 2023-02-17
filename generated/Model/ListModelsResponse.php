@@ -18,12 +18,17 @@ class ListModelsResponse extends ArrayObject
     protected ?array $data = null;
 
     /**
-     * @param Model[]|null $data
+     * @param string $object
+     * @param Model[] $data
      */
-    public function __construct(?string $object = null, ?array $data = null)
+    public function __construct($object = null, $data = null)
     {
-        $this->object = $object;
-        $this->data = $data;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($data !== null) {
+            $this->setData($data);
+        }
     }
 
     public function isInitialized($property): bool

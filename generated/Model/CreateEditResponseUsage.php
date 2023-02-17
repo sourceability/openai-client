@@ -16,11 +16,22 @@ class CreateEditResponseUsage extends ArrayObject
 
     protected ?int $totalTokens = null;
 
-    public function __construct(?int $promptTokens = null, ?int $completionTokens = null, ?int $totalTokens = null)
+    /**
+     * @param int $promptTokens
+     * @param int $completionTokens
+     * @param int $totalTokens
+     */
+    public function __construct($promptTokens = null, $completionTokens = null, $totalTokens = null)
     {
-        $this->promptTokens = $promptTokens;
-        $this->completionTokens = $completionTokens;
-        $this->totalTokens = $totalTokens;
+        if ($promptTokens !== null) {
+            $this->setPromptTokens($promptTokens);
+        }
+        if ($completionTokens !== null) {
+            $this->setCompletionTokens($completionTokens);
+        }
+        if ($totalTokens !== null) {
+            $this->setTotalTokens($totalTokens);
+        }
     }
 
     public function isInitialized($property): bool

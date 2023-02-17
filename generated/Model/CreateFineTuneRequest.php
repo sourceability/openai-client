@@ -84,8 +84,12 @@ class CreateFineTuneRequest extends ArrayObject
     protected ?string $suffix = null;
 
     /**
-     * @param string|null $trainingFile The ID of an uploaded file that contains training data.
-                           See the [fine-tuning guide](/docs/guides/fine-tuning/creating-training-data) for more details.
+     * @param string $trainingFile The ID of an uploaded file that contains training data.
+     *                             See [upload file](/docs/api-reference/files/upload) for how to upload a file.
+     *                             Your dataset must be formatted as a JSONL file, where each training
+     *                             example is a JSON object with the keys "prompt" and "completion".
+     *                             Additionally, you must upload your file with the purpose `fine-tune`.
+     *                             See the [fine-tuning guide](/docs/guides/fine-tuning/creating-training-data) for more details.
      * @param string|null $validationFile The ID of an uploaded file that contains validation data.
      *                                    If you provide this file, the data is used to generate validation
      *                                    metrics periodically during fine-tuning. These metrics can be viewed in
@@ -144,20 +148,44 @@ class CreateFineTuneRequest extends ArrayObject
      * @param string|null $suffix A string of up to 40 characters that will be added to your fine-tuned model name.
      *                            For example, a `suffix` of "custom-model-name" would produce a model name like `ada:ft-your-org:custom-model-name-2022-02-15-04-21-04`.
      */
-    public function __construct(?string $trainingFile = null, ?string $validationFile = null, ?string $model = 'curie', ?int $nEpochs = 4, ?int $batchSize = null, ?float $learningRateMultiplier = null, ?float $promptLossWeight = 0.01, ?bool $computeClassificationMetrics = false, ?int $classificationNClasses = null, ?string $classificationPositiveClass = null, ?array $classificationBetas = null, ?string $suffix = null)
+    public function __construct($trainingFile = null, $validationFile = null, $model = 'curie', $nEpochs = 4, $batchSize = null, $learningRateMultiplier = null, $promptLossWeight = 0.01, $computeClassificationMetrics = false, $classificationNClasses = null, $classificationPositiveClass = null, $classificationBetas = null, $suffix = null)
     {
-        $this->trainingFile = $trainingFile;
-        $this->validationFile = $validationFile;
-        $this->model = $model;
-        $this->nEpochs = $nEpochs;
-        $this->batchSize = $batchSize;
-        $this->learningRateMultiplier = $learningRateMultiplier;
-        $this->promptLossWeight = $promptLossWeight;
-        $this->computeClassificationMetrics = $computeClassificationMetrics;
-        $this->classificationNClasses = $classificationNClasses;
-        $this->classificationPositiveClass = $classificationPositiveClass;
-        $this->classificationBetas = $classificationBetas;
-        $this->suffix = $suffix;
+        if ($trainingFile !== null) {
+            $this->setTrainingFile($trainingFile);
+        }
+        if ($validationFile !== null) {
+            $this->setValidationFile($validationFile);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($nEpochs !== null) {
+            $this->setNEpochs($nEpochs);
+        }
+        if ($batchSize !== null) {
+            $this->setBatchSize($batchSize);
+        }
+        if ($learningRateMultiplier !== null) {
+            $this->setLearningRateMultiplier($learningRateMultiplier);
+        }
+        if ($promptLossWeight !== null) {
+            $this->setPromptLossWeight($promptLossWeight);
+        }
+        if ($computeClassificationMetrics !== null) {
+            $this->setComputeClassificationMetrics($computeClassificationMetrics);
+        }
+        if ($classificationNClasses !== null) {
+            $this->setClassificationNClasses($classificationNClasses);
+        }
+        if ($classificationPositiveClass !== null) {
+            $this->setClassificationPositiveClass($classificationPositiveClass);
+        }
+        if ($classificationBetas !== null) {
+            $this->setClassificationBetas($classificationBetas);
+        }
+        if ($suffix !== null) {
+            $this->setSuffix($suffix);
+        }
     }
 
     public function isInitialized($property): bool

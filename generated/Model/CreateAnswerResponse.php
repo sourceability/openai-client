@@ -29,17 +29,33 @@ class CreateAnswerResponse extends ArrayObject
     protected ?array $selectedDocuments = null;
 
     /**
-     * @param string[]|null $answers
-     * @param CreateAnswerResponseSelectedDocumentsItem[]|null $selectedDocuments
+     * @param string $object
+     * @param string $model
+     * @param string $searchModel
+     * @param string $completion
+     * @param string[] $answers
+     * @param CreateAnswerResponseSelectedDocumentsItem[] $selectedDocuments
      */
-    public function __construct(?string $object = null, ?string $model = null, ?string $searchModel = null, ?string $completion = null, ?array $answers = null, ?array $selectedDocuments = null)
+    public function __construct($object = null, $model = null, $searchModel = null, $completion = null, $answers = null, $selectedDocuments = null)
     {
-        $this->object = $object;
-        $this->model = $model;
-        $this->searchModel = $searchModel;
-        $this->completion = $completion;
-        $this->answers = $answers;
-        $this->selectedDocuments = $selectedDocuments;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($searchModel !== null) {
+            $this->setSearchModel($searchModel);
+        }
+        if ($completion !== null) {
+            $this->setCompletion($completion);
+        }
+        if ($answers !== null) {
+            $this->setAnswers($answers);
+        }
+        if ($selectedDocuments !== null) {
+            $this->setSelectedDocuments($selectedDocuments);
+        }
     }
 
     public function isInitialized($property): bool

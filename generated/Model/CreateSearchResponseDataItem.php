@@ -16,11 +16,22 @@ class CreateSearchResponseDataItem extends ArrayObject
 
     protected ?float $score = null;
 
-    public function __construct(?string $object = null, ?int $document = null, ?float $score = null)
+    /**
+     * @param string $object
+     * @param int $document
+     * @param float $score
+     */
+    public function __construct($object = null, $document = null, $score = null)
     {
-        $this->object = $object;
-        $this->document = $document;
-        $this->score = $score;
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($document !== null) {
+            $this->setDocument($document);
+        }
+        if ($score !== null) {
+            $this->setScore($score);
+        }
     }
 
     public function isInitialized($property): bool

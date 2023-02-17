@@ -18,12 +18,26 @@ class Model extends ArrayObject
 
     protected ?string $ownedBy = null;
 
-    public function __construct(?string $id = null, ?string $object = null, ?int $created = null, ?string $ownedBy = null)
+    /**
+     * @param string $id
+     * @param string $object
+     * @param int $created
+     * @param string $ownedBy
+     */
+    public function __construct($id = null, $object = null, $created = null, $ownedBy = null)
     {
-        $this->id = $id;
-        $this->object = $object;
-        $this->created = $created;
-        $this->ownedBy = $ownedBy;
+        if ($id !== null) {
+            $this->setId($id);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($created !== null) {
+            $this->setCreated($created);
+        }
+        if ($ownedBy !== null) {
+            $this->setOwnedBy($ownedBy);
+        }
     }
 
     public function isInitialized($property): bool

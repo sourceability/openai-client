@@ -16,11 +16,22 @@ class CreateClassificationResponseSelectedExamplesItem extends ArrayObject
 
     protected ?string $label = null;
 
-    public function __construct(?int $document = null, ?string $text = null, ?string $label = null)
+    /**
+     * @param int $document
+     * @param string $text
+     * @param string $label
+     */
+    public function __construct($document = null, $text = null, $label = null)
     {
-        $this->document = $document;
-        $this->text = $text;
-        $this->label = $label;
+        if ($document !== null) {
+            $this->setDocument($document);
+        }
+        if ($text !== null) {
+            $this->setText($text);
+        }
+        if ($label !== null) {
+            $this->setLabel($label);
+        }
     }
 
     public function isInitialized($property): bool

@@ -47,7 +47,7 @@ class CreateSearchRequest extends ArrayObject
     protected ?string $user = null;
 
     /**
-     * @param string|null $query Query to search against the documents.
+     * @param string $query Query to search against the documents.
      * @param string[]|null $documents Up to 200 documents to search over, provided as a list of strings.
      *                                 The maximum document length (in tokens) is 2034 minus the number of tokens in the query.
      *                                 You should specify either `documents` or a `file`, but not both.
@@ -57,16 +57,28 @@ class CreateSearchRequest extends ArrayObject
      *                            This flag only takes effect when `file` is set.
      * @param bool|null $returnMetadata A special boolean flag for showing metadata. If set to `true`, each document entry in the returned JSON will contain a "metadata" field.
      *                                  This flag only takes effect when `file` is set.
-     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct(?string $query = null, ?array $documents = null, ?string $file = null, ?int $maxRerank = 200, ?bool $returnMetadata = false, ?string $user = null)
+    public function __construct($query = null, $documents = null, $file = null, $maxRerank = 200, $returnMetadata = false, $user = null)
     {
-        $this->query = $query;
-        $this->documents = $documents;
-        $this->file = $file;
-        $this->maxRerank = $maxRerank;
-        $this->returnMetadata = $returnMetadata;
-        $this->user = $user;
+        if ($query !== null) {
+            $this->setQuery($query);
+        }
+        if ($documents !== null) {
+            $this->setDocuments($documents);
+        }
+        if ($file !== null) {
+            $this->setFile($file);
+        }
+        if ($maxRerank !== null) {
+            $this->setMaxRerank($maxRerank);
+        }
+        if ($returnMetadata !== null) {
+            $this->setReturnMetadata($returnMetadata);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
+        }
     }
 
     public function isInitialized($property): bool

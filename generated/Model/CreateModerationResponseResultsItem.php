@@ -16,11 +16,22 @@ class CreateModerationResponseResultsItem extends ArrayObject
 
     protected ?CreateModerationResponseResultsItemCategoryScores $categoryScores = null;
 
-    public function __construct(?bool $flagged = null, ?CreateModerationResponseResultsItemCategories $categories = null, ?CreateModerationResponseResultsItemCategoryScores $categoryScores = null)
+    /**
+     * @param bool $flagged
+     * @param CreateModerationResponseResultsItemCategories $categories
+     * @param CreateModerationResponseResultsItemCategoryScores $categoryScores
+     */
+    public function __construct($flagged = null, $categories = null, $categoryScores = null)
     {
-        $this->flagged = $flagged;
-        $this->categories = $categories;
-        $this->categoryScores = $categoryScores;
+        if ($flagged !== null) {
+            $this->setFlagged($flagged);
+        }
+        if ($categories !== null) {
+            $this->setCategories($categories);
+        }
+        if ($categoryScores !== null) {
+            $this->setCategoryScores($categoryScores);
+        }
     }
 
     public function isInitialized($property): bool

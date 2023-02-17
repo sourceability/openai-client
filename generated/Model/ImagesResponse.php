@@ -18,12 +18,17 @@ class ImagesResponse extends ArrayObject
     protected ?array $data = null;
 
     /**
-     * @param ImagesResponseDataItem[]|null $data
+     * @param int $created
+     * @param ImagesResponseDataItem[] $data
      */
-    public function __construct(?int $created = null, ?array $data = null)
+    public function __construct($created = null, $data = null)
     {
-        $this->created = $created;
-        $this->data = $data;
+        if ($created !== null) {
+            $this->setCreated($created);
+        }
+        if ($data !== null) {
+            $this->setData($data);
+        }
     }
 
     public function isInitialized($property): bool

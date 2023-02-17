@@ -46,8 +46,10 @@ class CreateClassificationRequest
 
     /**
      * What sampling `temperature` to use. Higher values mean the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     *
+     * @var float|null
      */
-    protected ?float $temperature;
+    protected $temperature = 0;
 
     /**
      * Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
@@ -92,8 +94,8 @@ class CreateClassificationRequest
     protected ?string $user = null;
 
     /**
-     * @param string|null $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
-     * @param string|null $query Query to be classified.
+     * @param string $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * @param string $query Query to be classified.
      * @param string[][]|null $examples A list of examples with labels, in the following format:
      *                                  `[["The movie is so interesting.", "Positive"], ["It is quite boring.", "Negative"], ...]`
      *                                  All the label strings will be normalized to be capitalized.
@@ -114,24 +116,52 @@ class CreateClassificationRequest
      * @param bool|null $returnMetadata A special boolean flag for showing metadata. If set to `true`, each document entry in the returned JSON will contain a "metadata" field.
      *                                  This flag only takes effect when `file` is set.
      * @param mixed[]|null $expand If an object name is in the list, we provide the full information of the object; otherwise, we only provide the object ID. Currently we support `completion` and `file` objects for expansion.
-     * @param string|null $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct(?string $model = null, ?string $query = null, ?array $examples = null, ?string $file = null, ?array $labels = null, ?string $searchModel = 'ada', ?float $temperature = 0, ?int $logprobs = null, ?int $maxExamples = 200, ?array $logitBias = null, ?bool $returnPrompt = false, ?bool $returnMetadata = false, ?array $expand = [], ?string $user = null)
+    public function __construct($model = null, $query = null, $examples = null, $file = null, $labels = null, $searchModel = 'ada', $temperature = 0, $logprobs = null, $maxExamples = 200, $logitBias = null, $returnPrompt = false, $returnMetadata = false, $expand = [], $user = null)
     {
-        $this->model = $model;
-        $this->query = $query;
-        $this->examples = $examples;
-        $this->file = $file;
-        $this->labels = $labels;
-        $this->searchModel = $searchModel;
-        $this->temperature = $temperature;
-        $this->logprobs = $logprobs;
-        $this->maxExamples = $maxExamples;
-        $this->logitBias = $logitBias;
-        $this->returnPrompt = $returnPrompt;
-        $this->returnMetadata = $returnMetadata;
-        $this->expand = $expand;
-        $this->user = $user;
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($query !== null) {
+            $this->setQuery($query);
+        }
+        if ($examples !== null) {
+            $this->setExamples($examples);
+        }
+        if ($file !== null) {
+            $this->setFile($file);
+        }
+        if ($labels !== null) {
+            $this->setLabels($labels);
+        }
+        if ($searchModel !== null) {
+            $this->setSearchModel($searchModel);
+        }
+        if ($temperature !== null) {
+            $this->setTemperature($temperature);
+        }
+        if ($logprobs !== null) {
+            $this->setLogprobs($logprobs);
+        }
+        if ($maxExamples !== null) {
+            $this->setMaxExamples($maxExamples);
+        }
+        if ($logitBias !== null) {
+            $this->setLogitBias($logitBias);
+        }
+        if ($returnPrompt !== null) {
+            $this->setReturnPrompt($returnPrompt);
+        }
+        if ($returnMetadata !== null) {
+            $this->setReturnMetadata($returnMetadata);
+        }
+        if ($expand !== null) {
+            $this->setExpand($expand);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
+        }
     }
 
     public function isInitialized($property): bool
