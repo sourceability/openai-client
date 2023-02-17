@@ -1,35 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItemLogprobs;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class CreateCompletionResponseChoicesItemNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseChoicesItem';
+        return $type === CreateCompletionResponseChoicesItem::class;
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && get_class($data) === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseChoicesItem';
+        return is_object($data) && $data::class === CreateCompletionResponseChoicesItem::class;
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -37,8 +45,8 @@ class CreateCompletionResponseChoicesItemNormalizer implements DenormalizerInter
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        $object = new \Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItem();
-        if (null === $data || false === \is_array($data)) {
+        $object = new CreateCompletionResponseChoicesItem();
+        if ($data === null || \is_array($data) === false) {
             return $object;
         }
         if (\array_key_exists('text', $data)) {
@@ -50,10 +58,9 @@ class CreateCompletionResponseChoicesItemNormalizer implements DenormalizerInter
             unset($data['index']);
         }
         if (\array_key_exists('logprobs', $data) && $data['logprobs'] !== null) {
-            $object->setLogprobs($this->denormalizer->denormalize($data['logprobs'], 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseChoicesItemLogprobs', 'json', $context));
+            $object->setLogprobs($this->denormalizer->denormalize($data['logprobs'], CreateCompletionResponseChoicesItemLogprobs::class, 'json', $context));
             unset($data['logprobs']);
-        }
-        elseif (\array_key_exists('logprobs', $data) && $data['logprobs'] === null) {
+        } elseif (\array_key_exists('logprobs', $data) && $data['logprobs'] === null) {
             $object->setLogprobs(null);
         }
         if (\array_key_exists('finish_reason', $data)) {
@@ -67,22 +74,23 @@ class CreateCompletionResponseChoicesItemNormalizer implements DenormalizerInter
         }
         return $object;
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = array();
-        if ($object->isInitialized('text') && null !== $object->getText()) {
+        $data = [];
+        if ($object->isInitialized('text') && $object->getText() !== null) {
             $data['text'] = $object->getText();
         }
-        if ($object->isInitialized('index') && null !== $object->getIndex()) {
+        if ($object->isInitialized('index') && $object->getIndex() !== null) {
             $data['index'] = $object->getIndex();
         }
-        if ($object->isInitialized('logprobs') && null !== $object->getLogprobs()) {
+        if ($object->isInitialized('logprobs') && $object->getLogprobs() !== null) {
             $data['logprobs'] = $this->normalizer->normalize($object->getLogprobs(), 'json', $context);
         }
-        if ($object->isInitialized('finishReason') && null !== $object->getFinishReason()) {
+        if ($object->isInitialized('finishReason') && $object->getFinishReason() !== null) {
             $data['finish_reason'] = $object->getFinishReason();
         }
         foreach ($object as $key => $value) {

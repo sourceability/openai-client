@@ -1,124 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Model;
 
-class CreateCompletionResponseChoicesItem extends \ArrayObject
+use ArrayObject;
+
+class CreateCompletionResponseChoicesItem extends ArrayObject
 {
-    /**
-     * @var array
-     */
-    protected $initialized = array();
-    public function isInitialized($property) : bool
+    protected array $initialized = [];
+
+    protected string $text;
+
+    protected int $index;
+
+    protected ?CreateCompletionResponseChoicesItemLogprobs $logprobs = null;
+
+    protected string $finishReason;
+
+    public function isInitialized($property): bool
     {
         return array_key_exists($property, $this->initialized);
     }
-    /**
-     * 
-     *
-     * @var string
-     */
-    protected $text;
-    /**
-     * 
-     *
-     * @var int
-     */
-    protected $index;
-    /**
-     * 
-     *
-     * @var CreateCompletionResponseChoicesItemLogprobs|null
-     */
-    protected $logprobs;
-    /**
-     * 
-     *
-     * @var string
-     */
-    protected $finishReason;
-    /**
-     * 
-     *
-     * @return string
-     */
-    public function getText() : string
+
+    public function getText(): string
     {
         return $this->text;
     }
-    /**
-     * 
-     *
-     * @param string $text
-     *
-     * @return self
-     */
-    public function setText(string $text) : self
+
+    public function setText(string $text): self
     {
         $this->initialized['text'] = true;
         $this->text = $text;
         return $this;
     }
-    /**
-     * 
-     *
-     * @return int
-     */
-    public function getIndex() : int
+
+    public function getIndex(): int
     {
         return $this->index;
     }
-    /**
-     * 
-     *
-     * @param int $index
-     *
-     * @return self
-     */
-    public function setIndex(int $index) : self
+
+    public function setIndex(int $index): self
     {
         $this->initialized['index'] = true;
         $this->index = $index;
         return $this;
     }
-    /**
-     * 
-     *
-     * @return CreateCompletionResponseChoicesItemLogprobs|null
-     */
-    public function getLogprobs() : ?CreateCompletionResponseChoicesItemLogprobs
+
+    public function getLogprobs(): ?CreateCompletionResponseChoicesItemLogprobs
     {
         return $this->logprobs;
     }
-    /**
-     * 
-     *
-     * @param CreateCompletionResponseChoicesItemLogprobs|null $logprobs
-     *
-     * @return self
-     */
-    public function setLogprobs(?CreateCompletionResponseChoicesItemLogprobs $logprobs) : self
+
+    public function setLogprobs(?CreateCompletionResponseChoicesItemLogprobs $logprobs): self
     {
         $this->initialized['logprobs'] = true;
         $this->logprobs = $logprobs;
         return $this;
     }
-    /**
-     * 
-     *
-     * @return string
-     */
-    public function getFinishReason() : string
+
+    public function getFinishReason(): string
     {
         return $this->finishReason;
     }
-    /**
-     * 
-     *
-     * @param string $finishReason
-     *
-     * @return self
-     */
-    public function setFinishReason(string $finishReason) : self
+
+    public function setFinishReason(string $finishReason): self
     {
         $this->initialized['finishReason'] = true;
         $this->finishReason = $finishReason;

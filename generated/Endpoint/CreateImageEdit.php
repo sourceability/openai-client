@@ -1,60 +1,77 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Endpoint;
 
-class CreateImageEdit extends \Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint implements \Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint
+use Http\Message\MultipartStream\MultipartStreamBuilder;
+use Psr\Http\Message\ResponseInterface;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest;
+use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class CreateImageEdit extends BaseEndpoint implements Endpoint
 {
-    /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest $requestBody 
-     */
-    public function __construct(\Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest $requestBody)
+    use EndpointTrait;
+
+    public function __construct(CreateImageEditRequest $requestBody)
     {
         $this->body = $requestBody;
     }
-    use \Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
-    public function getMethod() : string
+
+    public function getMethod(): string
     {
         return 'POST';
     }
-    public function getUri() : string
+
+    public function getUri(): string
     {
         return '/images/edits';
     }
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, $streamFactory = null) : array
+
+    public function getBody(SerializerInterface $serializer, $streamFactory = null): array
     {
-        if ($this->body instanceof \Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest) {
-            $bodyBuilder = new \Http\Message\MultipartStream\MultipartStreamBuilder($streamFactory);
+        if ($this->body instanceof CreateImageEditRequest) {
+            $bodyBuilder = new MultipartStreamBuilder($streamFactory);
             $formParameters = $serializer->normalize($this->body, 'json');
             foreach ($formParameters as $key => $value) {
                 $value = is_int($value) ? (string) $value : $value;
                 $bodyBuilder->addResource($key, $value);
             }
-            return array(array('Content-Type' => array('multipart/form-data; boundary="' . ($bodyBuilder->getBoundary() . '""'))), $bodyBuilder->build());
+            return [[
+                'Content-Type' => ['multipart/form-data; boundary="' . ($bodyBuilder->getBoundary() . '""')],
+            ], $bodyBuilder->build()];
         }
-        return array(array(), null);
+        return [[], null];
     }
-    public function getExtraHeaders() : array
-    {
-        return array('Accept' => array('application/json'));
-    }
+
     /**
-     * {@inheritdoc}
-     *
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ImagesResponse
+     * @return array{Accept: string[]}
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    public function getExtraHeaders(): array
+    {
+        return [
+            'Accept' => ['application/json'],
+        ];
+    }
+
+    public function getAuthenticationScopes(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return null|ImagesResponse
+     */
+    protected function transformResponseBody(ResponseInterface $response, SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'Sourceability\\OpenAIClient\\Generated\\Model\\ImagesResponse', 'json');
+        if (($contentType === null) === false && ($status === 200 && mb_strpos($contentType, 'application/json') !== false)) {
+            return $serializer->deserialize($body, ImagesResponse::class, 'json');
         }
-    }
-    public function getAuthenticationScopes() : array
-    {
-        return array();
     }
 }

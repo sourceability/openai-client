@@ -1,8 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
+use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponseSelectedDocumentsItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponseSelectedExamplesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItemLogprobs;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseUsage;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseChoicesItemLogprobs;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseUsage;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponseDataItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponseUsage;
+use Sourceability\OpenAIClient\Generated\Model\CreateFileRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateFineTuneRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageVariationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponseResultsItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponseResultsItemCategories;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponseResultsItemCategoryScores;
+use Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponseDataItem;
+use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
+use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
+use Sourceability\OpenAIClient\Generated\Model\Engine;
+use Sourceability\OpenAIClient\Generated\Model\FineTune;
+use Sourceability\OpenAIClient\Generated\Model\FineTuneEvent;
+use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ImagesResponseDataItem;
+use Sourceability\OpenAIClient\Generated\Model\ListEnginesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFilesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFineTunesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListModelsResponse;
+use Sourceability\OpenAIClient\Generated\Model\Model;
+use Sourceability\OpenAIClient\Generated\Model\OpenAIFile;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
+use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ReferenceNormalizer;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -10,43 +62,102 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    protected $normalizers = array('Sourceability\\OpenAIClient\\Generated\\Model\\ListEnginesResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ListEnginesResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ListModelsResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ListModelsResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\DeleteModelResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\DeleteModelResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateCompletionRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateCompletionResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseChoicesItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateCompletionResponseChoicesItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseChoicesItemLogprobs' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateCompletionResponseChoicesItemLogprobsNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponseUsage' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateCompletionResponseUsageNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEditRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEditResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseChoicesItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEditResponseChoicesItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseChoicesItemLogprobs' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEditResponseChoicesItemLogprobsNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseUsage' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEditResponseUsageNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateImageRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateImageRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ImagesResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ImagesResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ImagesResponseDataItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ImagesResponseDataItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateImageEditRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateImageEditRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateImageVariationRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateImageVariationRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateModerationRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateModerationRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateModerationResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateModerationResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateModerationResponseResultsItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateModerationResponseResultsItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateModerationResponseResultsItemCategories' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateModerationResponseResultsItemCategoriesNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateModerationResponseResultsItemCategoryScores' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateModerationResponseResultsItemCategoryScoresNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateSearchRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateSearchRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateSearchResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateSearchResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateSearchResponseDataItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateSearchResponseDataItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ListFilesResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ListFilesResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateFileRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateFileRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\DeleteFileResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\DeleteFileResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateAnswerRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateAnswerRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateAnswerResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateAnswerResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateAnswerResponseSelectedDocumentsItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateAnswerResponseSelectedDocumentsItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateClassificationRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateClassificationRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateClassificationResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateClassificationResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateClassificationResponseSelectedExamplesItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateClassificationResponseSelectedExamplesItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateFineTuneRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateFineTuneRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ListFineTunesResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ListFineTunesResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\ListFineTuneEventsResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ListFineTuneEventsResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEmbeddingRequest' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEmbeddingRequestNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEmbeddingResponse' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEmbeddingResponseNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEmbeddingResponseDataItem' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEmbeddingResponseDataItemNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEmbeddingResponseUsage' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\CreateEmbeddingResponseUsageNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\Engine' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\EngineNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\Model' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\ModelNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\OpenAIFileNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\FineTune' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\FineTuneNormalizer', 'Sourceability\\OpenAIClient\\Generated\\Model\\FineTuneEvent' => 'Sourceability\\OpenAIClient\\Generated\\Normalizer\\FineTuneEventNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\Sourceability\\OpenAIClient\\Generated\\Runtime\\Normalizer\\ReferenceNormalizer'), $normalizersCache = array();
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    protected array $normalizers = [
+        ListEnginesResponse::class => ListEnginesResponseNormalizer::class,
+        ListModelsResponse::class => ListModelsResponseNormalizer::class,
+        DeleteModelResponse::class => DeleteModelResponseNormalizer::class,
+        CreateCompletionRequest::class => CreateCompletionRequestNormalizer::class,
+        CreateCompletionResponse::class => CreateCompletionResponseNormalizer::class,
+        CreateCompletionResponseChoicesItem::class => CreateCompletionResponseChoicesItemNormalizer::class,
+        CreateCompletionResponseChoicesItemLogprobs::class => CreateCompletionResponseChoicesItemLogprobsNormalizer::class,
+        CreateCompletionResponseUsage::class => CreateCompletionResponseUsageNormalizer::class,
+        CreateEditRequest::class => CreateEditRequestNormalizer::class,
+        CreateEditResponse::class => CreateEditResponseNormalizer::class,
+        CreateEditResponseChoicesItem::class => CreateEditResponseChoicesItemNormalizer::class,
+        CreateEditResponseChoicesItemLogprobs::class => CreateEditResponseChoicesItemLogprobsNormalizer::class,
+        CreateEditResponseUsage::class => CreateEditResponseUsageNormalizer::class,
+        CreateImageRequest::class => CreateImageRequestNormalizer::class,
+        ImagesResponse::class => ImagesResponseNormalizer::class,
+        ImagesResponseDataItem::class => ImagesResponseDataItemNormalizer::class,
+        CreateImageEditRequest::class => CreateImageEditRequestNormalizer::class,
+        CreateImageVariationRequest::class => CreateImageVariationRequestNormalizer::class,
+        CreateModerationRequest::class => CreateModerationRequestNormalizer::class,
+        CreateModerationResponse::class => CreateModerationResponseNormalizer::class,
+        CreateModerationResponseResultsItem::class => CreateModerationResponseResultsItemNormalizer::class,
+        CreateModerationResponseResultsItemCategories::class => CreateModerationResponseResultsItemCategoriesNormalizer::class,
+        CreateModerationResponseResultsItemCategoryScores::class => CreateModerationResponseResultsItemCategoryScoresNormalizer::class,
+        CreateSearchRequest::class => CreateSearchRequestNormalizer::class,
+        CreateSearchResponse::class => CreateSearchResponseNormalizer::class,
+        CreateSearchResponseDataItem::class => CreateSearchResponseDataItemNormalizer::class,
+        ListFilesResponse::class => ListFilesResponseNormalizer::class,
+        CreateFileRequest::class => CreateFileRequestNormalizer::class,
+        DeleteFileResponse::class => DeleteFileResponseNormalizer::class,
+        CreateAnswerRequest::class => CreateAnswerRequestNormalizer::class,
+        CreateAnswerResponse::class => CreateAnswerResponseNormalizer::class,
+        CreateAnswerResponseSelectedDocumentsItem::class => CreateAnswerResponseSelectedDocumentsItemNormalizer::class,
+        CreateClassificationRequest::class => CreateClassificationRequestNormalizer::class,
+        CreateClassificationResponse::class => CreateClassificationResponseNormalizer::class,
+        CreateClassificationResponseSelectedExamplesItem::class => CreateClassificationResponseSelectedExamplesItemNormalizer::class,
+        CreateFineTuneRequest::class => CreateFineTuneRequestNormalizer::class,
+        ListFineTunesResponse::class => ListFineTunesResponseNormalizer::class,
+        ListFineTuneEventsResponse::class => ListFineTuneEventsResponseNormalizer::class,
+        CreateEmbeddingRequest::class => CreateEmbeddingRequestNormalizer::class,
+        CreateEmbeddingResponse::class => CreateEmbeddingResponseNormalizer::class,
+        CreateEmbeddingResponseDataItem::class => CreateEmbeddingResponseDataItemNormalizer::class,
+        CreateEmbeddingResponseUsage::class => CreateEmbeddingResponseUsageNormalizer::class,
+        Engine::class => EngineNormalizer::class,
+        Model::class => ModelNormalizer::class,
+        OpenAIFile::class => OpenAIFileNormalizer::class,
+        FineTune::class => FineTuneNormalizer::class,
+        FineTuneEvent::class => FineTuneEventNormalizer::class,
+        '\\' . Reference::class => '\\' . ReferenceNormalizer::class,
+    ];
+
+    protected array $normalizersCache = [];
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
         return array_key_exists($type, $this->normalizers);
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        return is_object($data) && array_key_exists($data::class, $this->normalizers);
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $normalizerClass = $this->normalizers[get_class($object)];
+        $normalizerClass = $this->normalizers[$object::class];
         $normalizer = $this->getNormalizer($normalizerClass);
         return $normalizer->normalize($object, $format, $context);
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         $denormalizerClass = $this->normalizers[$class];
         $denormalizer = $this->getNormalizer($denormalizerClass);
         return $denormalizer->denormalize($data, $class, $format, $context);
     }
+
     private function getNormalizer(string $normalizerClass)
     {
         return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
     }
+
     private function initNormalizer(string $normalizerClass)
     {
         $normalizer = new $normalizerClass();

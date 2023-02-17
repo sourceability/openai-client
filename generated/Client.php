@@ -1,330 +1,354 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated;
+
+use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\AddPathPlugin;
+use Http\Client\Common\PluginClient;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Psr\Http\Message\ResponseInterface;
+use Sourceability\OpenAIClient\Generated\Endpoint\CancelFineTune;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateAnswer;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateClassification;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateCompletion;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateEdit;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateEmbedding;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateFile;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateFineTune;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateImage;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageEdit;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageVariation;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateModeration;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateSearch;
+use Sourceability\OpenAIClient\Generated\Endpoint\DeleteFile;
+use Sourceability\OpenAIClient\Generated\Endpoint\DeleteModel;
+use Sourceability\OpenAIClient\Generated\Endpoint\DownloadFile;
+use Sourceability\OpenAIClient\Generated\Endpoint\ListEngines;
+use Sourceability\OpenAIClient\Generated\Endpoint\ListFiles;
+use Sourceability\OpenAIClient\Generated\Endpoint\ListFineTuneEvents;
+use Sourceability\OpenAIClient\Generated\Endpoint\ListFineTunes;
+use Sourceability\OpenAIClient\Generated\Endpoint\ListModels;
+use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveEngine;
+use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFile;
+use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFineTune;
+use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveModel;
+use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateFileRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateFineTuneRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateImageVariationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse;
+use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
+use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
+use Sourceability\OpenAIClient\Generated\Model\Engine;
+use Sourceability\OpenAIClient\Generated\Model\FineTune;
+use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListEnginesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFilesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListFineTunesResponse;
+use Sourceability\OpenAIClient\Generated\Model\ListModelsResponse;
+use Sourceability\OpenAIClient\Generated\Model\Model;
+use Sourceability\OpenAIClient\Generated\Model\OpenAIFile;
+use Sourceability\OpenAIClient\Generated\Normalizer\JaneObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
 {
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ListEnginesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ListEnginesResponse|ResponseInterface
      */
     public function listEngines(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\ListEngines(), $fetch);
+        return $this->executeEndpoint(new ListEngines(), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $engineId The ID of the engine to use for this request
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\Engine|\Psr\Http\Message\ResponseInterface
+     * @return null|Engine|ResponseInterface
      */
     public function retrieveEngine(string $engineId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\RetrieveEngine($engineId), $fetch);
+        return $this->executeEndpoint(new RetrieveEngine($engineId), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateCompletionResponse|ResponseInterface
      */
-    public function createCompletion(\Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createCompletion(CreateCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateCompletion($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateCompletion($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateEditRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateEditResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateEditResponse|ResponseInterface
      */
-    public function createEdit(\Sourceability\OpenAIClient\Generated\Model\CreateEditRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createEdit(CreateEditRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateEdit($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateEdit($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateImageRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ImagesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ImagesResponse|ResponseInterface
      */
-    public function createImage(\Sourceability\OpenAIClient\Generated\Model\CreateImageRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createImage(CreateImageRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateImage($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateImage($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ImagesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ImagesResponse|ResponseInterface
      */
-    public function createImageEdit(\Sourceability\OpenAIClient\Generated\Model\CreateImageEditRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createImageEdit(CreateImageEditRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateImageEdit($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateImageEdit($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateImageVariationRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ImagesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ImagesResponse|ResponseInterface
      */
-    public function createImageVariation(\Sourceability\OpenAIClient\Generated\Model\CreateImageVariationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createImageVariation(CreateImageVariationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateImageVariation($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateImageVariation($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateEmbeddingResponse|ResponseInterface
      */
-    public function createEmbedding(\Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createEmbedding(CreateEmbeddingRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateEmbedding($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateEmbedding($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $engineId The ID of the engine to use for this request.  You can select one of `ada`, `babbage`, `curie`, or `davinci`.
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateSearchResponse|ResponseInterface
      */
-    public function createSearch(string $engineId, \Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createSearch(string $engineId, CreateSearchRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateSearch($engineId, $requestBody), $fetch);
+        return $this->executeEndpoint(new CreateSearch($engineId, $requestBody), $fetch);
     }
+
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ListFilesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ListFilesResponse|ResponseInterface
      */
     public function listFiles(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\ListFiles(), $fetch);
+        return $this->executeEndpoint(new ListFiles(), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateFileRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\OpenAIFile|\Psr\Http\Message\ResponseInterface
+     * @return null|OpenAIFile|ResponseInterface
      */
-    public function createFile(\Sourceability\OpenAIClient\Generated\Model\CreateFileRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createFile(CreateFileRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateFile($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateFile($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $fileId The ID of the file to use for this request
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|DeleteFileResponse|ResponseInterface
      */
     public function deleteFile(string $fileId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\DeleteFile($fileId), $fetch);
+        return $this->executeEndpoint(new DeleteFile($fileId), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $fileId The ID of the file to use for this request
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\OpenAIFile|\Psr\Http\Message\ResponseInterface
+     * @return null|OpenAIFile|ResponseInterface
      */
     public function retrieveFile(string $fileId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFile($fileId), $fetch);
+        return $this->executeEndpoint(new RetrieveFile($fileId), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $fileId The ID of the file to use for this request
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Psr\Http\Message\ResponseInterface
+     * @return null|ResponseInterface
      */
     public function downloadFile(string $fileId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\DownloadFile($fileId), $fetch);
+        return $this->executeEndpoint(new DownloadFile($fileId), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateAnswerResponse|ResponseInterface
      */
-    public function createAnswer(\Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createAnswer(CreateAnswerRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateAnswer($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateAnswer($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateClassificationResponse|ResponseInterface
      */
-    public function createClassification(\Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createClassification(CreateClassificationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateClassification($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateClassification($requestBody), $fetch);
     }
+
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ListFineTunesResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ListFineTunesResponse|ResponseInterface
      */
     public function listFineTunes(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\ListFineTunes(), $fetch);
+        return $this->executeEndpoint(new ListFineTunes(), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateFineTuneRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\FineTune|\Psr\Http\Message\ResponseInterface
+     * @return null|FineTune|ResponseInterface
      */
-    public function createFineTune(\Sourceability\OpenAIClient\Generated\Model\CreateFineTuneRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createFineTune(CreateFineTuneRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateFineTune($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateFineTune($requestBody), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $fineTuneId The ID of the fine-tune job
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\FineTune|\Psr\Http\Message\ResponseInterface
+     * @return null|FineTune|ResponseInterface
      */
     public function retrieveFineTune(string $fineTuneId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFineTune($fineTuneId), $fetch);
+        return $this->executeEndpoint(new RetrieveFineTune($fineTuneId), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $fineTuneId The ID of the fine-tune job to cancel
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\FineTune|\Psr\Http\Message\ResponseInterface
+     * @return null|FineTune|ResponseInterface
      */
     public function cancelFineTune(string $fineTuneId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CancelFineTune($fineTuneId), $fetch);
+        return $this->executeEndpoint(new CancelFineTune($fineTuneId), $fetch);
     }
+
     /**
-    * 
-    *
-    * @param string $fineTuneId The ID of the fine-tune job to get events for.
-    
-    * @param array $queryParameters {
-    *     @var bool $stream Whether to stream events for the fine-tune job. If set to true,
-    events will be sent as data-only
-    [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
-    as they become available. The stream will terminate with a
-    `data: [DONE]` message when the job is finished (succeeded, cancelled,
-    or failed).
-    
+     * @param string $fineTuneId The ID of the fine-tune job to get events for.
+     * @param array $queryParameters {
+     *     @var bool Whether to stream events for the fine-tune job. If set to true,
     If set to false, only events generated so far will be returned.
-    
-    * }
-    * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-    *
-    * @return null|\Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse|\Psr\Http\Message\ResponseInterface
-    */
-    public function listFineTuneEvents(string $fineTuneId, array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
+     * }
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @return null|ListFineTuneEventsResponse|ResponseInterface
+     */
+    public function listFineTuneEvents(string $fineTuneId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\ListFineTuneEvents($fineTuneId, $queryParameters), $fetch);
+        return $this->executeEndpoint(new ListFineTuneEvents($fineTuneId, $queryParameters), $fetch);
     }
+
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ListModelsResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|ListModelsResponse|ResponseInterface
      */
     public function listModels(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\ListModels(), $fetch);
+        return $this->executeEndpoint(new ListModels(), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $model The model to delete
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|DeleteModelResponse|ResponseInterface
      */
     public function deleteModel(string $model, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\DeleteModel($model), $fetch);
+        return $this->executeEndpoint(new DeleteModel($model), $fetch);
     }
+
     /**
-     * 
-     *
      * @param string $model The ID of the model to use for this request
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\Model|\Psr\Http\Message\ResponseInterface
+     * @return null|Model|ResponseInterface
      */
     public function retrieveModel(string $model, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\RetrieveModel($model), $fetch);
+        return $this->executeEndpoint(new RetrieveModel($model), $fetch);
     }
+
     /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest $requestBody 
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateModerationResponse|\Psr\Http\Message\ResponseInterface
+     * @return null|CreateModerationResponse|ResponseInterface
      */
-    public function createModeration(\Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    public function createModeration(CreateModerationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Sourceability\OpenAIClient\Generated\Endpoint\CreateModeration($requestBody), $fetch);
+        return $this->executeEndpoint(new CreateModeration($requestBody), $fetch);
     }
-    public static function create($httpClient = null, array $additionalPlugins = array(), array $additionalNormalizers = array())
+
+    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = []): static
     {
-        if (null === $httpClient) {
-            $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
-            $plugins = array();
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://api.openai.com/v1');
-            $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
-            $plugins[] = new \Http\Client\Common\Plugin\AddPathPlugin($uri);
+        if ($httpClient === null) {
+            $httpClient = Psr18ClientDiscovery::find();
+            $plugins = [];
+            $uri = Psr17FactoryDiscovery::findUrlFactory()->createUri('https://api.openai.com/v1');
+            $plugins[] = new AddHostPlugin($uri);
+            $plugins[] = new AddPathPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
             }
-            $httpClient = new \Http\Client\Common\PluginClient($httpClient, $plugins);
+            $httpClient = new PluginClient($httpClient, $plugins);
         }
-        $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
-        $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = array(new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \Sourceability\OpenAIClient\Generated\Normalizer\JaneObjectNormalizer());
+        $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+        $normalizers = [new ArrayDenormalizer(), new JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }
-        $serializer = new \Symfony\Component\Serializer\Serializer($normalizers, array(new \Symfony\Component\Serializer\Encoder\JsonEncoder(new \Symfony\Component\Serializer\Encoder\JsonEncode(), new \Symfony\Component\Serializer\Encoder\JsonDecode(array('json_decode_associative' => true)))));
+        $serializer = new Serializer($normalizers, [new JsonEncoder(new JsonEncode(), new JsonDecode([
+            'json_decode_associative' => true,
+        ]))]);
         return new static($httpClient, $requestFactory, $serializer, $streamFactory);
     }
 }

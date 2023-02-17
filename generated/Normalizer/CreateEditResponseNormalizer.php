@@ -1,35 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseUsage;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponse';
+        return $type === CreateEditResponse::class;
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && get_class($data) === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponse';
+        return is_object($data) && $data::class === CreateEditResponse::class;
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -37,8 +46,8 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        $object = new \Sourceability\OpenAIClient\Generated\Model\CreateEditResponse();
-        if (null === $data || false === \is_array($data)) {
+        $object = new CreateEditResponse();
+        if ($data === null || \is_array($data) === false) {
             return $object;
         }
         if (\array_key_exists('id', $data)) {
@@ -58,15 +67,15 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
             unset($data['model']);
         }
         if (\array_key_exists('choices', $data)) {
-            $values = array();
+            $values = [];
             foreach ($data['choices'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseChoicesItem', 'json', $context);
+                $values[] = $this->denormalizer->denormalize($value, CreateEditResponseChoicesItem::class, 'json', $context);
             }
             $object->setChoices($values);
             unset($data['choices']);
         }
         if (\array_key_exists('usage', $data)) {
-            $object->setUsage($this->denormalizer->denormalize($data['usage'], 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseUsage', 'json', $context));
+            $object->setUsage($this->denormalizer->denormalize($data['usage'], CreateEditResponseUsage::class, 'json', $context));
             unset($data['usage']);
         }
         foreach ($data as $key => $value_1) {
@@ -76,17 +85,18 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
         }
         return $object;
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = array();
+        $data = [];
         $data['id'] = $object->getId();
         $data['object'] = $object->getObject();
         $data['created'] = $object->getCreated();
         $data['model'] = $object->getModel();
-        $values = array();
+        $values = [];
         foreach ($object->getChoices() as $value) {
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }

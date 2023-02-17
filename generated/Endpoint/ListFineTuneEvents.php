@@ -1,74 +1,86 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Endpoint;
 
-class ListFineTuneEvents extends \Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint implements \Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint
+use Psr\Http\Message\ResponseInterface;
+use Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class ListFineTuneEvents extends BaseEndpoint implements Endpoint
 {
-    protected $fine_tune_id;
+    use EndpointTrait;
+
     /**
-    * 
-    *
-    * @param string $fineTuneId The ID of the fine-tune job to get events for.
-    
-    * @param array $queryParameters {
-    *     @var bool $stream Whether to stream events for the fine-tune job. If set to true,
-    events will be sent as data-only
-    [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
-    as they become available. The stream will terminate with a
-    `data: [DONE]` message when the job is finished (succeeded, cancelled,
-    or failed).
-    
+     * @param string $fine_tune_id The ID of the fine-tune job to get events for.
+     * @param array $queryParameters {
+     *     @var bool Whether to stream events for the fine-tune job. If set to true,
     If set to false, only events generated so far will be returned.
-    
-    * }
-    */
-    public function __construct(string $fineTuneId, array $queryParameters = array())
-    {
-        $this->fine_tune_id = $fineTuneId;
+     * }
+     */
+    public function __construct(
+        protected string $fine_tune_id,
+        array $queryParameters = []
+    ) {
         $this->queryParameters = $queryParameters;
     }
-    use \Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
-    public function getMethod() : string
+
+    public function getMethod(): string
     {
         return 'GET';
     }
-    public function getUri() : string
+
+    public function getUri(): string
     {
-        return str_replace(array('{fine_tune_id}'), array($this->fine_tune_id), '/fine-tunes/{fine_tune_id}/events');
+        return str_replace(['{fine_tune_id}'], [$this->fine_tune_id], '/fine-tunes/{fine_tune_id}/events');
     }
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, $streamFactory = null) : array
+
+    public function getBody(SerializerInterface $serializer, $streamFactory = null): array
     {
-        return array(array(), null);
+        return [[], null];
     }
-    public function getExtraHeaders() : array
+
+    /**
+     * @return array{Accept: string[]}
+     */
+    public function getExtraHeaders(): array
     {
-        return array('Accept' => array('application/json'));
+        return [
+            'Accept' => ['application/json'],
+        ];
     }
-    protected function getQueryOptionsResolver() : \Symfony\Component\OptionsResolver\OptionsResolver
+
+    public function getAuthenticationScopes(): array
+    {
+        return [];
+    }
+
+    protected function getQueryOptionsResolver(): OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(array('stream'));
-        $optionsResolver->setRequired(array());
-        $optionsResolver->setDefaults(array('stream' => false));
-        $optionsResolver->addAllowedTypes('stream', array('bool'));
+        $optionsResolver->setDefined(['stream']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults([
+            'stream' => false,
+        ]);
+        $optionsResolver->addAllowedTypes('stream', ['bool']);
         return $optionsResolver;
     }
+
     /**
-     * {@inheritdoc}
-     *
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse
+     * @return null|ListFineTuneEventsResponse
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(ResponseInterface $response, SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'Sourceability\\OpenAIClient\\Generated\\Model\\ListFineTuneEventsResponse', 'json');
+        if (($contentType === null) === false && ($status === 200 && mb_strpos($contentType, 'application/json') !== false)) {
+            return $serializer->deserialize($body, ListFineTuneEventsResponse::class, 'json');
         }
-    }
-    public function getAuthenticationScopes() : array
-    {
-        return array();
     }
 }

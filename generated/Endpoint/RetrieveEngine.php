@@ -1,52 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Endpoint;
 
-class RetrieveEngine extends \Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint implements \Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint
+use Psr\Http\Message\ResponseInterface;
+use Sourceability\OpenAIClient\Generated\Model\Engine;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class RetrieveEngine extends BaseEndpoint implements Endpoint
 {
-    protected $engine_id;
+    use EndpointTrait;
+
     /**
-     * 
-     *
-     * @param string $engineId The ID of the engine to use for this request
+     * @param string $engine_id The ID of the engine to use for this request
      */
-    public function __construct(string $engineId)
-    {
-        $this->engine_id = $engineId;
+    public function __construct(
+        protected string $engine_id
+    ) {
     }
-    use \Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
-    public function getMethod() : string
+
+    public function getMethod(): string
     {
         return 'GET';
     }
-    public function getUri() : string
+
+    public function getUri(): string
     {
-        return str_replace(array('{engine_id}'), array($this->engine_id), '/engines/{engine_id}');
+        return str_replace(['{engine_id}'], [$this->engine_id], '/engines/{engine_id}');
     }
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, $streamFactory = null) : array
+
+    public function getBody(SerializerInterface $serializer, $streamFactory = null): array
     {
-        return array(array(), null);
+        return [[], null];
     }
-    public function getExtraHeaders() : array
-    {
-        return array('Accept' => array('application/json'));
-    }
+
     /**
-     * {@inheritdoc}
-     *
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\Engine
+     * @return array{Accept: string[]}
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    public function getExtraHeaders(): array
+    {
+        return [
+            'Accept' => ['application/json'],
+        ];
+    }
+
+    public function getAuthenticationScopes(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return null|Engine
+     */
+    protected function transformResponseBody(ResponseInterface $response, SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'Sourceability\\OpenAIClient\\Generated\\Model\\Engine', 'json');
+        if (($contentType === null) === false && ($status === 200 && mb_strpos($contentType, 'application/json') !== false)) {
+            return $serializer->deserialize($body, Engine::class, 'json');
         }
-    }
-    public function getAuthenticationScopes() : array
-    {
-        return array();
     }
 }

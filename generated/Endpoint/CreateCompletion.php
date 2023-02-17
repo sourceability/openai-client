@@ -1,54 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Endpoint;
 
-class CreateCompletion extends \Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint implements \Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint
+use Psr\Http\Message\ResponseInterface;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
+use Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class CreateCompletion extends BaseEndpoint implements Endpoint
 {
-    /**
-     * 
-     *
-     * @param \Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest $requestBody 
-     */
-    public function __construct(\Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest $requestBody)
+    use EndpointTrait;
+
+    public function __construct(CreateCompletionRequest $requestBody)
     {
         $this->body = $requestBody;
     }
-    use \Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
-    public function getMethod() : string
+
+    public function getMethod(): string
     {
         return 'POST';
     }
-    public function getUri() : string
+
+    public function getUri(): string
     {
         return '/completions';
     }
-    public function getBody(\Symfony\Component\Serializer\SerializerInterface $serializer, $streamFactory = null) : array
+
+    public function getBody(SerializerInterface $serializer, $streamFactory = null): array
     {
-        if ($this->body instanceof \Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest) {
-            return array(array('Content-Type' => array('application/json')), $serializer->serialize($this->body, 'json'));
+        if ($this->body instanceof CreateCompletionRequest) {
+            return [[
+                'Content-Type' => ['application/json'],
+            ], $serializer->serialize($this->body, 'json')];
         }
-        return array(array(), null);
+        return [[], null];
     }
-    public function getExtraHeaders() : array
-    {
-        return array('Accept' => array('application/json'));
-    }
+
     /**
-     * {@inheritdoc}
-     *
-     *
-     * @return null|\Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse
+     * @return array{Accept: string[]}
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    public function getExtraHeaders(): array
+    {
+        return [
+            'Accept' => ['application/json'],
+        ];
+    }
+
+    public function getAuthenticationScopes(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return null|CreateCompletionResponse
+     */
+    protected function transformResponseBody(ResponseInterface $response, SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateCompletionResponse', 'json');
+        if (($contentType === null) === false && ($status === 200 && mb_strpos($contentType, 'application/json') !== false)) {
+            return $serializer->deserialize($body, CreateCompletionResponse::class, 'json');
         }
-    }
-    public function getAuthenticationScopes() : array
-    {
-        return array();
     }
 }

@@ -1,35 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\OpenAIFile;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile';
+        return $type === OpenAIFile::class;
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && get_class($data) === 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile';
+        return is_object($data) && $data::class === OpenAIFile::class;
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -37,8 +44,8 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        $object = new \Sourceability\OpenAIClient\Generated\Model\OpenAIFile();
-        if (null === $data || false === \is_array($data)) {
+        $object = new OpenAIFile();
+        if ($data === null || \is_array($data) === false) {
             return $object;
         }
         if (\array_key_exists('id', $data)) {
@@ -70,14 +77,13 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
             unset($data['status']);
         }
         if (\array_key_exists('status_details', $data) && $data['status_details'] !== null) {
-            $values = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
+            $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
             foreach ($data['status_details'] as $key => $value) {
                 $values[$key] = $value;
             }
             $object->setStatusDetails($values);
             unset($data['status_details']);
-        }
-        elseif (\array_key_exists('status_details', $data) && $data['status_details'] === null) {
+        } elseif (\array_key_exists('status_details', $data) && $data['status_details'] === null) {
             $object->setStatusDetails(null);
         }
         foreach ($data as $key_1 => $value_1) {
@@ -87,23 +93,24 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
         }
         return $object;
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = array();
+        $data = [];
         $data['id'] = $object->getId();
         $data['object'] = $object->getObject();
         $data['bytes'] = $object->getBytes();
         $data['created_at'] = $object->getCreatedAt();
         $data['filename'] = $object->getFilename();
         $data['purpose'] = $object->getPurpose();
-        if ($object->isInitialized('status') && null !== $object->getStatus()) {
+        if ($object->isInitialized('status') && $object->getStatus() !== null) {
             $data['status'] = $object->getStatus();
         }
-        if ($object->isInitialized('statusDetails') && null !== $object->getStatusDetails()) {
-            $values = array();
+        if ($object->isInitialized('statusDetails') && $object->getStatusDetails() !== null) {
+            $values = [];
             foreach ($object->getStatusDetails() as $key => $value) {
                 $values[$key] = $value;
             }

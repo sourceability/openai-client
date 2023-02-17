@@ -1,35 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\FineTune;
+use Sourceability\OpenAIClient\Generated\Model\FineTuneEvent;
+use Sourceability\OpenAIClient\Generated\Model\OpenAIFile;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === 'Sourceability\\OpenAIClient\\Generated\\Model\\FineTune';
+        return $type === FineTune::class;
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && get_class($data) === 'Sourceability\\OpenAIClient\\Generated\\Model\\FineTune';
+        return is_object($data) && $data::class === FineTune::class;
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -37,8 +46,8 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        $object = new \Sourceability\OpenAIClient\Generated\Model\FineTune();
-        if (null === $data || false === \is_array($data)) {
+        $object = new FineTune();
+        if ($data === null || \is_array($data) === false) {
             return $object;
         }
         if (\array_key_exists('id', $data)) {
@@ -64,8 +73,7 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
         if (\array_key_exists('fine_tuned_model', $data) && $data['fine_tuned_model'] !== null) {
             $object->setFineTunedModel($data['fine_tuned_model']);
             unset($data['fine_tuned_model']);
-        }
-        elseif (\array_key_exists('fine_tuned_model', $data) && $data['fine_tuned_model'] === null) {
+        } elseif (\array_key_exists('fine_tuned_model', $data) && $data['fine_tuned_model'] === null) {
             $object->setFineTunedModel(null);
         }
         if (\array_key_exists('organization_id', $data)) {
@@ -77,7 +85,7 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
             unset($data['status']);
         }
         if (\array_key_exists('hyperparams', $data)) {
-            $values = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
+            $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
             foreach ($data['hyperparams'] as $key => $value) {
                 $values[$key] = $value;
             }
@@ -85,33 +93,33 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
             unset($data['hyperparams']);
         }
         if (\array_key_exists('training_files', $data)) {
-            $values_1 = array();
+            $values_1 = [];
             foreach ($data['training_files'] as $value_1) {
-                $values_1[] = $this->denormalizer->denormalize($value_1, 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile', 'json', $context);
+                $values_1[] = $this->denormalizer->denormalize($value_1, OpenAIFile::class, 'json', $context);
             }
             $object->setTrainingFiles($values_1);
             unset($data['training_files']);
         }
         if (\array_key_exists('validation_files', $data)) {
-            $values_2 = array();
+            $values_2 = [];
             foreach ($data['validation_files'] as $value_2) {
-                $values_2[] = $this->denormalizer->denormalize($value_2, 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile', 'json', $context);
+                $values_2[] = $this->denormalizer->denormalize($value_2, OpenAIFile::class, 'json', $context);
             }
             $object->setValidationFiles($values_2);
             unset($data['validation_files']);
         }
         if (\array_key_exists('result_files', $data)) {
-            $values_3 = array();
+            $values_3 = [];
             foreach ($data['result_files'] as $value_3) {
-                $values_3[] = $this->denormalizer->denormalize($value_3, 'Sourceability\\OpenAIClient\\Generated\\Model\\OpenAIFile', 'json', $context);
+                $values_3[] = $this->denormalizer->denormalize($value_3, OpenAIFile::class, 'json', $context);
             }
             $object->setResultFiles($values_3);
             unset($data['result_files']);
         }
         if (\array_key_exists('events', $data)) {
-            $values_4 = array();
+            $values_4 = [];
             foreach ($data['events'] as $value_4) {
-                $values_4[] = $this->denormalizer->denormalize($value_4, 'Sourceability\\OpenAIClient\\Generated\\Model\\FineTuneEvent', 'json', $context);
+                $values_4[] = $this->denormalizer->denormalize($value_4, FineTuneEvent::class, 'json', $context);
             }
             $object->setEvents($values_4);
             unset($data['events']);
@@ -123,12 +131,13 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
         }
         return $object;
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = array();
+        $data = [];
         $data['id'] = $object->getId();
         $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
@@ -137,28 +146,28 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
         $data['fine_tuned_model'] = $object->getFineTunedModel();
         $data['organization_id'] = $object->getOrganizationId();
         $data['status'] = $object->getStatus();
-        $values = array();
+        $values = [];
         foreach ($object->getHyperparams() as $key => $value) {
             $values[$key] = $value;
         }
         $data['hyperparams'] = $values;
-        $values_1 = array();
+        $values_1 = [];
         foreach ($object->getTrainingFiles() as $value_1) {
             $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
         }
         $data['training_files'] = $values_1;
-        $values_2 = array();
+        $values_2 = [];
         foreach ($object->getValidationFiles() as $value_2) {
             $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
         }
         $data['validation_files'] = $values_2;
-        $values_3 = array();
+        $values_3 = [];
         foreach ($object->getResultFiles() as $value_3) {
             $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
         }
         $data['result_files'] = $values_3;
-        if ($object->isInitialized('events') && null !== $object->getEvents()) {
-            $values_4 = array();
+        if ($object->isInitialized('events') && $object->getEvents() !== null) {
+            $values_4 = [];
             foreach ($object->getEvents() as $value_4) {
                 $values_4[] = $this->normalizer->normalize($value_4, 'json', $context);
             }

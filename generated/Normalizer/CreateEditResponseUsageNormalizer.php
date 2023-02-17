@@ -1,35 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseUsage;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class CreateEditResponseUsageNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
     use ValidatorTrait;
-    public function supportsDenormalization($data, $type, $format = null) : bool
+
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseUsage';
+        return $type === CreateEditResponseUsage::class;
     }
-    public function supportsNormalization($data, $format = null) : bool
+
+    public function supportsNormalization($data, $format = null): bool
     {
-        return is_object($data) && get_class($data) === 'Sourceability\\OpenAIClient\\Generated\\Model\\CreateEditResponseUsage';
+        return is_object($data) && $data::class === CreateEditResponseUsage::class;
     }
+
     /**
      * @return mixed
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -37,8 +44,8 @@ class CreateEditResponseUsageNormalizer implements DenormalizerInterface, Normal
         if (isset($data['$recursiveRef'])) {
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        $object = new \Sourceability\OpenAIClient\Generated\Model\CreateEditResponseUsage();
-        if (null === $data || false === \is_array($data)) {
+        $object = new CreateEditResponseUsage();
+        if ($data === null || \is_array($data) === false) {
             return $object;
         }
         if (\array_key_exists('prompt_tokens', $data)) {
@@ -60,12 +67,13 @@ class CreateEditResponseUsageNormalizer implements DenormalizerInterface, Normal
         }
         return $object;
     }
+
     /**
-     * @return array|string|int|float|bool|\ArrayObject|null
+     * @return array|string|int|float|bool|ArrayObject|null
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = array();
+        $data = [];
         $data['prompt_tokens'] = $object->getPromptTokens();
         $data['completion_tokens'] = $object->getCompletionTokens();
         $data['total_tokens'] = $object->getTotalTokens();
