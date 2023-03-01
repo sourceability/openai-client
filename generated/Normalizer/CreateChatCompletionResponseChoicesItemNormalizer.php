@@ -57,9 +57,11 @@ class CreateChatCompletionResponseChoicesItemNormalizer implements DenormalizerI
             $object->setMessage($this->denormalizer->denormalize($data['message'], ChatCompletionResponseMessage::class, 'json', $context));
             unset($data['message']);
         }
-        if (\array_key_exists('finish_reason', $data)) {
+        if (\array_key_exists('finish_reason', $data) && $data['finish_reason'] !== null) {
             $object->setFinishReason($data['finish_reason']);
             unset($data['finish_reason']);
+        } elseif (\array_key_exists('finish_reason', $data) && $data['finish_reason'] === null) {
+            $object->setFinishReason(null);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {

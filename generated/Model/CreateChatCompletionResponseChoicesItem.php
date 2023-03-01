@@ -19,7 +19,7 @@ class CreateChatCompletionResponseChoicesItem extends ArrayObject
     /**
      * @param int $index
      * @param ChatCompletionResponseMessage $message
-     * @param string $finishReason
+     * @param string|null $finishReason
      */
     public function __construct($index = null, $message = null, $finishReason = null)
     {
@@ -63,12 +63,12 @@ class CreateChatCompletionResponseChoicesItem extends ArrayObject
         return $this;
     }
 
-    public function getFinishReason(): string
+    public function getFinishReason(): ?string
     {
         return $this->finishReason;
     }
 
-    public function setFinishReason(string $finishReason): self
+    public function setFinishReason(?string $finishReason): self
     {
         $this->initialized['finishReason'] = true;
         $this->finishReason = $finishReason;
