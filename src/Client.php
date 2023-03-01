@@ -19,7 +19,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Sourceability\OpenAIClient\Generated\Client as BaseClient;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateChatCompletion;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateCompletion;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
 use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
@@ -50,6 +53,23 @@ class Client extends BaseClient
         return $this->executeEndpoints(
             array_map(
                 fn (CreateCompletionRequest $request): CreateCompletion => new CreateCompletion($request),
+                $requests
+            )
+        );
+    }
+
+    /**
+     * @template K of array-key
+     *
+     * @param array<K, CreateChatCompletionRequest> $requests
+     *
+     * @return array<K, null|CreateChatCompletionResponse>
+     */
+    public function createChatCompletions(array $requests): array
+    {
+        return $this->executeEndpoints(
+            array_map(
+                fn (CreateChatCompletionRequest $request): CreateChatCompletion => new CreateChatCompletion($request),
                 $requests
             )
         );

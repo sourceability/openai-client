@@ -12,6 +12,7 @@ use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use Sourceability\OpenAIClient\Generated\Endpoint\CancelFineTune;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateAnswer;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateChatCompletion;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateClassification;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateCompletion;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateEdit;
@@ -23,6 +24,8 @@ use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageEdit;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageVariation;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateModeration;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateSearch;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateTranscription;
+use Sourceability\OpenAIClient\Generated\Endpoint\CreateTranslation;
 use Sourceability\OpenAIClient\Generated\Endpoint\DeleteFile;
 use Sourceability\OpenAIClient\Generated\Endpoint\DeleteModel;
 use Sourceability\OpenAIClient\Generated\Endpoint\DownloadFile;
@@ -37,6 +40,8 @@ use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFineTune;
 use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveModel;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
@@ -54,6 +59,10 @@ use Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranslationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranslationResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
 use Sourceability\OpenAIClient\Generated\Model\Engine;
@@ -107,6 +116,15 @@ class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
 
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @return null|CreateChatCompletionResponse|ResponseInterface
+     */
+    public function createChatCompletion(CreateChatCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new CreateChatCompletion($requestBody), $fetch);
+    }
+
+    /**
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      * @return null|CreateEditResponse|ResponseInterface
      */
     public function createEdit(CreateEditRequest $requestBody, string $fetch = self::FETCH_OBJECT)
@@ -148,6 +166,24 @@ class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
     public function createEmbedding(CreateEmbeddingRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
         return $this->executeEndpoint(new CreateEmbedding($requestBody), $fetch);
+    }
+
+    /**
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @return null|CreateTranscriptionResponse|ResponseInterface
+     */
+    public function createTranscription(CreateTranscriptionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new CreateTranscription($requestBody), $fetch);
+    }
+
+    /**
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @return null|CreateTranslationResponse|ResponseInterface
+     */
+    public function createTranslation(CreateTranslationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new CreateTranslation($requestBody), $fetch);
     }
 
     /**

@@ -11,7 +11,7 @@ class CreateEditRequest extends ArrayObject
     protected array $initialized = [];
 
     /**
-     * ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      */
     protected ?string $model = null;
 
@@ -31,7 +31,7 @@ class CreateEditRequest extends ArrayObject
     protected ?int $n = 1;
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 
      *
      * @var float|null
@@ -47,11 +47,11 @@ class CreateEditRequest extends ArrayObject
     protected $topP = 1;
 
     /**
-     * @param string $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * @param string $model ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      * @param string|null $input The input text to use as a starting point for the edit.
      * @param string $instruction The instruction that tells the model how to edit the prompt.
      * @param int|null $n How many edits to generate for the input and instruction.
-     * @param float|null $temperature What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * @param float|null $temperature What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      *                                We generally recommend altering this or `top_p` but not both.
      * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      *                         We generally recommend altering this or `temperature` but not both.
@@ -84,7 +84,7 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      */
     public function getModel(): string
     {
@@ -92,7 +92,7 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      */
     public function setModel(string $model): self
     {
@@ -156,7 +156,7 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     We generally recommend altering this or `top_p` but not both.
      */
     public function getTemperature(): ?float
@@ -165,7 +165,7 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     We generally recommend altering this or `top_p` but not both.
      */
     public function setTemperature(?float $temperature): self

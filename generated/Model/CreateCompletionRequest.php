@@ -34,7 +34,7 @@ class CreateCompletionRequest extends ArrayObject
     protected ?int $maxTokens = 16;
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 
      *
      * @var float|null
@@ -121,7 +121,7 @@ class CreateCompletionRequest extends ArrayObject
      * @param string|null $suffix The suffix that comes after a completion of inserted text.
      * @param int|null $maxTokens The maximum number of [tokens](/tokenizer) to generate in the completion.
      *                            The token count of your prompt plus `max_tokens` cannot exceed the model's context length. Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
-     * @param float|null $temperature What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * @param float|null $temperature What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      *                                We generally recommend altering this or `top_p` but not both.
      * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      *                         We generally recommend altering this or `temperature` but not both.
@@ -280,7 +280,7 @@ class CreateCompletionRequest extends ArrayObject
     }
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     We generally recommend altering this or `top_p` but not both.
      */
     public function getTemperature(): ?float
@@ -289,7 +289,7 @@ class CreateCompletionRequest extends ArrayObject
     }
 
     /**
-     * What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
+     * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     We generally recommend altering this or `top_p` but not both.
      */
     public function setTemperature(?float $temperature): self

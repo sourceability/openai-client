@@ -6,9 +6,15 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessage;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponseSelectedDocumentsItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponseUsage;
 use Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponseSelectedExamplesItem;
@@ -39,6 +45,10 @@ use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponseResultsIt
 use Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponseDataItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionResponse;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranslationRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateTranslationResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
 use Sourceability\OpenAIClient\Generated\Model\Engine;
@@ -79,6 +89,12 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         CreateCompletionResponseChoicesItem::class => CreateCompletionResponseChoicesItemNormalizer::class,
         CreateCompletionResponseChoicesItemLogprobs::class => CreateCompletionResponseChoicesItemLogprobsNormalizer::class,
         CreateCompletionResponseUsage::class => CreateCompletionResponseUsageNormalizer::class,
+        ChatCompletionRequestMessage::class => ChatCompletionRequestMessageNormalizer::class,
+        ChatCompletionResponseMessage::class => ChatCompletionResponseMessageNormalizer::class,
+        CreateChatCompletionRequest::class => CreateChatCompletionRequestNormalizer::class,
+        CreateChatCompletionResponse::class => CreateChatCompletionResponseNormalizer::class,
+        CreateChatCompletionResponseChoicesItem::class => CreateChatCompletionResponseChoicesItemNormalizer::class,
+        CreateChatCompletionResponseUsage::class => CreateChatCompletionResponseUsageNormalizer::class,
         CreateEditRequest::class => CreateEditRequestNormalizer::class,
         CreateEditResponse::class => CreateEditResponseNormalizer::class,
         CreateEditResponseChoicesItem::class => CreateEditResponseChoicesItemNormalizer::class,
@@ -113,6 +129,10 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         CreateEmbeddingResponse::class => CreateEmbeddingResponseNormalizer::class,
         CreateEmbeddingResponseDataItem::class => CreateEmbeddingResponseDataItemNormalizer::class,
         CreateEmbeddingResponseUsage::class => CreateEmbeddingResponseUsageNormalizer::class,
+        CreateTranscriptionRequest::class => CreateTranscriptionRequestNormalizer::class,
+        CreateTranscriptionResponse::class => CreateTranscriptionResponseNormalizer::class,
+        CreateTranslationRequest::class => CreateTranslationRequestNormalizer::class,
+        CreateTranslationResponse::class => CreateTranslationResponseNormalizer::class,
         Engine::class => EngineNormalizer::class,
         Model::class => ModelNormalizer::class,
         OpenAIFile::class => OpenAIFileNormalizer::class,

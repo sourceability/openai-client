@@ -6,34 +6,46 @@ namespace Sourceability\OpenAIClient\Generated\Model;
 
 use ArrayObject;
 
-class CreateEditResponse extends ArrayObject
+class CreateChatCompletionResponse extends ArrayObject
 {
     protected array $initialized = [];
+
+    protected ?string $id = null;
 
     protected ?string $object = null;
 
     protected ?int $created = null;
 
+    protected ?string $model = null;
+
     /**
-     * @var CreateEditResponseChoicesItem[]|null
+     * @var CreateChatCompletionResponseChoicesItem[]|null
      */
     protected ?array $choices = null;
 
-    protected ?CreateEditResponseUsage $usage = null;
+    protected ?CreateChatCompletionResponseUsage $usage = null;
 
     /**
+     * @param string $id
      * @param string $object
      * @param int $created
-     * @param CreateEditResponseChoicesItem[] $choices
-     * @param CreateEditResponseUsage $usage
+     * @param string $model
+     * @param CreateChatCompletionResponseChoicesItem[] $choices
+     * @param CreateChatCompletionResponseUsage $usage
      */
-    public function __construct($object = null, $created = null, $choices = null, $usage = null)
+    public function __construct($id = null, $object = null, $created = null, $model = null, $choices = null, $usage = null)
     {
+        if ($id !== null) {
+            $this->setId($id);
+        }
         if ($object !== null) {
             $this->setObject($object);
         }
         if ($created !== null) {
             $this->setCreated($created);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
         }
         if ($choices !== null) {
             $this->setChoices($choices);
@@ -46,6 +58,18 @@ class CreateEditResponse extends ArrayObject
     public function isInitialized($property): bool
     {
         return array_key_exists($property, $this->initialized);
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->initialized['id'] = true;
+        $this->id = $id;
+        return $this;
     }
 
     public function getObject(): string
@@ -72,8 +96,20 @@ class CreateEditResponse extends ArrayObject
         return $this;
     }
 
+    public function getModel(): string
+    {
+        return $this->model;
+    }
+
+    public function setModel(string $model): self
+    {
+        $this->initialized['model'] = true;
+        $this->model = $model;
+        return $this;
+    }
+
     /**
-     * @return CreateEditResponseChoicesItem[]
+     * @return CreateChatCompletionResponseChoicesItem[]
      */
     public function getChoices(): array
     {
@@ -81,7 +117,7 @@ class CreateEditResponse extends ArrayObject
     }
 
     /**
-     * @param CreateEditResponseChoicesItem[] $choices
+     * @param CreateChatCompletionResponseChoicesItem[] $choices
      */
     public function setChoices(array $choices): self
     {
@@ -90,12 +126,12 @@ class CreateEditResponse extends ArrayObject
         return $this;
     }
 
-    public function getUsage(): CreateEditResponseUsage
+    public function getUsage(): CreateChatCompletionResponseUsage
     {
         return $this->usage;
     }
 
-    public function setUsage(CreateEditResponseUsage $usage): self
+    public function setUsage(CreateChatCompletionResponseUsage $usage): self
     {
         $this->initialized['usage'] = true;
         $this->usage = $usage;

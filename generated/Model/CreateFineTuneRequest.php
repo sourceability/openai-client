@@ -24,7 +24,7 @@ class CreateFineTuneRequest extends ArrayObject
 
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
-    [Models](https://beta.openai.com/docs/models) documentation.
+    [Models](https://platform.openai.com/docs/models) documentation.
      */
     protected ?string $model = 'curie';
 
@@ -102,7 +102,7 @@ class CreateFineTuneRequest extends ArrayObject
      * @param string|null $model The name of the base model to fine-tune. You can select one of "ada",
      *                           "babbage", "curie", "davinci", or a fine-tuned model created after 2022-04-21.
      *                           To learn more about these models, see the
-     *                           [Models](https://beta.openai.com/docs/models) documentation.
+     *                           [Models](https://platform.openai.com/docs/models) documentation.
      * @param int|null $nEpochs The number of epochs to train the model for. An epoch refers to one
      *                          full cycle through the training dataset.
      * @param int|null $batchSize The batch size to use for training. The batch size is the number of
@@ -235,7 +235,7 @@ class CreateFineTuneRequest extends ArrayObject
 
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
-    [Models](https://beta.openai.com/docs/models) documentation.
+    [Models](https://platform.openai.com/docs/models) documentation.
      */
     public function getModel(): ?string
     {
@@ -244,7 +244,7 @@ class CreateFineTuneRequest extends ArrayObject
 
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
-    [Models](https://beta.openai.com/docs/models) documentation.
+    [Models](https://platform.openai.com/docs/models) documentation.
      */
     public function setModel(?string $model): self
     {

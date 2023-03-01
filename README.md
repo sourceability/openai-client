@@ -49,6 +49,47 @@ $completionResponses = $apiClient->createCompletions($requests);
 var_dump($completionResponses);
 ```
 
+ChatGPT with `/v1/chat/completions`:
+```php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Sourceability\OpenAIClient\Client;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
+
+$apiClient = Client::create(
+    apiKey: getenv('OPENAI_API_KEY')
+);
+
+$requests = [
+    new CreateChatCompletionRequest(
+        model: 'gpt-3.5-turbo',
+        temperature: 0,
+        messages: [
+            new ChatCompletionRequestMessage(
+                role: 'user',
+                content: 'The jane php library is very useful because'
+            )
+        ],
+    ),
+    new CreateChatCompletionRequest(
+        model: 'gpt-3.5-turbo',
+        temperature: 0,
+        messages: [
+            new ChatCompletionRequestMessage(
+                role: 'user',
+                content: 'Symfony symfony symfony is like sourceability on a'
+            )
+        ],
+    ),
+];
+$completionResponses = $apiClient->createChatCompletions($requests);
+
+var_dump($completionResponses);
+```
+
 [janephp]: https://github.com/janephp/janephp
 [openai_api]: https://platform.openai.com/docs/
 [openai_openapi]: https://github.com/openai/openai-openapi
