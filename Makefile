@@ -21,7 +21,7 @@ cs:
 	vendor/bin/ecs --fix
 
 .PHONY: cs-check
-cs:
+cs-check:
 	vendor/bin/ecs
 
 .PHONY: build
