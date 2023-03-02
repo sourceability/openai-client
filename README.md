@@ -13,6 +13,8 @@ Features:
   - [Symfony Bundle][httplug_sf_bundle]
 - Async/parallel requests.
 
+This is a community-maintained/unofficial library.
+
 ## Installation
 
 ```
