@@ -11,9 +11,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use Sourceability\OpenAIClient\Generated\Endpoint\CancelFineTune;
-use Sourceability\OpenAIClient\Generated\Endpoint\CreateAnswer;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateChatCompletion;
-use Sourceability\OpenAIClient\Generated\Endpoint\CreateClassification;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateCompletion;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateEdit;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateEmbedding;
@@ -23,27 +21,20 @@ use Sourceability\OpenAIClient\Generated\Endpoint\CreateImage;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageEdit;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateImageVariation;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateModeration;
-use Sourceability\OpenAIClient\Generated\Endpoint\CreateSearch;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateTranscription;
 use Sourceability\OpenAIClient\Generated\Endpoint\CreateTranslation;
 use Sourceability\OpenAIClient\Generated\Endpoint\DeleteFile;
 use Sourceability\OpenAIClient\Generated\Endpoint\DeleteModel;
 use Sourceability\OpenAIClient\Generated\Endpoint\DownloadFile;
-use Sourceability\OpenAIClient\Generated\Endpoint\ListEngines;
 use Sourceability\OpenAIClient\Generated\Endpoint\ListFiles;
 use Sourceability\OpenAIClient\Generated\Endpoint\ListFineTuneEvents;
 use Sourceability\OpenAIClient\Generated\Endpoint\ListFineTunes;
 use Sourceability\OpenAIClient\Generated\Endpoint\ListModels;
-use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveEngine;
 use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFile;
 use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveFineTune;
 use Sourceability\OpenAIClient\Generated\Endpoint\RetrieveModel;
-use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
-use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponse;
-use Sourceability\OpenAIClient\Generated\Model\CreateClassificationRequest;
-use Sourceability\OpenAIClient\Generated\Model\CreateClassificationResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateEditRequest;
@@ -57,18 +48,14 @@ use Sourceability\OpenAIClient\Generated\Model\CreateImageRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateImageVariationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateModerationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateModerationResponse;
-use Sourceability\OpenAIClient\Generated\Model\CreateSearchRequest;
-use Sourceability\OpenAIClient\Generated\Model\CreateSearchResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranslationRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranslationResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
-use Sourceability\OpenAIClient\Generated\Model\Engine;
 use Sourceability\OpenAIClient\Generated\Model\FineTune;
 use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
-use Sourceability\OpenAIClient\Generated\Model\ListEnginesResponse;
 use Sourceability\OpenAIClient\Generated\Model\ListFilesResponse;
 use Sourceability\OpenAIClient\Generated\Model\ListFineTuneEventsResponse;
 use Sourceability\OpenAIClient\Generated\Model\ListFineTunesResponse;
@@ -84,27 +71,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
 {
-    /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|ListEnginesResponse|ResponseInterface
-     */
-    public function listEngines(string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new ListEngines(), $fetch);
-    }
-
-    /**
-     * @param string $engineId The ID of the engine to use for this request
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return null|Engine|ResponseInterface
-     */
-    public function retrieveEngine(string $engineId, string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new RetrieveEngine($engineId), $fetch);
-    }
-
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      * @return null|CreateCompletionResponse|ResponseInterface
@@ -187,16 +153,6 @@ class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
     }
 
     /**
-     * @param string $engineId The ID of the engine to use for this request.  You can select one of `ada`, `babbage`, `curie`, or `davinci`.
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     * @return null|CreateSearchResponse|ResponseInterface
-     */
-    public function createSearch(string $engineId, CreateSearchRequest $requestBody, string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new CreateSearch($engineId, $requestBody), $fetch);
-    }
-
-    /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return null|ListFilesResponse|ResponseInterface
@@ -246,24 +202,6 @@ class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
     public function downloadFile(string $fileId, string $fetch = self::FETCH_OBJECT)
     {
         return $this->executeEndpoint(new DownloadFile($fileId), $fetch);
-    }
-
-    /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     * @return null|CreateAnswerResponse|ResponseInterface
-     */
-    public function createAnswer(CreateAnswerRequest $requestBody, string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new CreateAnswer($requestBody), $fetch);
-    }
-
-    /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     * @return null|CreateClassificationResponse|ResponseInterface
-     */
-    public function createClassification(CreateClassificationRequest $requestBody, string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new CreateClassification($requestBody), $fetch);
     }
 
     /**

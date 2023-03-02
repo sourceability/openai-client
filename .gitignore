@@ -1,3 +1,4 @@
 /vendor/
 /openai-openapi/
 /composer.lock
+/var/
