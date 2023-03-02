@@ -6,7 +6,7 @@ generated: openai-openapi
 
 .PHONY: php
 php:
-	docker run -it --rm -v "$$PWD":/usr/src/app:cached thecodingmachine/php:8.1-v4-cli bash
+	docker-compose run --build php bash
 
 .PHONY: rector-check
 rector-check:

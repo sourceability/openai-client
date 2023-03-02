@@ -1,0 +1,5 @@
+services:
+  php:
+    build: .
+    volumes:
+      - .:/usr/src/app:cached
