@@ -65,11 +65,14 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
         if (\array_key_exists('temperature', $data)) {
             $object->setTemperature($data['temperature']);
         }
+        if (\array_key_exists('language', $data)) {
+            $object->setLanguage($data['language']);
+        }
         return $object;
     }
 
     /**
-     * @return array{file: mixed, model: mixed, prompt?: mixed, response_format?: mixed, temperature?: mixed}
+     * @return array{file: mixed, model: mixed, prompt?: mixed, response_format?: mixed, temperature?: mixed, language?: mixed}
      */
     public function normalize($object, $format = null, array $context = [])
     {
@@ -84,6 +87,9 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
         }
         if ($object->isInitialized('temperature') && $object->getTemperature() !== null) {
             $data['temperature'] = $object->getTemperature();
+        }
+        if ($object->isInitialized('language') && $object->getLanguage() !== null) {
+            $data['language'] = $object->getLanguage();
         }
         return $data;
     }

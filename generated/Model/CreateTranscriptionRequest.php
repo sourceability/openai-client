@@ -36,13 +36,19 @@ class CreateTranscriptionRequest
     protected $temperature = 0;
 
     /**
+     * The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
+     */
+    protected ?string $language = null;
+
+    /**
      * @param string $file The audio file to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      * @param string $model ID of the model to use. Only `whisper-1` is currently available.
      * @param string $prompt An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should match the audio language.
      * @param string $responseFormat The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
      * @param float $temperature The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
+     * @param string $language The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
      */
-    public function __construct($file = null, $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
+    public function __construct($file = null, $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0, $language = null)
     {
         if ($file !== null) {
             $this->setFile($file);
@@ -58,6 +64,9 @@ class CreateTranscriptionRequest
         }
         if ($temperature !== null) {
             $this->setTemperature($temperature);
+        }
+        if ($language !== null) {
+            $this->setLanguage($language);
         }
     }
 
@@ -153,6 +162,24 @@ class CreateTranscriptionRequest
     {
         $this->initialized['temperature'] = true;
         $this->temperature = $temperature;
+        return $this;
+    }
+
+    /**
+     * The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
+     */
+    public function setLanguage(string $language): self
+    {
+        $this->initialized['language'] = true;
+        $this->language = $language;
         return $this;
     }
 }
