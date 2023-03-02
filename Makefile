@@ -31,5 +31,5 @@ cs-check:
 	vendor/bin/ecs
 
 .PHONY: build
-build:
+build: var/openapi-no-deprecated.yaml
 	time (time bin/jane generate ; for in in {1..4} ; do time (vendor/bin/rector process ; vendor/bin/ecs --fix); done)
