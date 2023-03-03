@@ -101,9 +101,11 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $object->setStop($data['stop']);
             unset($data['stop']);
         }
-        if (\array_key_exists('max_tokens', $data)) {
+        if (\array_key_exists('max_tokens', $data) && $data['max_tokens'] !== null) {
             $object->setMaxTokens($data['max_tokens']);
             unset($data['max_tokens']);
+        } elseif (\array_key_exists('max_tokens', $data) && $data['max_tokens'] === null) {
+            $object->setMaxTokens(null);
         }
         if (\array_key_exists('presence_penalty', $data) && $data['presence_penalty'] !== null) {
             $object->setPresencePenalty($data['presence_penalty']);

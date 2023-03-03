@@ -22,7 +22,7 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
      * @param string $text
      * @param int $index
      * @param CreateCompletionResponseChoicesItemLogprobs|null $logprobs
-     * @param string $finishReason
+     * @param string|null $finishReason
      */
     public function __construct($text = null, $index = null, $logprobs = null, $finishReason = null)
     {
@@ -81,12 +81,12 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
         return $this;
     }
 
-    public function getFinishReason(): string
+    public function getFinishReason(): ?string
     {
         return $this->finishReason;
     }
 
-    public function setFinishReason(string $finishReason): self
+    public function setFinishReason(?string $finishReason): self
     {
         $this->initialized['finishReason'] = true;
         $this->finishReason = $finishReason;

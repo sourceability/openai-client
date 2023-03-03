@@ -63,9 +63,11 @@ class CreateCompletionResponseChoicesItemNormalizer implements DenormalizerInter
         } elseif (\array_key_exists('logprobs', $data) && $data['logprobs'] === null) {
             $object->setLogprobs(null);
         }
-        if (\array_key_exists('finish_reason', $data)) {
+        if (\array_key_exists('finish_reason', $data) && $data['finish_reason'] !== null) {
             $object->setFinishReason($data['finish_reason']);
             unset($data['finish_reason']);
+        } elseif (\array_key_exists('finish_reason', $data) && $data['finish_reason'] === null) {
+            $object->setFinishReason(null);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
