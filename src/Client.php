@@ -119,7 +119,7 @@ class Client extends BaseClient
         if ($httpClient === null) {
             $httpClient = HttpAsyncClientDiscovery::find();
             $plugins = [];
-            $uri = Psr17FactoryDiscovery::findUrlFactory()->createUri('https://api.openai.com/v1');
+            $uri = Psr17FactoryDiscovery::findUriFactory()->createUri('https://api.openai.com/v1');
             $plugins[] = new AddHostPlugin($uri);
             $plugins[] = new AddPathPlugin($uri);
             if (count($additionalPlugins) > 0) {
