@@ -30,6 +30,14 @@ cs:
 cs-check:
 	vendor/bin/ecs
 
+.PHONY: phpunit
+phpunit:
+	vendor/bin/phpunit
+
+.PHONY: pre-commit
+pre-commit:
+	$(MAKE) -k rector cs phpunit
+
 .PHONY: build
 build: var/openapi-no-deprecated.yaml
 	time (time bin/jane generate ; for in in {1..4} ; do time (vendor/bin/rector process ; vendor/bin/ecs --fix); done)
