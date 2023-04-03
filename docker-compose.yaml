@@ -1,5 +1,7 @@
 services:
   php:
     build: .
+    environment:
+        PHP_EXTENSION_INTL: 1
     volumes:
       - .:/usr/src/app:cached

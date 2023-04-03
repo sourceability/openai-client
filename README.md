@@ -92,6 +92,32 @@ $completionResponses = $apiClient->createChatCompletions($requests);
 var_dump($completionResponses);
 ```
 
+## Cost calculator
+
+You can use `ResponseCostCalculator`, which relies on [brick/money][brick/money], to calculate the cost of a response:
+
+```php
+use Sourceability\OpenAIClient\Pricing\ResponseCostCalculator;
+
+$responseCostCalculator = new ResponseCostCalculator();
+$responseCost = $responseCostCalculator->calculate($myCompletionResponse);
+
+var_dump([
+    'total' => $responseCost->getTotal()->formatTo('en_US'),
+    'prompt' => $responseCost->getPrompt()->formatTo('en_US'),
+    'completion' => $responseCost->getCompletion()->formatTo('en_US'),
+]);
+
+array(3) {
+  ["total"]=>
+  string(10) "$0.0001280"
+  ["prompt"]=>
+  string(10) "$0.0000980"
+  ["completion"]=>
+  string(10) "$0.0000300"
+}
+```
+
 [janephp]: https://github.com/janephp/janephp
 [openai_api]: https://platform.openai.com/docs/
 [openai_openapi]: https://github.com/openai/openai-openapi
@@ -99,3 +125,4 @@ var_dump($completionResponses);
 [httplug_adapters]: https://docs.php-http.org/en/latest/clients.html
 [httplug_plugins]: https://docs.php-http.org/en/latest/plugins/index.html
 [httplug_sf_bundle]: https://docs.php-http.org/en/latest/integrations/symfony-bundle.html
+[brick/money]: https://github.com/brick/money
