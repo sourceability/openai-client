@@ -70,4 +70,12 @@ class ModelPricingRepositoryTest extends TestCase
         self::assertNotNull($daVinciPricing);
         self::assertNotNull($daVinciPricing2);
     }
+
+    public function testTurbo()
+    {
+        $repository = new ModelPricingRepository();
+
+        self::assertNotNull($repository->getPricing('gpt-3.5-turbo'));
+        self::assertNotNull($repository->getPricing('gpt-3.5-turbo-0301'));
+    }
 }

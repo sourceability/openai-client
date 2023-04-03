@@ -37,7 +37,7 @@ class ModelPricingRepository
     {
         $pricing = null;
         foreach (self::PRICING_PER_MODEL as $model => $modelPricing) {
-            if (! str_starts_with($model, $requestedModel)
+            if (! str_starts_with($requestedModel, $model)
                 && ! str_starts_with($requestedModel, 'text-' . $model)
             ) {
                 continue;
