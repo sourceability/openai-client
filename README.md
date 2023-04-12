@@ -7,7 +7,7 @@ The client is generated using [openai's OpenAPI][openai_openapi] with [jane-php]
 
 Features:
 - The requests models are typed and include descriptions from the OpenAPI documentation.
-- Uses [HTTPPug][httplug] as the HTTP Abstraction
+- Uses [HTTPlug][httplug] as the HTTP Abstraction
   - [Many supported http clients like `guzzlehttp/guzzle` or `symfony/http-client`][httplug_adapters]
   - [A lot of useful plugins like Cache or Retry][httplug_plugins]
   - [Symfony Bundle][httplug_sf_bundle]
