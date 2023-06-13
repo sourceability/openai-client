@@ -53,13 +53,17 @@ class ChatCompletionResponseMessageNormalizer implements DenormalizerInterface, 
             $object->setRole($data['role']);
             unset($data['role']);
         }
-        if (\array_key_exists('content', $data)) {
+        if (\array_key_exists('content', $data) && $data['content'] !== null) {
             $object->setContent($data['content']);
             unset($data['content']);
+        } elseif (\array_key_exists('content', $data) && $data['content'] === null) {
+            $object->setContent(null);
         }
-        if (\array_key_exists('function_call', $data)) {
+        if (\array_key_exists('function_call', $data) && $data['function_call'] !== null) {
             $object->setFunctionCall($this->denormalizer->denormalize($data['function_call'], ChatCompletionResponseMessageFunctionCall::class, 'json', $context));
             unset($data['function_call']);
+        } elseif (\array_key_exists('function_call', $data) && $data['function_call'] === null) {
+            $object->setFunctionCall(null);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
