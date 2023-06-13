@@ -23,16 +23,31 @@ class ModelPricingRepositoryTest extends TestCase
         $chatGPTPricing = $repository->getPricing('gpt-3.5-turbo');
 
         self::assertSame(
-            '0.000002',
+            '0.0000015',
             (string) $chatGPTPricing->getPrompt()->calculatePrice(1)->getAmount()
         );
         self::assertSame(
-            '0.002000',
+            '0.0015000',
             (string) $chatGPTPricing->getPrompt()->calculatePrice(1000)->getAmount()
         );
         self::assertSame(
-            '0.000246',
+            '0.0001845',
             (string) $chatGPTPricing->getPrompt()->calculatePrice(123)->getAmount()
+        );
+
+        $chatGPT16kPricing = $repository->getPricing('gpt-3.5-turbo-16k');
+
+        self::assertSame(
+            '0.000003',
+            (string) $chatGPT16kPricing->getPrompt()->calculatePrice(1)->getAmount()
+        );
+        self::assertSame(
+            '0.003000',
+            (string) $chatGPT16kPricing->getPrompt()->calculatePrice(1000)->getAmount()
+        );
+        self::assertSame(
+            '0.000369',
+            (string) $chatGPT16kPricing->getPrompt()->calculatePrice(123)->getAmount()
         );
 
         $adaPricing = $repository->getPricing('ada');

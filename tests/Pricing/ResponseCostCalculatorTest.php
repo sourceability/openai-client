@@ -19,9 +19,9 @@ class ResponseCostCalculatorTest extends TestCase
 
         $responseCost = $calculator->calculate($response);
 
-        self::assertSame('0.002792', (string) $responseCost->getTotal()->getAmount());
-        self::assertSame('0.001046', (string) $responseCost->getPrompt()->getAmount());
-        self::assertSame('0.001746', (string) $responseCost->getCompletion()->getAmount());
+        self::assertSame('0.0025305', (string) $responseCost->getTotal()->getAmount());
+        self::assertSame('0.0007845', (string) $responseCost->getPrompt()->getAmount());
+        self::assertSame('0.0017460', (string) $responseCost->getCompletion()->getAmount());
     }
 
     public function testAda()

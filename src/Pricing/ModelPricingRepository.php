@@ -24,7 +24,14 @@ class ModelPricingRepository
             'prompt' => '0.06',
             'completion' => '0.12',
         ],
-        'gpt-3.5-turbo' => '0.002',
+        'gpt-3.5-turbo' => [
+            'prompt' => '0.0015',
+            'completion' => '0.002',
+        ],
+        'gpt-3.5-turbo-16k' => [
+            'prompt' => '0.003',
+            'completion' => '0.004',
+        ],
         'davinci' => '0.02',
         'curie' => '0.002',
         'babbage' => '0.0005',
