@@ -6,6 +6,7 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionFunctions;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
@@ -73,6 +74,18 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $object->setMessages($values);
             unset($data['messages']);
         }
+        if (\array_key_exists('functions', $data)) {
+            $values_1 = [];
+            foreach ($data['functions'] as $value_1) {
+                $values_1[] = $this->denormalizer->denormalize($value_1, ChatCompletionFunctions::class, 'json', $context);
+            }
+            $object->setFunctions($values_1);
+            unset($data['functions']);
+        }
+        if (\array_key_exists('function_call', $data)) {
+            $object->setFunctionCall($data['function_call']);
+            unset($data['function_call']);
+        }
         if (\array_key_exists('temperature', $data) && $data['temperature'] !== null) {
             $object->setTemperature($data['temperature']);
             unset($data['temperature']);
@@ -120,11 +133,11 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $object->setFrequencyPenalty(null);
         }
         if (\array_key_exists('logit_bias', $data) && $data['logit_bias'] !== null) {
-            $values_1 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['logit_bias'] as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            $values_2 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data['logit_bias'] as $key => $value_2) {
+                $values_2[$key] = $value_2;
             }
-            $object->setLogitBias($values_1);
+            $object->setLogitBias($values_2);
             unset($data['logit_bias']);
         } elseif (\array_key_exists('logit_bias', $data) && $data['logit_bias'] === null) {
             $object->setLogitBias(null);
@@ -133,9 +146,9 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $object->setUser($data['user']);
             unset($data['user']);
         }
-        foreach ($data as $key_1 => $value_2) {
+        foreach ($data as $key_1 => $value_3) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_2;
+                $object[$key_1] = $value_3;
             }
         }
         return $object;
@@ -153,6 +166,16 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['messages'] = $values;
+        if ($object->isInitialized('functions') && $object->getFunctions() !== null) {
+            $values_1 = [];
+            foreach ($object->getFunctions() as $value_1) {
+                $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
+            }
+            $data['functions'] = $values_1;
+        }
+        if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
+            $data['function_call'] = $object->getFunctionCall();
+        }
         if ($object->isInitialized('temperature') && $object->getTemperature() !== null) {
             $data['temperature'] = $object->getTemperature();
         }
@@ -178,18 +201,18 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             $data['frequency_penalty'] = $object->getFrequencyPenalty();
         }
         if ($object->isInitialized('logitBias') && $object->getLogitBias() !== null) {
-            $values_1 = [];
-            foreach ($object->getLogitBias() as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            $values_2 = [];
+            foreach ($object->getLogitBias() as $key => $value_2) {
+                $values_2[$key] = $value_2;
             }
-            $data['logit_bias'] = $values_1;
+            $data['logit_bias'] = $values_2;
         }
         if ($object->isInitialized('user') && $object->getUser() !== null) {
             $data['user'] = $object->getUser();
         }
-        foreach ($object as $key_1 => $value_2) {
+        foreach ($object as $key_1 => $value_3) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_2;
+                $data[$key_1] = $value_3;
             }
         }
         return $data;

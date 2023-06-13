@@ -7,6 +7,7 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessageFunctionCall;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -56,6 +57,10 @@ class ChatCompletionResponseMessageNormalizer implements DenormalizerInterface, 
             $object->setContent($data['content']);
             unset($data['content']);
         }
+        if (\array_key_exists('function_call', $data)) {
+            $object->setFunctionCall($this->denormalizer->denormalize($data['function_call'], ChatCompletionResponseMessageFunctionCall::class, 'json', $context));
+            unset($data['function_call']);
+        }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value;
@@ -71,7 +76,12 @@ class ChatCompletionResponseMessageNormalizer implements DenormalizerInterface, 
     {
         $data = [];
         $data['role'] = $object->getRole();
-        $data['content'] = $object->getContent();
+        if ($object->isInitialized('content') && $object->getContent() !== null) {
+            $data['content'] = $object->getContent();
+        }
+        if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
+            $data['function_call'] = $this->normalizer->normalize($object->getFunctionCall(), 'json', $context);
+        }
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

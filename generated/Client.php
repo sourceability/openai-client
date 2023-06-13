@@ -73,20 +73,20 @@ class Client extends \Sourceability\OpenAIClient\Generated\Runtime\Client\Client
 {
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     * @return null|CreateCompletionResponse|ResponseInterface
-     */
-    public function createCompletion(CreateCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new CreateCompletion($requestBody), $fetch);
-    }
-
-    /**
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      * @return null|CreateChatCompletionResponse|ResponseInterface
      */
     public function createChatCompletion(CreateChatCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
         return $this->executeEndpoint(new CreateChatCompletion($requestBody), $fetch);
+    }
+
+    /**
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @return null|CreateCompletionResponse|ResponseInterface
+     */
+    public function createCompletion(CreateCompletionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new CreateCompletion($requestBody), $fetch);
     }
 
     /**

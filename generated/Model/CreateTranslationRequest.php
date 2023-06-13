@@ -9,7 +9,7 @@ class CreateTranslationRequest
     protected array $initialized = [];
 
     /**
-     * The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      */
     protected ?string $file = null;
 
@@ -36,7 +36,7 @@ class CreateTranslationRequest
     protected $temperature = 0;
 
     /**
-     * @param string $file The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * @param string $file The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      * @param string $model ID of the model to use. Only `whisper-1` is currently available.
      * @param string $prompt An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.
      * @param string $responseFormat The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
@@ -67,7 +67,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      */
     public function getFile(): string
     {
@@ -75,7 +75,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      */
     public function setFile(string $file): self
     {

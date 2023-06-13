@@ -6,8 +6,11 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionFunctions;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessageFunctionCall;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessageFunctionCall;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateAnswerResponseSelectedDocumentsItem;
@@ -52,6 +55,8 @@ use Sourceability\OpenAIClient\Generated\Model\CreateTranslationResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteFileResponse;
 use Sourceability\OpenAIClient\Generated\Model\DeleteModelResponse;
 use Sourceability\OpenAIClient\Generated\Model\Engine;
+use Sourceability\OpenAIClient\Generated\Model\Error;
+use Sourceability\OpenAIClient\Generated\Model\ErrorResponse;
 use Sourceability\OpenAIClient\Generated\Model\FineTune;
 use Sourceability\OpenAIClient\Generated\Model\FineTuneEvent;
 use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
@@ -81,6 +86,8 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
     use ValidatorTrait;
 
     protected array $normalizers = [
+        Error::class => ErrorNormalizer::class,
+        ErrorResponse::class => ErrorResponseNormalizer::class,
         ListEnginesResponse::class => ListEnginesResponseNormalizer::class,
         ListModelsResponse::class => ListModelsResponseNormalizer::class,
         DeleteModelResponse::class => DeleteModelResponseNormalizer::class,
@@ -90,7 +97,10 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         CreateCompletionResponseChoicesItemLogprobs::class => CreateCompletionResponseChoicesItemLogprobsNormalizer::class,
         CreateCompletionResponseUsage::class => CreateCompletionResponseUsageNormalizer::class,
         ChatCompletionRequestMessage::class => ChatCompletionRequestMessageNormalizer::class,
+        ChatCompletionRequestMessageFunctionCall::class => ChatCompletionRequestMessageFunctionCallNormalizer::class,
+        ChatCompletionFunctions::class => ChatCompletionFunctionsNormalizer::class,
         ChatCompletionResponseMessage::class => ChatCompletionResponseMessageNormalizer::class,
+        ChatCompletionResponseMessageFunctionCall::class => ChatCompletionResponseMessageFunctionCallNormalizer::class,
         CreateChatCompletionRequest::class => CreateChatCompletionRequestNormalizer::class,
         CreateChatCompletionResponse::class => CreateChatCompletionResponseNormalizer::class,
         CreateChatCompletionResponseChoicesItem::class => CreateChatCompletionResponseChoicesItemNormalizer::class,

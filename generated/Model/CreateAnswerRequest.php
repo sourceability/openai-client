@@ -128,7 +128,7 @@ class CreateAnswerRequest
      * @param int|null $maxRerank The maximum number of documents to be ranked by [Search](/docs/api-reference/searches/create) when using `file`. Setting it to a higher value leads to improved accuracy but with increased latency and cost.
      * @param float|null $temperature What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      * @param int|null $logprobs Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
-     *                           The maximum value for `logprobs` is 5. If you need more than this, please contact us through our [Help center](https://help.openai.com) and describe your use case.
+     *                           The maximum value for `logprobs` is 5.
      *                           When `logprobs` is set, `completion` will be automatically added into `expand` to get the logprobs.
      * @param int|null $maxTokens The maximum number of tokens allowed for the generated answer
      * @param mixed|null $stop Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
