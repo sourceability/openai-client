@@ -36,4 +36,4 @@ pre-commit:
 
 .PHONY: build
 build:
-	time (time bin/jane generate ; for in in {1..4} ; do time (vendor/bin/rector process ; vendor/bin/ecs --fix); done)
+	time (time bin/jane generate ; for in in {1..2} ; do time (vendor/bin/rector process --no-diffs ; vendor/bin/ecs --fix > /dev/null); done)

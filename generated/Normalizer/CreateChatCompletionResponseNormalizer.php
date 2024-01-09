@@ -70,17 +70,19 @@ class CreateChatCompletionResponseNormalizer implements DenormalizerInterface, N
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('system_fingerprint', $data)) {
+        if (\array_key_exists('system_fingerprint', $data) && $data['system_fingerprint'] !== null) {
             $object->setSystemFingerprint($data['system_fingerprint']);
             unset($data['system_fingerprint']);
-        }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
+        } elseif (\array_key_exists('system_fingerprint', $data) && $data['system_fingerprint'] === null) {
+            $object->setSystemFingerprint(null);
         }
         if (\array_key_exists('usage', $data)) {
             $object->setUsage($this->denormalizer->denormalize($data['usage'], CompletionUsage::class, 'json', $context));
             unset($data['usage']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -104,13 +106,13 @@ class CreateChatCompletionResponseNormalizer implements DenormalizerInterface, N
         $data['choices'] = $values;
         $data['created'] = $object->getCreated();
         $data['model'] = $object->getModel();
-        if ($object->isInitialized('systemFingerprint') && $object->getSystemFingerprint() !== null) {
+        if ($object->isInitialized('system_fingerprint') && $object->getSystemFingerprint() !== null) {
             $data['system_fingerprint'] = $object->getSystemFingerprint();
         }
-        $data['object'] = $object->getObject();
         if ($object->isInitialized('usage') && $object->getUsage() !== null) {
             $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
         }
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

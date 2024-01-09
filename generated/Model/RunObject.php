@@ -18,7 +18,7 @@ class RunObject extends ArrayObject
     /**
      * The object type, which is always `thread.run`.
      */
-    protected ?string $object = null;
+    protected string $object = 'thread.run';
 
     /**
      * The Unix timestamp (in seconds) for when the run was created.
@@ -88,7 +88,7 @@ class RunObject extends ArrayObject
     /**
      * The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
      *
-     * @var mixed[]
+     * @var AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]
      */
     protected array $tools = [];
 
@@ -108,7 +108,6 @@ class RunObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `thread.run`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the run was created.
      * @param string $threadId The ID of the [thread](/docs/api-reference/threads) that was executed on as a part of this run.
      * @param string $assistantId The ID of the [assistant](/docs/api-reference/assistants) used for execution of this run.
@@ -122,17 +121,15 @@ class RunObject extends ArrayObject
      * @param int|null $completedAt The Unix timestamp (in seconds) for when the run was completed.
      * @param string $model The model that the [assistant](/docs/api-reference/assistants) used for this run.
      * @param string $instructions The instructions that the [assistant](/docs/api-reference/assistants) used for this run.
-     * @param mixed[] $tools The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
-     * @param string[] $fileIds The list of [File](/docs/api-reference/files) IDs the [assistant](/docs/api-reference/assistants) used for this run.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+     * @param string $object The object type, which is always `thread.run`.
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[] $tools The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
+     * @param string[] $fileIds The list of [File](/docs/api-reference/files) IDs the [assistant](/docs/api-reference/assistants) used for this run.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $threadId = null, $assistantId = null, $status = null, $requiredAction = null, $lastError = null, $expiresAt = null, $startedAt = null, $cancelledAt = null, $failedAt = null, $completedAt = null, $model = null, $instructions = null, $tools = [], $fileIds = [], $metadata = null)
+    public function __construct($id = null, $createdAt = null, $threadId = null, $assistantId = null, $status = null, $requiredAction = null, $lastError = null, $expiresAt = null, $startedAt = null, $cancelledAt = null, $failedAt = null, $completedAt = null, $model = null, $instructions = null, $metadata = null, $object = null, $tools = [], $fileIds = [])
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
@@ -173,14 +170,17 @@ class RunObject extends ArrayObject
         if ($instructions !== null) {
             $this->setInstructions($instructions);
         }
+        if ($metadata !== null) {
+            $this->setMetadata($metadata);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
         if ($tools !== null) {
             $this->setTools($tools);
         }
         if ($fileIds !== null) {
             $this->setFileIds($fileIds);
-        }
-        if ($metadata !== null) {
-            $this->setMetadata($metadata);
         }
     }
 
@@ -462,7 +462,7 @@ class RunObject extends ArrayObject
     /**
      * The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
      *
-     * @return mixed[]
+     * @return AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]
      */
     public function getTools(): array
     {
@@ -472,7 +472,7 @@ class RunObject extends ArrayObject
     /**
      * The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
      *
-     * @param mixed[] $tools
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[] $tools
      */
     public function setTools(array $tools): self
     {

@@ -53,13 +53,13 @@ class RunStepDetailsToolCallsCodeObjectNormalizer implements DenormalizerInterfa
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('code_interpreter', $data)) {
             $object->setCodeInterpreter($this->denormalizer->denormalize($data['code_interpreter'], RunStepDetailsToolCallsCodeObjectCodeInterpreter::class, 'json', $context));
             unset($data['code_interpreter']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -76,8 +76,8 @@ class RunStepDetailsToolCallsCodeObjectNormalizer implements DenormalizerInterfa
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['type'] = $object->getType();
         $data['code_interpreter'] = $this->normalizer->normalize($object->getCodeInterpreter(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

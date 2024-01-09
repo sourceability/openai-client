@@ -13,21 +13,21 @@ class RunStepDetailsMessageCreationObject extends ArrayObject
     /**
      * Always `message_creation`.
      */
-    protected ?string $type = null;
+    protected string $type = 'message_creation';
 
     protected ?RunStepDetailsMessageCreationObjectMessageCreation $messageCreation = null;
 
     /**
-     * @param string $type Always `message_creation`.
      * @param RunStepDetailsMessageCreationObjectMessageCreation $messageCreation
+     * @param string $type Always `message_creation`.
      */
-    public function __construct($type = null, $messageCreation = null)
+    public function __construct($messageCreation = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($messageCreation !== null) {
             $this->setMessageCreation($messageCreation);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

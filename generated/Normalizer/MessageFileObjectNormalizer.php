@@ -52,10 +52,6 @@ class MessageFileObjectNormalizer implements DenormalizerInterface, NormalizerIn
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created_at', $data)) {
             $object->setCreatedAt($data['created_at']);
             unset($data['created_at']);
@@ -63,6 +59,10 @@ class MessageFileObjectNormalizer implements DenormalizerInterface, NormalizerIn
         if (\array_key_exists('message_id', $data)) {
             $object->setMessageId($data['message_id']);
             unset($data['message_id']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -79,9 +79,9 @@ class MessageFileObjectNormalizer implements DenormalizerInterface, NormalizerIn
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
         $data['message_id'] = $object->getMessageId();
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

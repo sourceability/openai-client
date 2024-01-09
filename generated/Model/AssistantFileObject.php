@@ -18,7 +18,7 @@ class AssistantFileObject extends ArrayObject
     /**
      * The object type, which is always `assistant.file`.
      */
-    protected ?string $object = null;
+    protected string $object = 'assistant.file';
 
     /**
      * The Unix timestamp (in seconds) for when the assistant file was created.
@@ -32,23 +32,23 @@ class AssistantFileObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `assistant.file`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the assistant file was created.
      * @param string $assistantId The assistant ID that the file is attached to.
+     * @param string $object The object type, which is always `assistant.file`.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $assistantId = null)
+    public function __construct($id = null, $createdAt = null, $assistantId = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
         }
         if ($assistantId !== null) {
             $this->setAssistantId($assistantId);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

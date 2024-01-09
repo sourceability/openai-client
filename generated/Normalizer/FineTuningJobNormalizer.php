@@ -84,10 +84,6 @@ class FineTuningJobNormalizer implements DenormalizerInterface, NormalizerInterf
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('organization_id', $data)) {
             $object->setOrganizationId($data['organization_id']);
             unset($data['organization_id']);
@@ -120,6 +116,10 @@ class FineTuningJobNormalizer implements DenormalizerInterface, NormalizerInterf
         } elseif (\array_key_exists('validation_file', $data) && $data['validation_file'] === null) {
             $object->setValidationFile(null);
         }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value_1;
@@ -141,7 +141,6 @@ class FineTuningJobNormalizer implements DenormalizerInterface, NormalizerInterf
         $data['finished_at'] = $object->getFinishedAt();
         $data['hyperparameters'] = $this->normalizer->normalize($object->getHyperparameters(), 'json', $context);
         $data['model'] = $object->getModel();
-        $data['object'] = $object->getObject();
         $data['organization_id'] = $object->getOrganizationId();
         $values = [];
         foreach ($object->getResultFiles() as $value) {
@@ -152,6 +151,7 @@ class FineTuningJobNormalizer implements DenormalizerInterface, NormalizerInterf
         $data['trained_tokens'] = $object->getTrainedTokens();
         $data['training_file'] = $object->getTrainingFile();
         $data['validation_file'] = $object->getValidationFile();
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

@@ -48,7 +48,7 @@ class FineTune extends ArrayObject
     /**
      * The object type, which is always "fine-tune".
      */
-    protected ?string $object = null;
+    protected string $object = 'fine-tune';
 
     /**
      * The organization that owns the fine-tuning job.
@@ -93,15 +93,15 @@ class FineTune extends ArrayObject
      * @param string|null $fineTunedModel The name of the fine-tuned model that is being created.
      * @param FineTuneHyperparams $hyperparams The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/hyperparameters) for more details.
      * @param string $model The base model that is being fine-tuned.
-     * @param string $object The object type, which is always "fine-tune".
      * @param string $organizationId The organization that owns the fine-tuning job.
      * @param OpenAIFile[] $resultFiles The compiled results files for the fine-tuning job.
      * @param string $status The current status of the fine-tuning job, which can be either `created`, `running`, `succeeded`, `failed`, or `cancelled`.
      * @param OpenAIFile[] $trainingFiles The list of files used for training.
      * @param int $updatedAt The Unix timestamp (in seconds) for when the fine-tuning job was last updated.
      * @param OpenAIFile[] $validationFiles The list of files used for validation.
+     * @param string $object The object type, which is always "fine-tune".
      */
-    public function __construct($id = null, $createdAt = null, $events = null, $fineTunedModel = null, $hyperparams = null, $model = null, $object = null, $organizationId = null, $resultFiles = null, $status = null, $trainingFiles = null, $updatedAt = null, $validationFiles = null)
+    public function __construct($id = null, $createdAt = null, $events = null, $fineTunedModel = null, $hyperparams = null, $model = null, $organizationId = null, $resultFiles = null, $status = null, $trainingFiles = null, $updatedAt = null, $validationFiles = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -121,9 +121,6 @@ class FineTune extends ArrayObject
         if ($model !== null) {
             $this->setModel($model);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($organizationId !== null) {
             $this->setOrganizationId($organizationId);
         }
@@ -141,6 +138,9 @@ class FineTune extends ArrayObject
         }
         if ($validationFiles !== null) {
             $this->setValidationFiles($validationFiles);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

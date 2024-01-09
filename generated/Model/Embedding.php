@@ -25,7 +25,7 @@ class Embedding extends ArrayObject
     /**
      * The object type, which is always "embedding".
      */
-    protected ?string $object = null;
+    protected string $object = 'embedding';
 
     /**
      * @param int $index The index of the embedding in the list of embeddings.

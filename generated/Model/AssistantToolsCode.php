@@ -13,7 +13,7 @@ class AssistantToolsCode extends ArrayObject
     /**
      * The type of tool being defined: `code_interpreter`
      */
-    protected ?string $type = null;
+    protected string $type = 'code_interpreter';
 
     /**
      * @param string $type The type of tool being defined: `code_interpreter`

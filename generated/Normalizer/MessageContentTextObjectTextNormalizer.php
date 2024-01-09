@@ -6,6 +6,8 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\MessageContentTextAnnotationsFileCitationObject;
+use Sourceability\OpenAIClient\Generated\Model\MessageContentTextAnnotationsFilePathObject;
 use Sourceability\OpenAIClient\Generated\Model\MessageContentTextObjectText;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
@@ -55,14 +57,20 @@ class MessageContentTextObjectTextNormalizer implements DenormalizerInterface, N
         if (\array_key_exists('annotations', $data)) {
             $values = [];
             foreach ($data['annotations'] as $value) {
-                $values[] = $value;
+                $value_1 = $value;
+                if (is_array($value) and (isset($value['type']) and $value['type'] === 'file_citation') and isset($value['text']) and isset($value['file_citation']) and isset($value['start_index']) and isset($value['end_index'])) {
+                    $value_1 = $this->denormalizer->denormalize($value, MessageContentTextAnnotationsFileCitationObject::class, 'json', $context);
+                } elseif (is_array($value) and (isset($value['type']) and $value['type'] === 'file_path') and isset($value['text']) and isset($value['file_path']) and isset($value['start_index']) and isset($value['end_index'])) {
+                    $value_1 = $this->denormalizer->denormalize($value, MessageContentTextAnnotationsFilePathObject::class, 'json', $context);
+                }
+                $values[] = $value_1;
             }
             $object->setAnnotations($values);
             unset($data['annotations']);
         }
-        foreach ($data as $key => $value_1) {
+        foreach ($data as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_1;
+                $object[$key] = $value_2;
             }
         }
         return $object;
@@ -77,12 +85,18 @@ class MessageContentTextObjectTextNormalizer implements DenormalizerInterface, N
         $data['value'] = $object->getValue();
         $values = [];
         foreach ($object->getAnnotations() as $value) {
-            $values[] = $value;
+            $value_1 = $value;
+            if (is_object($value)) {
+                $value_1 = $this->normalizer->normalize($value, 'json', $context);
+            } elseif (is_object($value)) {
+                $value_1 = $this->normalizer->normalize($value, 'json', $context);
+            }
+            $values[] = $value_1;
         }
         $data['annotations'] = $values;
-        foreach ($object as $key => $value_1) {
+        foreach ($object as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value_1;
+                $data[$key] = $value_2;
             }
         }
         return $data;

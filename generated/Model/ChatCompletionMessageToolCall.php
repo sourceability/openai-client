@@ -18,7 +18,7 @@ class ChatCompletionMessageToolCall extends ArrayObject
     /**
      * The type of the tool. Currently, only `function` is supported.
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     /**
      * The function that the model called.
@@ -27,19 +27,19 @@ class ChatCompletionMessageToolCall extends ArrayObject
 
     /**
      * @param string $id The ID of the tool call.
-     * @param string $type The type of the tool. Currently, only `function` is supported.
      * @param ChatCompletionMessageToolCallFunction $function The function that the model called.
+     * @param string $type The type of the tool. Currently, only `function` is supported.
      */
-    public function __construct($id = null, $type = null, $function = null)
+    public function __construct($id = null, $function = null, $type = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

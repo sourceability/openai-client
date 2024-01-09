@@ -17,8 +17,6 @@ class CreateImageVariationRequest extends ArrayObject
 
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
-     *
-     * @var mixed|null
      */
     protected string $model = 'dall-e-2';
 
@@ -44,16 +42,19 @@ class CreateImageVariationRequest extends ArrayObject
 
     /**
      * @param string $image The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
-     * @param mixed|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string|string|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
      * @param int|null $n The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
      * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct($image = null, $model = 'dall-e-2', $n = 1, $responseFormat = 'url', $size = '1024x1024', $user = null)
+    public function __construct($image = null, $user = null, $model = 'dall-e-2', $n = 1, $responseFormat = 'url', $size = '1024x1024')
     {
         if ($image !== null) {
             $this->setImage($image);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
         }
         if ($model !== null) {
             $this->setModel($model);
@@ -66,9 +67,6 @@ class CreateImageVariationRequest extends ArrayObject
         }
         if ($size !== null) {
             $this->setSize($size);
-        }
-        if ($user !== null) {
-            $this->setUser($user);
         }
     }
 
@@ -98,7 +96,7 @@ class CreateImageVariationRequest extends ArrayObject
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
      *
-     * @return mixed
+     * @return string|string|null
      */
     public function getModel(): string
     {
@@ -107,8 +105,10 @@ class CreateImageVariationRequest extends ArrayObject
 
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @param string|string|null $model
      */
-    public function setModel(mixed $model): self
+    public function setModel(string $model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

@@ -55,7 +55,13 @@ class CreateTranslationRequestNormalizer implements DenormalizerInterface, Norma
             $object->setFile($data['file']);
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
         }
         if (\array_key_exists('prompt', $data)) {
             $object->setPrompt($data['prompt']);
@@ -76,7 +82,13 @@ class CreateTranslationRequestNormalizer implements DenormalizerInterface, Norma
     {
         $data = [];
         $data['file'] = $object->getFile();
-        $data['model'] = $object->getModel();
+        $value = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value = $object->getModel();
+        } elseif (is_string($object->getModel())) {
+            $value = $object->getModel();
+        }
+        $data['model'] = $value;
         if ($object->isInitialized('prompt') && $object->getPrompt() !== null) {
             $data['prompt'] = $object->getPrompt();
         }

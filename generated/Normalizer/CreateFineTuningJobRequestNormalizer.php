@@ -50,7 +50,13 @@ class CreateFineTuningJobRequestNormalizer implements DenormalizerInterface, Nor
             return $object;
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
             unset($data['model']);
         }
         if (\array_key_exists('training_file', $data)) {
@@ -73,9 +79,9 @@ class CreateFineTuningJobRequestNormalizer implements DenormalizerInterface, Nor
         } elseif (\array_key_exists('validation_file', $data) && $data['validation_file'] === null) {
             $object->setValidationFile(null);
         }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -87,7 +93,13 @@ class CreateFineTuningJobRequestNormalizer implements DenormalizerInterface, Nor
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['model'] = $object->getModel();
+        $value = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value = $object->getModel();
+        } elseif (is_string($object->getModel())) {
+            $value = $object->getModel();
+        }
+        $data['model'] = $value;
         $data['training_file'] = $object->getTrainingFile();
         if ($object->isInitialized('hyperparameters') && $object->getHyperparameters() !== null) {
             $data['hyperparameters'] = $this->normalizer->normalize($object->getHyperparameters(), 'json', $context);
@@ -98,9 +110,9 @@ class CreateFineTuningJobRequestNormalizer implements DenormalizerInterface, Nor
         if ($object->isInitialized('validationFile') && $object->getValidationFile() !== null) {
             $data['validation_file'] = $object->getValidationFile();
         }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;

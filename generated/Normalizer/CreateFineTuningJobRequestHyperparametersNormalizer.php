@@ -49,20 +49,38 @@ class CreateFineTuningJobRequestHyperparametersNormalizer implements Denormalize
             return $object;
         }
         if (\array_key_exists('batch_size', $data)) {
-            $object->setBatchSize($data['batch_size']);
+            $value = $data['batch_size'];
+            if (is_string($data['batch_size'])) {
+                $value = $data['batch_size'];
+            } elseif (is_int($data['batch_size'])) {
+                $value = $data['batch_size'];
+            }
+            $object->setBatchSize($value);
             unset($data['batch_size']);
         }
         if (\array_key_exists('learning_rate_multiplier', $data)) {
-            $object->setLearningRateMultiplier($data['learning_rate_multiplier']);
+            $value_1 = $data['learning_rate_multiplier'];
+            if (is_string($data['learning_rate_multiplier'])) {
+                $value_1 = $data['learning_rate_multiplier'];
+            } elseif (is_float($data['learning_rate_multiplier'])) {
+                $value_1 = $data['learning_rate_multiplier'];
+            }
+            $object->setLearningRateMultiplier($value_1);
             unset($data['learning_rate_multiplier']);
         }
         if (\array_key_exists('n_epochs', $data)) {
-            $object->setNEpochs($data['n_epochs']);
+            $value_2 = $data['n_epochs'];
+            if (is_string($data['n_epochs'])) {
+                $value_2 = $data['n_epochs'];
+            } elseif (is_int($data['n_epochs'])) {
+                $value_2 = $data['n_epochs'];
+            }
+            $object->setNEpochs($value_2);
             unset($data['n_epochs']);
         }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_3;
             }
         }
         return $object;
@@ -75,17 +93,35 @@ class CreateFineTuningJobRequestHyperparametersNormalizer implements Denormalize
     {
         $data = [];
         if ($object->isInitialized('batchSize') && $object->getBatchSize() !== null) {
-            $data['batch_size'] = $object->getBatchSize();
+            $value = $object->getBatchSize();
+            if (is_string($object->getBatchSize())) {
+                $value = $object->getBatchSize();
+            } elseif (is_int($object->getBatchSize())) {
+                $value = $object->getBatchSize();
+            }
+            $data['batch_size'] = $value;
         }
         if ($object->isInitialized('learningRateMultiplier') && $object->getLearningRateMultiplier() !== null) {
-            $data['learning_rate_multiplier'] = $object->getLearningRateMultiplier();
+            $value_1 = $object->getLearningRateMultiplier();
+            if (is_string($object->getLearningRateMultiplier())) {
+                $value_1 = $object->getLearningRateMultiplier();
+            } elseif (is_float($object->getLearningRateMultiplier())) {
+                $value_1 = $object->getLearningRateMultiplier();
+            }
+            $data['learning_rate_multiplier'] = $value_1;
         }
         if ($object->isInitialized('nEpochs') && $object->getNEpochs() !== null) {
-            $data['n_epochs'] = $object->getNEpochs();
+            $value_2 = $object->getNEpochs();
+            if (is_string($object->getNEpochs())) {
+                $value_2 = $object->getNEpochs();
+            } elseif (is_int($object->getNEpochs())) {
+                $value_2 = $object->getNEpochs();
+            }
+            $data['n_epochs'] = $value_2;
         }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_3;
             }
         }
         return $data;

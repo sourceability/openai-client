@@ -13,7 +13,7 @@ class ChatCompletionRequestToolMessage extends ArrayObject
     /**
      * The role of the messages author, in this case `tool`.
      */
-    protected ?string $role = null;
+    protected string $role = 'tool';
 
     /**
      * The contents of the tool message.
@@ -26,20 +26,20 @@ class ChatCompletionRequestToolMessage extends ArrayObject
     protected ?string $toolCallId = null;
 
     /**
-     * @param string $role The role of the messages author, in this case `tool`.
      * @param string $content The contents of the tool message.
      * @param string $toolCallId Tool call that this message is responding to.
+     * @param string $role The role of the messages author, in this case `tool`.
      */
-    public function __construct($role = null, $content = null, $toolCallId = null)
+    public function __construct($content = null, $toolCallId = null, $role = null)
     {
-        if ($role !== null) {
-            $this->setRole($role);
-        }
         if ($content !== null) {
             $this->setContent($content);
         }
         if ($toolCallId !== null) {
             $this->setToolCallId($toolCallId);
+        }
+        if ($role !== null) {
+            $this->setRole($role);
         }
     }
 

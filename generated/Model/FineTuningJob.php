@@ -48,7 +48,7 @@ class FineTuningJob extends ArrayObject
     /**
      * The object type, which is always "fine_tuning.job".
      */
-    protected ?string $object = null;
+    protected string $object = 'fine_tuning.job';
 
     /**
      * The organization that owns the fine-tuning job.
@@ -90,15 +90,15 @@ class FineTuningJob extends ArrayObject
      * @param int|null $finishedAt The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running.
      * @param FineTuningJobHyperparameters $hyperparameters The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/fine-tuning) for more details.
      * @param string $model The base model that is being fine-tuned.
-     * @param string $object The object type, which is always "fine_tuning.job".
      * @param string $organizationId The organization that owns the fine-tuning job.
      * @param string[] $resultFiles The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](/docs/api-reference/files/retrieve-contents).
      * @param string $status The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`.
      * @param int|null $trainedTokens The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running.
      * @param string $trainingFile The file ID used for training. You can retrieve the training data with the [Files API](/docs/api-reference/files/retrieve-contents).
      * @param string|null $validationFile The file ID used for validation. You can retrieve the validation results with the [Files API](/docs/api-reference/files/retrieve-contents).
+     * @param string $object The object type, which is always "fine_tuning.job".
      */
-    public function __construct($id = null, $createdAt = null, $error = null, $fineTunedModel = null, $finishedAt = null, $hyperparameters = null, $model = null, $object = null, $organizationId = null, $resultFiles = null, $status = null, $trainedTokens = null, $trainingFile = null, $validationFile = null)
+    public function __construct($id = null, $createdAt = null, $error = null, $fineTunedModel = null, $finishedAt = null, $hyperparameters = null, $model = null, $organizationId = null, $resultFiles = null, $status = null, $trainedTokens = null, $trainingFile = null, $validationFile = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -121,9 +121,6 @@ class FineTuningJob extends ArrayObject
         if ($model !== null) {
             $this->setModel($model);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($organizationId !== null) {
             $this->setOrganizationId($organizationId);
         }
@@ -141,6 +138,9 @@ class FineTuningJob extends ArrayObject
         }
         if ($validationFile !== null) {
             $this->setValidationFile($validationFile);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

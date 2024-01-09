@@ -14,7 +14,7 @@ class DeleteAssistantFileResponse extends ArrayObject
 
     protected ?bool $deleted = null;
 
-    protected ?string $object = null;
+    protected string $object = 'assistant.file.deleted';
 
     /**
      * @param string $id

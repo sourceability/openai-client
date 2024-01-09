@@ -49,13 +49,13 @@ class RunStepDetailsMessageCreationObjectNormalizer implements DenormalizerInter
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('message_creation', $data)) {
             $object->setMessageCreation($this->denormalizer->denormalize($data['message_creation'], RunStepDetailsMessageCreationObjectMessageCreation::class, 'json', $context));
             unset($data['message_creation']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -71,8 +71,8 @@ class RunStepDetailsMessageCreationObjectNormalizer implements DenormalizerInter
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['message_creation'] = $this->normalizer->normalize($object->getMessageCreation(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

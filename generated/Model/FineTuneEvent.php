@@ -19,7 +19,7 @@ class FineTuneEvent extends ArrayObject
 
     protected ?string $message = null;
 
-    protected ?string $object = null;
+    protected string $object = 'fine-tune-event';
 
     /**
      * @param int $createdAt

@@ -52,7 +52,13 @@ class CreateSpeechRequestNormalizer implements DenormalizerInterface, Normalizer
             return $object;
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
         }
         if (\array_key_exists('input', $data)) {
             $object->setInput($data['input']);
@@ -75,7 +81,13 @@ class CreateSpeechRequestNormalizer implements DenormalizerInterface, Normalizer
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['model'] = $object->getModel();
+        $value = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value = $object->getModel();
+        } elseif (is_string($object->getModel())) {
+            $value = $object->getModel();
+        }
+        $data['model'] = $value;
         $data['input'] = $object->getInput();
         $data['voice'] = $object->getVoice();
         if ($object->isInitialized('responseFormat') && $object->getResponseFormat() !== null) {

@@ -13,7 +13,7 @@ class CreateFineTuningJobRequest extends ArrayObject
     /**
      * The name of the model to fine-tune. You can select one of the
      *
-     * @var mixed
+     * @var string|string
      */
     protected $model = null;
 
@@ -44,8 +44,8 @@ class CreateFineTuningJobRequest extends ArrayObject
     protected ?string $validationFile = null;
 
     /**
-     * @param mixed $model The name of the model to fine-tune. You can select one of the
-     *                     [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+     * @param string|string $model The name of the model to fine-tune. You can select one of the
+     *                             [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
      * @param string $trainingFile The ID of an uploaded file that contains training data.
      *                             See [upload file](/docs/api-reference/files/upload) for how to upload a file.
      *                             Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
@@ -61,7 +61,7 @@ class CreateFineTuningJobRequest extends ArrayObject
      *                                    Your dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.
      *                                    See the [fine-tuning guide](/docs/guides/fine-tuning) for more details.
      */
-    public function __construct(mixed $model = null, $trainingFile = null, $hyperparameters = null, $suffix = null, $validationFile = null)
+    public function __construct($model = null, $trainingFile = null, $hyperparameters = null, $suffix = null, $validationFile = null)
     {
         if ($model !== null) {
             $this->setModel($model);
@@ -88,7 +88,7 @@ class CreateFineTuningJobRequest extends ArrayObject
     /**
      * The name of the model to fine-tune. You can select one of the
      *
-     * @return mixed
+     * @return string|string
      */
     public function getModel()
     {
@@ -97,9 +97,10 @@ class CreateFineTuningJobRequest extends ArrayObject
 
     /**
      * The name of the model to fine-tune. You can select one of the
-    [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+     *
+     * @param string|string $model
      */
-    public function setModel(mixed $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

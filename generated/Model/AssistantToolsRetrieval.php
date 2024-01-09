@@ -13,7 +13,7 @@ class AssistantToolsRetrieval extends ArrayObject
     /**
      * The type of tool being defined: `retrieval`
      */
-    protected ?string $type = null;
+    protected string $type = 'retrieval';
 
     /**
      * @param string $type The type of tool being defined: `retrieval`

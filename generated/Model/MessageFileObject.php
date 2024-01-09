@@ -18,7 +18,7 @@ class MessageFileObject extends ArrayObject
     /**
      * The object type, which is always `thread.message.file`.
      */
-    protected ?string $object = null;
+    protected string $object = 'thread.message.file';
 
     /**
      * The Unix timestamp (in seconds) for when the message file was created.
@@ -32,23 +32,23 @@ class MessageFileObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `thread.message.file`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the message file was created.
      * @param string $messageId The ID of the [message](/docs/api-reference/messages) that the [File](/docs/api-reference/files) is attached to.
+     * @param string $object The object type, which is always `thread.message.file`.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $messageId = null)
+    public function __construct($id = null, $createdAt = null, $messageId = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
         }
         if ($messageId !== null) {
             $this->setMessageId($messageId);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

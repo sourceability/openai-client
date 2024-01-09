@@ -28,7 +28,7 @@
         "guzzlehttp/psr7": "^2.4",
         "guzzlehttp/guzzle": "^7.5",
         "php-http/guzzle7-adapter": "^1.0",
-        "jane-php/open-api-3": "^7.5",
+        "jane-php/open-api-3": "dev-openapi-oneof as 7.5.x-dev",
         "rector/rector": "^0.19.0",
         "symplify/easy-coding-standard": "^12.1",
         "slevomat/coding-standard": "^8.14",
@@ -41,6 +41,12 @@
             "dealerdirect/phpcodesniffer-composer-installer": false
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/adrienbrault/open-api-3"
+        }
+    ],
     "extra": {
         "symfony": {
             "allow-contrib": "true"

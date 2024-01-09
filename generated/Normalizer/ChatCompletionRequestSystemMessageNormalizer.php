@@ -52,13 +52,13 @@ class ChatCompletionRequestSystemMessageNormalizer implements DenormalizerInterf
             $object->setContent($data['content']);
             unset($data['content']);
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
-        }
         if (\array_key_exists('name', $data)) {
             $object->setName($data['name']);
             unset($data['name']);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -75,10 +75,10 @@ class ChatCompletionRequestSystemMessageNormalizer implements DenormalizerInterf
     {
         $data = [];
         $data['content'] = $object->getContent();
-        $data['role'] = $object->getRole();
         if ($object->isInitialized('name') && $object->getName() !== null) {
             $data['name'] = $object->getName();
         }
+        $data['role'] = $object->getRole();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

@@ -59,7 +59,13 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
             unset($data['instruction']);
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
             unset($data['model']);
         }
         if (\array_key_exists('input', $data) && $data['input'] !== null) {
@@ -86,9 +92,9 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
         } elseif (\array_key_exists('top_p', $data) && $data['top_p'] === null) {
             $object->setTopP(null);
         }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -101,7 +107,13 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
     {
         $data = [];
         $data['instruction'] = $object->getInstruction();
-        $data['model'] = $object->getModel();
+        $value = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value = $object->getModel();
+        } elseif (is_string($object->getModel())) {
+            $value = $object->getModel();
+        }
+        $data['model'] = $value;
         if ($object->isInitialized('input') && $object->getInput() !== null) {
             $data['input'] = $object->getInput();
         }
@@ -114,9 +126,9 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
         if ($object->isInitialized('topP') && $object->getTopP() !== null) {
             $data['top_p'] = $object->getTopP();
         }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;

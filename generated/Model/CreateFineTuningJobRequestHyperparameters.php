@@ -12,34 +12,31 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
 
     /**
      * Number of examples in each batch. A larger batch size means that model parameters
-     *
-     * @var mixed
+    are updated less frequently, but with lower variance.
      */
     protected string $batchSize = 'auto';
 
     /**
      * Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
-     *
-     * @var mixed
+    overfitting.
      */
     protected string $learningRateMultiplier = 'auto';
 
     /**
      * The number of epochs to train the model for. An epoch refers to one full cycle
-     *
-     * @var mixed
+    through the training dataset.
      */
     protected string $nEpochs = 'auto';
 
     /**
-     * @param mixed $batchSize Number of examples in each batch. A larger batch size means that model parameters
-     *                         are updated less frequently, but with lower variance.
-     * @param mixed $learningRateMultiplier Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
-     *                                      overfitting.
-     * @param mixed $nEpochs The number of epochs to train the model for. An epoch refers to one full cycle
-     *                       through the training dataset.
+     * @param string|int $batchSize Number of examples in each batch. A larger batch size means that model parameters
+     *                              are updated less frequently, but with lower variance.
+     * @param string|float $learningRateMultiplier Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
+     *                                             overfitting.
+     * @param string|int $nEpochs The number of epochs to train the model for. An epoch refers to one full cycle
+     *                            through the training dataset.
      */
-    public function __construct(mixed $batchSize = 'auto', mixed $learningRateMultiplier = 'auto', mixed $nEpochs = 'auto')
+    public function __construct($batchSize = 'auto', $learningRateMultiplier = 'auto', $nEpochs = 'auto')
     {
         if ($batchSize !== null) {
             $this->setBatchSize($batchSize);
@@ -60,7 +57,7 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
     /**
      * Number of examples in each batch. A larger batch size means that model parameters
      *
-     * @return mixed
+     * @return string|int
      */
     public function getBatchSize(): string
     {
@@ -69,9 +66,10 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
 
     /**
      * Number of examples in each batch. A larger batch size means that model parameters
-    are updated less frequently, but with lower variance.
+     *
+     * @param string|int $batchSize
      */
-    public function setBatchSize(mixed $batchSize): self
+    public function setBatchSize(string $batchSize): self
     {
         $this->initialized['batchSize'] = true;
         $this->batchSize = $batchSize;
@@ -81,7 +79,7 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
     /**
      * Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
      *
-     * @return mixed
+     * @return string|float
      */
     public function getLearningRateMultiplier(): string
     {
@@ -90,9 +88,10 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
 
     /**
      * Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
-    overfitting.
+     *
+     * @param string|float $learningRateMultiplier
      */
-    public function setLearningRateMultiplier(mixed $learningRateMultiplier): self
+    public function setLearningRateMultiplier(string $learningRateMultiplier): self
     {
         $this->initialized['learningRateMultiplier'] = true;
         $this->learningRateMultiplier = $learningRateMultiplier;
@@ -102,7 +101,7 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
     /**
      * The number of epochs to train the model for. An epoch refers to one full cycle
      *
-     * @return mixed
+     * @return string|int
      */
     public function getNEpochs(): string
     {
@@ -111,9 +110,10 @@ class CreateFineTuningJobRequestHyperparameters extends ArrayObject
 
     /**
      * The number of epochs to train the model for. An epoch refers to one full cycle
-    through the training dataset.
+     *
+     * @param string|int $nEpochs
      */
-    public function setNEpochs(mixed $nEpochs): self
+    public function setNEpochs(string $nEpochs): self
     {
         $this->initialized['nEpochs'] = true;
         $this->nEpochs = $nEpochs;

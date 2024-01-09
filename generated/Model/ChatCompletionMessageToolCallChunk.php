@@ -20,17 +20,17 @@ class ChatCompletionMessageToolCallChunk extends ArrayObject
     /**
      * The type of the tool. Currently, only `function` is supported.
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     protected ?ChatCompletionMessageToolCallChunkFunction $function = null;
 
     /**
      * @param int $index
      * @param string $id The ID of the tool call.
-     * @param string $type The type of the tool. Currently, only `function` is supported.
      * @param ChatCompletionMessageToolCallChunkFunction $function
+     * @param string $type The type of the tool. Currently, only `function` is supported.
      */
-    public function __construct($index = null, $id = null, $type = null, $function = null)
+    public function __construct($index = null, $id = null, $function = null, $type = null)
     {
         if ($index !== null) {
             $this->setIndex($index);
@@ -38,11 +38,11 @@ class ChatCompletionMessageToolCallChunk extends ArrayObject
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

@@ -23,7 +23,7 @@ class Model extends ArrayObject
     /**
      * The object type, which is always "model".
      */
-    protected ?string $object = null;
+    protected string $object = 'model';
 
     /**
      * The organization that owns the model.
@@ -33,10 +33,10 @@ class Model extends ArrayObject
     /**
      * @param string $id The model identifier, which can be referenced in the API endpoints.
      * @param int $created The Unix timestamp (in seconds) when the model was created.
-     * @param string $object The object type, which is always "model".
      * @param string $ownedBy The organization that owns the model.
+     * @param string $object The object type, which is always "model".
      */
-    public function __construct($id = null, $created = null, $object = null, $ownedBy = null)
+    public function __construct($id = null, $created = null, $ownedBy = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -44,11 +44,11 @@ class Model extends ArrayObject
         if ($created !== null) {
             $this->setCreated($created);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($ownedBy !== null) {
             $this->setOwnedBy($ownedBy);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

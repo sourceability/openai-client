@@ -56,13 +56,13 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setCreated($data['created']);
             unset($data['created']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('owned_by', $data)) {
             $object->setOwnedBy($data['owned_by']);
             unset($data['owned_by']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -80,8 +80,8 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         $data = [];
         $data['id'] = $object->getId();
         $data['created'] = $object->getCreated();
-        $data['object'] = $object->getObject();
         $data['owned_by'] = $object->getOwnedBy();
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

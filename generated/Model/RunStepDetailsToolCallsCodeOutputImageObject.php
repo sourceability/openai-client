@@ -13,21 +13,21 @@ class RunStepDetailsToolCallsCodeOutputImageObject extends ArrayObject
     /**
      * Always `image`.
      */
-    protected ?string $type = null;
+    protected string $type = 'image';
 
     protected ?RunStepDetailsToolCallsCodeOutputImageObjectImage $image = null;
 
     /**
-     * @param string $type Always `image`.
      * @param RunStepDetailsToolCallsCodeOutputImageObjectImage $image
+     * @param string $type Always `image`.
      */
-    public function __construct($type = null, $image = null)
+    public function __construct($image = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($image !== null) {
             $this->setImage($image);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

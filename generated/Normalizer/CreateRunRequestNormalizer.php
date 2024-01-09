@@ -6,6 +6,9 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsCode;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsFunction;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsRetrieval;
 use Sourceability\OpenAIClient\Generated\Model\CreateRunRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
@@ -69,7 +72,15 @@ class CreateRunRequestNormalizer implements DenormalizerInterface, NormalizerInt
         if (\array_key_exists('tools', $data) && $data['tools'] !== null) {
             $values = [];
             foreach ($data['tools'] as $value) {
-                $values[] = $value;
+                $value_1 = $value;
+                if (is_array($value) and (isset($value['type']) and $value['type'] === 'code_interpreter')) {
+                    $value_1 = $this->denormalizer->denormalize($value, AssistantToolsCode::class, 'json', $context);
+                } elseif (is_array($value) and (isset($value['type']) and $value['type'] === 'retrieval')) {
+                    $value_1 = $this->denormalizer->denormalize($value, AssistantToolsRetrieval::class, 'json', $context);
+                } elseif (is_array($value) and (isset($value['type']) and $value['type'] === 'function') and isset($value['function'])) {
+                    $value_1 = $this->denormalizer->denormalize($value, AssistantToolsFunction::class, 'json', $context);
+                }
+                $values[] = $value_1;
             }
             $object->setTools($values);
         } elseif (\array_key_exists('tools', $data) && $data['tools'] === null) {
@@ -77,8 +88,8 @@ class CreateRunRequestNormalizer implements DenormalizerInterface, NormalizerInt
         }
         if (\array_key_exists('metadata', $data) && $data['metadata'] !== null) {
             $values_1 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['metadata'] as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            foreach ($data['metadata'] as $key => $value_2) {
+                $values_1[$key] = $value_2;
             }
             $object->setMetadata($values_1);
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
@@ -106,14 +117,22 @@ class CreateRunRequestNormalizer implements DenormalizerInterface, NormalizerInt
         if ($object->isInitialized('tools') && $object->getTools() !== null) {
             $values = [];
             foreach ($object->getTools() as $value) {
-                $values[] = $value;
+                $value_1 = $value;
+                if (is_object($value)) {
+                    $value_1 = $this->normalizer->normalize($value, 'json', $context);
+                } elseif (is_object($value)) {
+                    $value_1 = $this->normalizer->normalize($value, 'json', $context);
+                } elseif (is_object($value)) {
+                    $value_1 = $this->normalizer->normalize($value, 'json', $context);
+                }
+                $values[] = $value_1;
             }
             $data['tools'] = $values;
         }
         if ($object->isInitialized('metadata') && $object->getMetadata() !== null) {
             $values_1 = [];
-            foreach ($object->getMetadata() as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            foreach ($object->getMetadata() as $key => $value_2) {
+                $values_1[$key] = $value_2;
             }
             $data['metadata'] = $values_1;
         }

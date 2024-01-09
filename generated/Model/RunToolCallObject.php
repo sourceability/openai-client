@@ -18,7 +18,7 @@ class RunToolCallObject extends ArrayObject
     /**
      * The type of tool call the output is required for. For now, this is always `function`.
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     /**
      * The function definition.
@@ -27,19 +27,19 @@ class RunToolCallObject extends ArrayObject
 
     /**
      * @param string $id The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](/docs/api-reference/runs/submitToolOutputs) endpoint.
-     * @param string $type The type of tool call the output is required for. For now, this is always `function`.
      * @param RunToolCallObjectFunction $function The function definition.
+     * @param string $type The type of tool call the output is required for. For now, this is always `function`.
      */
-    public function __construct($id = null, $type = null, $function = null)
+    public function __construct($id = null, $function = null, $type = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

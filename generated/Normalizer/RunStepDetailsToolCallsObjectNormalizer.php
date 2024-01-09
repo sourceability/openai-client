@@ -48,10 +48,6 @@ class RunStepDetailsToolCallsObjectNormalizer implements DenormalizerInterface, 
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('tool_calls', $data)) {
             $values = [];
             foreach ($data['tool_calls'] as $value) {
@@ -63,6 +59,10 @@ class RunStepDetailsToolCallsObjectNormalizer implements DenormalizerInterface, 
             }
             $object->setToolCalls($values);
             unset($data['tool_calls']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key_1 => $value_2) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -78,7 +78,6 @@ class RunStepDetailsToolCallsObjectNormalizer implements DenormalizerInterface, 
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $values = [];
         foreach ($object->getToolCalls() as $value) {
             $values_1 = [];
@@ -88,6 +87,7 @@ class RunStepDetailsToolCallsObjectNormalizer implements DenormalizerInterface, 
             $values[] = $values_1;
         }
         $data['tool_calls'] = $values;
+        $data['type'] = $object->getType();
         foreach ($object as $key_1 => $value_2) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $data[$key_1] = $value_2;

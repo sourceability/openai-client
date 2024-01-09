@@ -48,27 +48,27 @@ class CreateMessageRequestNormalizer implements DenormalizerInterface, Normalize
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-        }
         if (\array_key_exists('content', $data)) {
             $object->setContent($data['content']);
         }
-        if (\array_key_exists('file_ids', $data)) {
-            $values = [];
-            foreach ($data['file_ids'] as $value) {
-                $values[] = $value;
-            }
-            $object->setFileIds($values);
-        }
         if (\array_key_exists('metadata', $data) && $data['metadata'] !== null) {
-            $values_1 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['metadata'] as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data['metadata'] as $key => $value) {
+                $values[$key] = $value;
             }
-            $object->setMetadata($values_1);
+            $object->setMetadata($values);
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
             $object->setMetadata(null);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+        }
+        if (\array_key_exists('file_ids', $data)) {
+            $values_1 = [];
+            foreach ($data['file_ids'] as $value_1) {
+                $values_1[] = $value_1;
+            }
+            $object->setFileIds($values_1);
         }
         return $object;
     }
@@ -79,21 +79,21 @@ class CreateMessageRequestNormalizer implements DenormalizerInterface, Normalize
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['role'] = $object->getRole();
         $data['content'] = $object->getContent();
-        if ($object->isInitialized('fileIds') && $object->getFileIds() !== null) {
-            $values = [];
-            foreach ($object->getFileIds() as $value) {
-                $values[] = $value;
-            }
-            $data['file_ids'] = $values;
-        }
         if ($object->isInitialized('metadata') && $object->getMetadata() !== null) {
-            $values_1 = [];
-            foreach ($object->getMetadata() as $key => $value_1) {
-                $values_1[$key] = $value_1;
+            $values = [];
+            foreach ($object->getMetadata() as $key => $value) {
+                $values[$key] = $value;
             }
-            $data['metadata'] = $values_1;
+            $data['metadata'] = $values;
+        }
+        $data['role'] = $object->getRole();
+        if ($object->isInitialized('fileIds') && $object->getFileIds() !== null) {
+            $values_1 = [];
+            foreach ($object->getFileIds() as $value_1) {
+                $values_1[] = $value_1;
+            }
+            $data['file_ids'] = $values_1;
         }
         return $data;
     }

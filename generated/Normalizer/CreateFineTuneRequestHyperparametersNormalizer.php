@@ -49,12 +49,18 @@ class CreateFineTuneRequestHyperparametersNormalizer implements DenormalizerInte
             return $object;
         }
         if (\array_key_exists('n_epochs', $data)) {
-            $object->setNEpochs($data['n_epochs']);
+            $value = $data['n_epochs'];
+            if (is_string($data['n_epochs'])) {
+                $value = $data['n_epochs'];
+            } elseif (is_int($data['n_epochs'])) {
+                $value = $data['n_epochs'];
+            }
+            $object->setNEpochs($value);
             unset($data['n_epochs']);
         }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -67,11 +73,17 @@ class CreateFineTuneRequestHyperparametersNormalizer implements DenormalizerInte
     {
         $data = [];
         if ($object->isInitialized('nEpochs') && $object->getNEpochs() !== null) {
-            $data['n_epochs'] = $object->getNEpochs();
+            $value = $object->getNEpochs();
+            if (is_string($object->getNEpochs())) {
+                $value = $object->getNEpochs();
+            } elseif (is_int($object->getNEpochs())) {
+                $value = $object->getNEpochs();
+            }
+            $data['n_epochs'] = $value;
         }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;

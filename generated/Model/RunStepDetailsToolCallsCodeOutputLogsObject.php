@@ -13,7 +13,7 @@ class RunStepDetailsToolCallsCodeOutputLogsObject extends ArrayObject
     /**
      * Always `logs`.
      */
-    protected ?string $type = null;
+    protected string $type = 'logs';
 
     /**
      * The text output from the Code Interpreter tool call.
@@ -21,16 +21,16 @@ class RunStepDetailsToolCallsCodeOutputLogsObject extends ArrayObject
     protected ?string $logs = null;
 
     /**
-     * @param string $type Always `logs`.
      * @param string $logs The text output from the Code Interpreter tool call.
+     * @param string $type Always `logs`.
      */
-    public function __construct($type = null, $logs = null)
+    public function __construct($logs = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($logs !== null) {
             $this->setLogs($logs);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

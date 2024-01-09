@@ -13,7 +13,7 @@ class RunObjectRequiredAction extends ArrayObject
     /**
      * For now, this is always `submit_tool_outputs`.
      */
-    protected ?string $type = null;
+    protected string $type = 'submit_tool_outputs';
 
     /**
      * Details on the tool outputs needed for this run to continue.
@@ -21,16 +21,16 @@ class RunObjectRequiredAction extends ArrayObject
     protected ?RunObjectRequiredActionSubmitToolOutputs $submitToolOutputs = null;
 
     /**
-     * @param string $type For now, this is always `submit_tool_outputs`.
      * @param RunObjectRequiredActionSubmitToolOutputs $submitToolOutputs Details on the tool outputs needed for this run to continue.
+     * @param string $type For now, this is always `submit_tool_outputs`.
      */
-    public function __construct($type = null, $submitToolOutputs = null)
+    public function __construct($submitToolOutputs = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($submitToolOutputs !== null) {
             $this->setSubmitToolOutputs($submitToolOutputs);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

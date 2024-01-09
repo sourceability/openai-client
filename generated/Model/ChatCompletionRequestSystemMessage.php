@@ -18,7 +18,7 @@ class ChatCompletionRequestSystemMessage extends ArrayObject
     /**
      * The role of the messages author, in this case `system`.
      */
-    protected ?string $role = null;
+    protected string $role = 'system';
 
     /**
      * An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -27,19 +27,19 @@ class ChatCompletionRequestSystemMessage extends ArrayObject
 
     /**
      * @param string $content The contents of the system message.
-     * @param string $role The role of the messages author, in this case `system`.
      * @param string $name An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+     * @param string $role The role of the messages author, in this case `system`.
      */
-    public function __construct($content = null, $role = null, $name = null)
+    public function __construct($content = null, $name = null, $role = null)
     {
         if ($content !== null) {
             $this->setContent($content);
         }
-        if ($role !== null) {
-            $this->setRole($role);
-        }
         if ($name !== null) {
             $this->setName($name);
+        }
+        if ($role !== null) {
+            $this->setRole($role);
         }
     }
 

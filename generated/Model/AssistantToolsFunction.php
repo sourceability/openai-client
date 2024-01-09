@@ -13,21 +13,21 @@ class AssistantToolsFunction extends ArrayObject
     /**
      * The type of tool being defined: `function`
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     protected ?FunctionObject $function = null;
 
     /**
-     * @param string $type The type of tool being defined: `function`
      * @param FunctionObject $function
+     * @param string $type The type of tool being defined: `function`
      */
-    public function __construct($type = null, $function = null)
+    public function __construct($function = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

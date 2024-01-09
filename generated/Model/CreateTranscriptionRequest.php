@@ -16,7 +16,7 @@ class CreateTranscriptionRequest
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
      *
-     * @var mixed
+     * @var string|string
      */
     protected $model = null;
 
@@ -44,13 +44,13 @@ class CreateTranscriptionRequest
 
     /**
      * @param string $file The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
-     * @param mixed $model ID of the model to use. Only `whisper-1` is currently available.
+     * @param string|string $model ID of the model to use. Only `whisper-1` is currently available.
      * @param string $language The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
      * @param string $prompt An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should match the audio language.
      * @param string $responseFormat The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      * @param float $temperature The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
      */
-    public function __construct($file = null, mixed $model = null, $language = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
+    public function __construct($file = null, $model = null, $language = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
     {
         if ($file !== null) {
             $this->setFile($file);
@@ -98,7 +98,7 @@ class CreateTranscriptionRequest
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
      *
-     * @return mixed
+     * @return string|string
      */
     public function getModel()
     {
@@ -107,8 +107,10 @@ class CreateTranscriptionRequest
 
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
+     *
+     * @param string|string $model
      */
-    public function setModel(mixed $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

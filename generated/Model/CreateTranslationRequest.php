@@ -16,7 +16,7 @@ class CreateTranslationRequest
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
      *
-     * @var mixed
+     * @var string|string
      */
     protected $model = null;
 
@@ -39,12 +39,12 @@ class CreateTranslationRequest
 
     /**
      * @param string $file The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
-     * @param mixed $model ID of the model to use. Only `whisper-1` is currently available.
+     * @param string|string $model ID of the model to use. Only `whisper-1` is currently available.
      * @param string $prompt An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.
      * @param string $responseFormat The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      * @param float $temperature The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
      */
-    public function __construct($file = null, mixed $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
+    public function __construct($file = null, $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
     {
         if ($file !== null) {
             $this->setFile($file);
@@ -89,7 +89,7 @@ class CreateTranslationRequest
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
      *
-     * @return mixed
+     * @return string|string
      */
     public function getModel()
     {
@@ -98,8 +98,10 @@ class CreateTranslationRequest
 
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
+     *
+     * @param string|string $model
      */
-    public function setModel(mixed $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

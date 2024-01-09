@@ -14,7 +14,7 @@ class DeleteThreadResponse extends ArrayObject
 
     protected ?bool $deleted = null;
 
-    protected ?string $object = null;
+    protected string $object = 'thread.deleted';
 
     /**
      * @param string $id

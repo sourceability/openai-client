@@ -23,7 +23,7 @@ class CreateEditResponse extends ArrayObject
     /**
      * The object type, which is always `edit`.
      */
-    protected ?string $object = null;
+    protected string $object = 'edit';
 
     /**
      * The Unix timestamp (in seconds) of when the edit was created.
@@ -37,23 +37,23 @@ class CreateEditResponse extends ArrayObject
 
     /**
      * @param CreateEditResponseChoicesItem[] $choices A list of edit choices. Can be more than one if `n` is greater than 1.
-     * @param string $object The object type, which is always `edit`.
      * @param int $created The Unix timestamp (in seconds) of when the edit was created.
      * @param CompletionUsage $usage Usage statistics for the completion request.
+     * @param string $object The object type, which is always `edit`.
      */
-    public function __construct($choices = null, $object = null, $created = null, $usage = null)
+    public function __construct($choices = null, $created = null, $usage = null, $object = null)
     {
         if ($choices !== null) {
             $this->setChoices($choices);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($created !== null) {
             $this->setCreated($created);
         }
         if ($usage !== null) {
             $this->setUsage($usage);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

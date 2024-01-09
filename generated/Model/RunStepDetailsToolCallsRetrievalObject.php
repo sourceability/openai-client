@@ -18,7 +18,7 @@ class RunStepDetailsToolCallsRetrievalObject extends ArrayObject
     /**
      * The type of tool call. This is always going to be `retrieval` for this type of tool call.
      */
-    protected ?string $type = null;
+    protected string $type = 'retrieval';
 
     /**
      * For now, this is always going to be an empty object.
@@ -29,19 +29,19 @@ class RunStepDetailsToolCallsRetrievalObject extends ArrayObject
 
     /**
      * @param string $id The ID of the tool call object.
-     * @param string $type The type of tool call. This is always going to be `retrieval` for this type of tool call.
      * @param array<string, mixed> $retrieval For now, this is always going to be an empty object.
+     * @param string $type The type of tool call. This is always going to be `retrieval` for this type of tool call.
      */
-    public function __construct($id = null, $type = null, $retrieval = null)
+    public function __construct($id = null, $retrieval = null, $type = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($retrieval !== null) {
             $this->setRetrieval($retrieval);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

@@ -49,10 +49,6 @@ class MessageContentTextAnnotationsFileCitationObjectNormalizer implements Denor
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('text', $data)) {
             $object->setText($data['text']);
             unset($data['text']);
@@ -69,6 +65,10 @@ class MessageContentTextAnnotationsFileCitationObjectNormalizer implements Denor
             $object->setEndIndex($data['end_index']);
             unset($data['end_index']);
         }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
+        }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value;
@@ -83,11 +83,11 @@ class MessageContentTextAnnotationsFileCitationObjectNormalizer implements Denor
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['text'] = $object->getText();
         $data['file_citation'] = $this->normalizer->normalize($object->getFileCitation(), 'json', $context);
         $data['start_index'] = $object->getStartIndex();
         $data['end_index'] = $object->getEndIndex();
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

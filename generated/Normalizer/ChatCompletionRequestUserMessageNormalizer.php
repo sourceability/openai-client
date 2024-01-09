@@ -6,6 +6,8 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessageContentPartImage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessageContentPartText;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestUserMessage;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
@@ -49,20 +51,36 @@ class ChatCompletionRequestUserMessageNormalizer implements DenormalizerInterfac
             return $object;
         }
         if (\array_key_exists('content', $data)) {
-            $object->setContent($data['content']);
+            $value = $data['content'];
+            if (is_string($data['content'])) {
+                $value = $data['content'];
+            } elseif (is_array($data['content']) && $this->isOnlyNumericKeys($data['content'])) {
+                $values = [];
+                foreach ($data['content'] as $value_1) {
+                    $value_2 = $value_1;
+                    if (is_array($value_1) and (isset($value_1['type']) and $value_1['type'] === 'text') and isset($value_1['text'])) {
+                        $value_2 = $this->denormalizer->denormalize($value_1, ChatCompletionRequestMessageContentPartText::class, 'json', $context);
+                    } elseif (is_array($value_1) and (isset($value_1['type']) and $value_1['type'] === 'image_url') and isset($value_1['image_url'])) {
+                        $value_2 = $this->denormalizer->denormalize($value_1, ChatCompletionRequestMessageContentPartImage::class, 'json', $context);
+                    }
+                    $values[] = $value_2;
+                }
+                $value = $values;
+            }
+            $object->setContent($value);
             unset($data['content']);
-        }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
         }
         if (\array_key_exists('name', $data)) {
             $object->setName($data['name']);
             unset($data['name']);
         }
-        foreach ($data as $key => $value) {
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
+        }
+        foreach ($data as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_3;
             }
         }
         return $object;
@@ -74,14 +92,30 @@ class ChatCompletionRequestUserMessageNormalizer implements DenormalizerInterfac
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['content'] = $object->getContent();
-        $data['role'] = $object->getRole();
+        $value = $object->getContent();
+        if (is_string($object->getContent())) {
+            $value = $object->getContent();
+        } elseif (is_array($object->getContent())) {
+            $values = [];
+            foreach ($object->getContent() as $value_1) {
+                $value_2 = $value_1;
+                if (is_object($value_1)) {
+                    $value_2 = $this->normalizer->normalize($value_1, 'json', $context);
+                } elseif (is_object($value_1)) {
+                    $value_2 = $this->normalizer->normalize($value_1, 'json', $context);
+                }
+                $values[] = $value_2;
+            }
+            $value = $values;
+        }
+        $data['content'] = $value;
         if ($object->isInitialized('name') && $object->getName() !== null) {
             $data['name'] = $object->getName();
         }
-        foreach ($object as $key => $value) {
+        $data['role'] = $object->getRole();
+        foreach ($object as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_3;
             }
         }
         return $data;

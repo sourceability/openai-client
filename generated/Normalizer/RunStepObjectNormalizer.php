@@ -53,10 +53,6 @@ class RunStepObjectNormalizer implements DenormalizerInterface, NormalizerInterf
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created_at', $data)) {
             $object->setCreatedAt($data['created_at']);
             unset($data['created_at']);
@@ -129,6 +125,10 @@ class RunStepObjectNormalizer implements DenormalizerInterface, NormalizerInterf
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
             $object->setMetadata(null);
         }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
         foreach ($data as $key_2 => $value_2) {
             if (preg_match('/.*/', (string) $key_2)) {
                 $object[$key_2] = $value_2;
@@ -144,7 +144,6 @@ class RunStepObjectNormalizer implements DenormalizerInterface, NormalizerInterf
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
         $data['assistant_id'] = $object->getAssistantId();
         $data['thread_id'] = $object->getThreadId();
@@ -166,6 +165,7 @@ class RunStepObjectNormalizer implements DenormalizerInterface, NormalizerInterf
             $values_1[$key_1] = $value_1;
         }
         $data['metadata'] = $values_1;
+        $data['object'] = $object->getObject();
         foreach ($object as $key_2 => $value_2) {
             if (preg_match('/.*/', (string) $key_2)) {
                 $data[$key_2] = $value_2;

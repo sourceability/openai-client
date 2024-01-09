@@ -28,9 +28,9 @@ class CreateThreadAndRunRequest
     /**
      * Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
      *
-     * @var mixed[]|null
+     * @var AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]|null
      */
-    protected ?array $tools = null;
+    protected $tools = null;
 
     /**
      * Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -44,7 +44,7 @@ class CreateThreadAndRunRequest
      * @param CreateThreadRequest $thread
      * @param string|null $model The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
      * @param string|null $instructions Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
-     * @param mixed[]|null $tools Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]|null $tools Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
      */
     public function __construct($assistantId = null, $thread = null, $model = null, $instructions = null, $tools = null, $metadata = null)
@@ -143,7 +143,7 @@ class CreateThreadAndRunRequest
     /**
      * Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
      *
-     * @return mixed[]|null
+     * @return AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]|null
      */
     public function getTools(): ?array
     {
@@ -153,7 +153,7 @@ class CreateThreadAndRunRequest
     /**
      * Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
      *
-     * @param mixed[]|null $tools
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]|null $tools
      */
     public function setTools(?array $tools): self
     {

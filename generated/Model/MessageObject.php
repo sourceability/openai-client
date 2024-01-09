@@ -18,7 +18,7 @@ class MessageObject extends ArrayObject
     /**
      * The object type, which is always `thread.message`.
      */
-    protected ?string $object = null;
+    protected string $object = 'thread.message';
 
     /**
      * The Unix timestamp (in seconds) for when the message was created.
@@ -38,7 +38,7 @@ class MessageObject extends ArrayObject
     /**
      * The content of the message in array of text and/or images.
      *
-     * @var mixed[]
+     * @var MessageContentImageFileObject[]|MessageContentTextObject[]
      */
     protected ?array $content = null;
 
@@ -68,23 +68,20 @@ class MessageObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `thread.message`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the message was created.
      * @param string $threadId The [thread](/docs/api-reference/threads) ID that this message belongs to.
      * @param string $role The entity that produced the message. One of `user` or `assistant`.
-     * @param mixed[] $content The content of the message in array of text and/or images.
+     * @param MessageContentImageFileObject[]|MessageContentTextObject[] $content The content of the message in array of text and/or images.
      * @param string|null $assistantId If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message.
      * @param string|null $runId If applicable, the ID of the [run](/docs/api-reference/runs) associated with the authoring of this message.
-     * @param string[] $fileIds A list of [file](/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+     * @param string $object The object type, which is always `thread.message`.
+     * @param string[] $fileIds A list of [file](/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $threadId = null, $role = null, $content = null, $assistantId = null, $runId = null, $fileIds = [], $metadata = null)
+    public function __construct($id = null, $createdAt = null, $threadId = null, $role = null, $content = null, $assistantId = null, $runId = null, $metadata = null, $object = null, $fileIds = [])
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
@@ -104,11 +101,14 @@ class MessageObject extends ArrayObject
         if ($runId !== null) {
             $this->setRunId($runId);
         }
-        if ($fileIds !== null) {
-            $this->setFileIds($fileIds);
-        }
         if ($metadata !== null) {
             $this->setMetadata($metadata);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($fileIds !== null) {
+            $this->setFileIds($fileIds);
         }
     }
 
@@ -210,7 +210,7 @@ class MessageObject extends ArrayObject
     /**
      * The content of the message in array of text and/or images.
      *
-     * @return mixed[]
+     * @return MessageContentImageFileObject[]|MessageContentTextObject[]
      */
     public function getContent(): array
     {
@@ -220,7 +220,7 @@ class MessageObject extends ArrayObject
     /**
      * The content of the message in array of text and/or images.
      *
-     * @param mixed[] $content
+     * @param MessageContentImageFileObject[]|MessageContentTextObject[] $content
      */
     public function setContent(array $content): self
     {

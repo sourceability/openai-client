@@ -15,7 +15,7 @@ class ListFilesResponse extends ArrayObject
      */
     protected ?array $data = null;
 
-    protected ?string $object = null;
+    protected string $object = 'list';
 
     /**
      * @param OpenAIFile[] $data

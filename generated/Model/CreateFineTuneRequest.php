@@ -63,8 +63,7 @@ class CreateFineTuneRequest extends ArrayObject
 
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
-     *
-     * @var mixed|null
+    [Models](/docs/models) documentation.
      */
     protected string $model = 'curie';
 
@@ -113,13 +112,6 @@ class CreateFineTuneRequest extends ArrayObject
      * @param string|null $classificationPositiveClass The positive class in binary classification.
      *                                                 This parameter is needed to generate precision, recall, and F1
      *                                                 metrics when doing binary classification.
-     * @param bool|null $computeClassificationMetrics If set, we calculate classification-specific metrics such as accuracy
-     *                                                and F-1 score using the validation set at the end of every epoch.
-     *                                                These metrics can be viewed in the [results file](/docs/guides/legacy-fine-tuning/analyzing-your-fine-tuned-model).
-     *                                                In order to compute classification metrics, you must provide a
-     *                                                `validation_file`. Additionally, you must
-     *                                                specify `classification_n_classes` for multiclass classification or
-     *                                                `classification_positive_class` for binary classification.
      * @param CreateFineTuneRequestHyperparameters $hyperparameters The hyperparameters used for the fine-tuning job.
      * @param float|null $learningRateMultiplier The learning rate multiplier to use for training.
      *                                           The fine-tuning learning rate is the original learning rate used for
@@ -129,17 +121,6 @@ class CreateFineTuneRequest extends ArrayObject
      *                                           perform better with larger batch sizes). We recommend experimenting
      *                                           with values in the range 0.02 to 0.2 to see what produces the best
      *                                           results.
-     * @param mixed|null $model The name of the base model to fine-tune. You can select one of "ada",
-     *                          "babbage", "curie", "davinci", or a fine-tuned model created after 2022-04-21 and before 2023-08-22.
-     *                          To learn more about these models, see the
-     *                          [Models](/docs/models) documentation.
-     * @param float|null $promptLossWeight The weight to use for loss on the prompt tokens. This controls how
-     *                                     much the model tries to learn to generate the prompt (as compared
-     *                                     to the completion which always has a weight of 1.0), and can add
-     *                                     a stabilizing effect to training when completions are short.
-     *                                     If prompts are extremely long (relative to completions), it may make
-     *                                     sense to reduce this weight so as to avoid over-prioritizing
-     *                                     learning the prompt.
      * @param string|null $suffix A string of up to 40 characters that will be added to your fine-tuned model name.
      *                            For example, a `suffix` of "custom-model-name" would produce a model name like `ada:ft-your-org:custom-model-name-2022-02-15-04-21-04`.
      * @param string|null $validationFile The ID of an uploaded file that contains validation data.
@@ -151,8 +132,26 @@ class CreateFineTuneRequest extends ArrayObject
      *                                    example is a JSON object with the keys "prompt" and "completion".
      *                                    Additionally, you must upload your file with the purpose `fine-tune`.
      *                                    See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/creating-training-data) for more details.
+     * @param bool|null $computeClassificationMetrics If set, we calculate classification-specific metrics such as accuracy
+     *                                                and F-1 score using the validation set at the end of every epoch.
+     *                                                These metrics can be viewed in the [results file](/docs/guides/legacy-fine-tuning/analyzing-your-fine-tuned-model).
+     *                                                In order to compute classification metrics, you must provide a
+     *                                                `validation_file`. Additionally, you must
+     *                                                specify `classification_n_classes` for multiclass classification or
+     *                                                `classification_positive_class` for binary classification.
+     * @param string|string|null $model The name of the base model to fine-tune. You can select one of "ada",
+     *                                  "babbage", "curie", "davinci", or a fine-tuned model created after 2022-04-21 and before 2023-08-22.
+     *                                  To learn more about these models, see the
+     *                                  [Models](/docs/models) documentation.
+     * @param float|null $promptLossWeight The weight to use for loss on the prompt tokens. This controls how
+     *                                     much the model tries to learn to generate the prompt (as compared
+     *                                     to the completion which always has a weight of 1.0), and can add
+     *                                     a stabilizing effect to training when completions are short.
+     *                                     If prompts are extremely long (relative to completions), it may make
+     *                                     sense to reduce this weight so as to avoid over-prioritizing
+     *                                     learning the prompt.
      */
-    public function __construct($trainingFile = null, $batchSize = null, $classificationBetas = null, $classificationNClasses = null, $classificationPositiveClass = null, $computeClassificationMetrics = false, $hyperparameters = null, $learningRateMultiplier = null, $model = 'curie', $promptLossWeight = 0.01, $suffix = null, $validationFile = null)
+    public function __construct($trainingFile = null, $batchSize = null, $classificationBetas = null, $classificationNClasses = null, $classificationPositiveClass = null, $hyperparameters = null, $learningRateMultiplier = null, $suffix = null, $validationFile = null, $computeClassificationMetrics = false, $model = 'curie', $promptLossWeight = 0.01)
     {
         if ($trainingFile !== null) {
             $this->setTrainingFile($trainingFile);
@@ -169,26 +168,26 @@ class CreateFineTuneRequest extends ArrayObject
         if ($classificationPositiveClass !== null) {
             $this->setClassificationPositiveClass($classificationPositiveClass);
         }
-        if ($computeClassificationMetrics !== null) {
-            $this->setComputeClassificationMetrics($computeClassificationMetrics);
-        }
         if ($hyperparameters !== null) {
             $this->setHyperparameters($hyperparameters);
         }
         if ($learningRateMultiplier !== null) {
             $this->setLearningRateMultiplier($learningRateMultiplier);
         }
-        if ($model !== null) {
-            $this->setModel($model);
-        }
-        if ($promptLossWeight !== null) {
-            $this->setPromptLossWeight($promptLossWeight);
-        }
         if ($suffix !== null) {
             $this->setSuffix($suffix);
         }
         if ($validationFile !== null) {
             $this->setValidationFile($validationFile);
+        }
+        if ($computeClassificationMetrics !== null) {
+            $this->setComputeClassificationMetrics($computeClassificationMetrics);
+        }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
+        if ($promptLossWeight !== null) {
+            $this->setPromptLossWeight($promptLossWeight);
         }
     }
 
@@ -366,7 +365,7 @@ class CreateFineTuneRequest extends ArrayObject
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
      *
-     * @return mixed
+     * @return string|string|null
      */
     public function getModel(): string
     {
@@ -375,9 +374,10 @@ class CreateFineTuneRequest extends ArrayObject
 
     /**
      * The name of the base model to fine-tune. You can select one of "ada",
-    [Models](/docs/models) documentation.
+     *
+     * @param string|string|null $model
      */
-    public function setModel(mixed $model): self
+    public function setModel(string $model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

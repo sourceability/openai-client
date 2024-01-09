@@ -15,7 +15,7 @@ class ListFineTuningJobEventsResponse extends ArrayObject
      */
     protected ?array $data = null;
 
-    protected ?string $object = null;
+    protected string $object = 'list';
 
     /**
      * @param FineTuningJobEvent[] $data

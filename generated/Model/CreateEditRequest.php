@@ -18,7 +18,7 @@ class CreateEditRequest extends ArrayObject
     /**
      * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      *
-     * @var mixed
+     * @var string|string
      */
     protected $model = null;
 
@@ -50,7 +50,7 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * @param string $instruction The instruction that tells the model how to edit the prompt.
-     * @param mixed $model ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     * @param string|string $model ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      * @param string|null $input The input text to use as a starting point for the edit.
      * @param int|null $n How many edits to generate for the input and instruction.
      * @param float|null $temperature What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
@@ -58,7 +58,7 @@ class CreateEditRequest extends ArrayObject
      * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      *                         We generally recommend altering this or `temperature` but not both.
      */
-    public function __construct($instruction = null, mixed $model = null, $input = '', $n = 1, $temperature = 1, $topP = 1)
+    public function __construct($instruction = null, $model = null, $input = '', $n = 1, $temperature = 1, $topP = 1)
     {
         if ($instruction !== null) {
             $this->setInstruction($instruction);
@@ -106,7 +106,7 @@ class CreateEditRequest extends ArrayObject
     /**
      * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
      *
-     * @return mixed
+     * @return string|string
      */
     public function getModel()
     {
@@ -115,8 +115,10 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     *
+     * @param string|string $model
      */
-    public function setModel(mixed $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

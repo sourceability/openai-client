@@ -52,10 +52,6 @@ class ThreadObjectNormalizer implements DenormalizerInterface, NormalizerInterfa
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created_at', $data)) {
             $object->setCreatedAt($data['created_at']);
             unset($data['created_at']);
@@ -69,6 +65,10 @@ class ThreadObjectNormalizer implements DenormalizerInterface, NormalizerInterfa
             unset($data['metadata']);
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
             $object->setMetadata(null);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -85,13 +85,13 @@ class ThreadObjectNormalizer implements DenormalizerInterface, NormalizerInterfa
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
         $values = [];
         foreach ($object->getMetadata() as $key => $value) {
             $values[$key] = $value;
         }
         $data['metadata'] = $values;
+        $data['object'] = $object->getObject();
         foreach ($object as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $data[$key_1] = $value_1;

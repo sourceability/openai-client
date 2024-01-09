@@ -12,16 +12,15 @@ class CreateFineTuneRequestHyperparameters extends ArrayObject
 
     /**
      * The number of epochs to train the model for. An epoch refers to one
-     *
-     * @var mixed
+    full cycle through the training dataset.
      */
     protected string $nEpochs = 'auto';
 
     /**
-     * @param mixed $nEpochs The number of epochs to train the model for. An epoch refers to one
-     *                       full cycle through the training dataset.
+     * @param string|int $nEpochs The number of epochs to train the model for. An epoch refers to one
+     *                            full cycle through the training dataset.
      */
-    public function __construct(mixed $nEpochs = 'auto')
+    public function __construct($nEpochs = 'auto')
     {
         if ($nEpochs !== null) {
             $this->setNEpochs($nEpochs);
@@ -36,7 +35,7 @@ class CreateFineTuneRequestHyperparameters extends ArrayObject
     /**
      * The number of epochs to train the model for. An epoch refers to one
      *
-     * @return mixed
+     * @return string|int
      */
     public function getNEpochs(): string
     {
@@ -45,9 +44,10 @@ class CreateFineTuneRequestHyperparameters extends ArrayObject
 
     /**
      * The number of epochs to train the model for. An epoch refers to one
-    full cycle through the training dataset.
+     *
+     * @param string|int $nEpochs
      */
-    public function setNEpochs(mixed $nEpochs): self
+    public function setNEpochs(string $nEpochs): self
     {
         $this->initialized['nEpochs'] = true;
         $this->nEpochs = $nEpochs;

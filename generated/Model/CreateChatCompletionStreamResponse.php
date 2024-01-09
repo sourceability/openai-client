@@ -41,7 +41,7 @@ class CreateChatCompletionStreamResponse extends ArrayObject
     /**
      * The object type, which is always `chat.completion.chunk`.
      */
-    protected ?string $object = null;
+    protected string $object = 'chat.completion.chunk';
 
     /**
      * @param string $id A unique identifier for the chat completion. Each chunk has the same ID.

@@ -49,13 +49,13 @@ class MessageContentTextObjectNormalizer implements DenormalizerInterface, Norma
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('text', $data)) {
             $object->setText($this->denormalizer->denormalize($data['text'], MessageContentTextObjectText::class, 'json', $context));
             unset($data['text']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -71,8 +71,8 @@ class MessageContentTextObjectNormalizer implements DenormalizerInterface, Norma
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['text'] = $this->normalizer->normalize($object->getText(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

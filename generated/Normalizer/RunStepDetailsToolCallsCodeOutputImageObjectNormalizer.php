@@ -49,13 +49,13 @@ class RunStepDetailsToolCallsCodeOutputImageObjectNormalizer implements Denormal
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('image', $data)) {
             $object->setImage($this->denormalizer->denormalize($data['image'], RunStepDetailsToolCallsCodeOutputImageObjectImage::class, 'json', $context));
             unset($data['image']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -71,8 +71,8 @@ class RunStepDetailsToolCallsCodeOutputImageObjectNormalizer implements Denormal
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['image'] = $this->normalizer->normalize($object->getImage(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

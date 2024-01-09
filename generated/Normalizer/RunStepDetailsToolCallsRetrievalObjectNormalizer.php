@@ -52,10 +52,6 @@ class RunStepDetailsToolCallsRetrievalObjectNormalizer implements DenormalizerIn
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('retrieval', $data)) {
             $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
             foreach ($data['retrieval'] as $key => $value) {
@@ -63,6 +59,10 @@ class RunStepDetailsToolCallsRetrievalObjectNormalizer implements DenormalizerIn
             }
             $object->setRetrieval($values);
             unset($data['retrieval']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -79,12 +79,12 @@ class RunStepDetailsToolCallsRetrievalObjectNormalizer implements DenormalizerIn
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['type'] = $object->getType();
         $values = [];
         foreach ($object->getRetrieval() as $key => $value) {
             $values[$key] = $value;
         }
         $data['retrieval'] = $values;
+        $data['type'] = $object->getType();
         foreach ($object as $key_1 => $value_1) {
             if (preg_match('/.*/', (string) $key_1)) {
                 $data[$key_1] = $value_1;

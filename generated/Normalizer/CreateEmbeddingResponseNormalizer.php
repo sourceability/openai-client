@@ -62,13 +62,13 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('usage', $data)) {
             $object->setUsage($this->denormalizer->denormalize($data['usage'], CreateEmbeddingResponseUsage::class, 'json', $context));
             unset($data['usage']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -90,8 +90,8 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
         }
         $data['data'] = $values;
         $data['model'] = $object->getModel();
-        $data['object'] = $object->getObject();
         $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

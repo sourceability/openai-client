@@ -16,7 +16,7 @@ class ChatCompletionRequestFunctionMessage extends ArrayObject
     /**
      * The role of the messages author, in this case `function`.
      */
-    protected ?string $role = null;
+    protected string $role = 'function';
 
     /**
      * The contents of the function message.
@@ -29,20 +29,20 @@ class ChatCompletionRequestFunctionMessage extends ArrayObject
     protected ?string $name = null;
 
     /**
-     * @param string $role The role of the messages author, in this case `function`.
      * @param string|null $content The contents of the function message.
      * @param string $name The name of the function to call.
+     * @param string $role The role of the messages author, in this case `function`.
      */
-    public function __construct($role = null, $content = null, $name = null)
+    public function __construct($content = null, $name = null, $role = null)
     {
-        if ($role !== null) {
-            $this->setRole($role);
-        }
         if ($content !== null) {
             $this->setContent($content);
         }
         if ($name !== null) {
             $this->setName($name);
+        }
+        if ($role !== null) {
+            $this->setRole($role);
         }
     }
 

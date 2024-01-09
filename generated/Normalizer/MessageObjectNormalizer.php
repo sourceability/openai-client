@@ -6,6 +6,8 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\MessageContentImageFileObject;
+use Sourceability\OpenAIClient\Generated\Model\MessageContentTextObject;
 use Sourceability\OpenAIClient\Generated\Model\MessageObject;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
@@ -52,10 +54,6 @@ class MessageObjectNormalizer implements DenormalizerInterface, NormalizerInterf
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created_at', $data)) {
             $object->setCreatedAt($data['created_at']);
             unset($data['created_at']);
@@ -71,7 +69,13 @@ class MessageObjectNormalizer implements DenormalizerInterface, NormalizerInterf
         if (\array_key_exists('content', $data)) {
             $values = [];
             foreach ($data['content'] as $value) {
-                $values[] = $value;
+                $value_1 = $value;
+                if (is_array($value) and (isset($value['type']) and $value['type'] === 'image_file') and isset($value['image_file'])) {
+                    $value_1 = $this->denormalizer->denormalize($value, MessageContentImageFileObject::class, 'json', $context);
+                } elseif (is_array($value) and (isset($value['type']) and $value['type'] === 'text') and isset($value['text'])) {
+                    $value_1 = $this->denormalizer->denormalize($value, MessageContentTextObject::class, 'json', $context);
+                }
+                $values[] = $value_1;
             }
             $object->setContent($values);
             unset($data['content']);
@@ -88,27 +92,31 @@ class MessageObjectNormalizer implements DenormalizerInterface, NormalizerInterf
         } elseif (\array_key_exists('run_id', $data) && $data['run_id'] === null) {
             $object->setRunId(null);
         }
-        if (\array_key_exists('file_ids', $data)) {
-            $values_1 = [];
-            foreach ($data['file_ids'] as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $object->setFileIds($values_1);
-            unset($data['file_ids']);
-        }
         if (\array_key_exists('metadata', $data) && $data['metadata'] !== null) {
-            $values_2 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            $values_1 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
             foreach ($data['metadata'] as $key => $value_2) {
-                $values_2[$key] = $value_2;
+                $values_1[$key] = $value_2;
             }
-            $object->setMetadata($values_2);
+            $object->setMetadata($values_1);
             unset($data['metadata']);
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
             $object->setMetadata(null);
         }
-        foreach ($data as $key_1 => $value_3) {
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
+        if (\array_key_exists('file_ids', $data)) {
+            $values_2 = [];
+            foreach ($data['file_ids'] as $value_3) {
+                $values_2[] = $value_3;
+            }
+            $object->setFileIds($values_2);
+            unset($data['file_ids']);
+        }
+        foreach ($data as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_3;
+                $object[$key_1] = $value_4;
             }
         }
         return $object;
@@ -121,30 +129,36 @@ class MessageObjectNormalizer implements DenormalizerInterface, NormalizerInterf
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
         $data['thread_id'] = $object->getThreadId();
         $data['role'] = $object->getRole();
         $values = [];
         foreach ($object->getContent() as $value) {
-            $values[] = $value;
+            $value_1 = $value;
+            if (is_object($value)) {
+                $value_1 = $this->normalizer->normalize($value, 'json', $context);
+            } elseif (is_object($value)) {
+                $value_1 = $this->normalizer->normalize($value, 'json', $context);
+            }
+            $values[] = $value_1;
         }
         $data['content'] = $values;
         $data['assistant_id'] = $object->getAssistantId();
         $data['run_id'] = $object->getRunId();
         $values_1 = [];
-        foreach ($object->getFileIds() as $value_1) {
-            $values_1[] = $value_1;
-        }
-        $data['file_ids'] = $values_1;
-        $values_2 = [];
         foreach ($object->getMetadata() as $key => $value_2) {
-            $values_2[$key] = $value_2;
+            $values_1[$key] = $value_2;
         }
-        $data['metadata'] = $values_2;
-        foreach ($object as $key_1 => $value_3) {
+        $data['metadata'] = $values_1;
+        $data['object'] = $object->getObject();
+        $values_2 = [];
+        foreach ($object->getFileIds() as $value_3) {
+            $values_2[] = $value_3;
+        }
+        $data['file_ids'] = $values_2;
+        foreach ($object as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_3;
+                $data[$key_1] = $value_4;
             }
         }
         return $data;

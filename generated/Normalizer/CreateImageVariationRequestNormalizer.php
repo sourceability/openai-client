@@ -52,8 +52,18 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
             $object->setImage($data['image']);
             unset($data['image']);
         }
+        if (\array_key_exists('user', $data)) {
+            $object->setUser($data['user']);
+            unset($data['user']);
+        }
         if (\array_key_exists('model', $data) && $data['model'] !== null) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
             unset($data['model']);
         } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
             $object->setModel(null);
@@ -76,13 +86,9 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
         } elseif (\array_key_exists('size', $data) && $data['size'] === null) {
             $object->setSize(null);
         }
-        if (\array_key_exists('user', $data)) {
-            $object->setUser($data['user']);
-            unset($data['user']);
-        }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -95,8 +101,17 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
     {
         $data = [];
         $data['image'] = $object->getImage();
+        if ($object->isInitialized('user') && $object->getUser() !== null) {
+            $data['user'] = $object->getUser();
+        }
         if ($object->isInitialized('model') && $object->getModel() !== null) {
-            $data['model'] = $object->getModel();
+            $value = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value = $object->getModel();
+            }
+            $data['model'] = $value;
         }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
@@ -107,12 +122,9 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
         if ($object->isInitialized('size') && $object->getSize() !== null) {
             $data['size'] = $object->getSize();
         }
-        if ($object->isInitialized('user') && $object->getUser() !== null) {
-            $data['user'] = $object->getUser();
-        }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;

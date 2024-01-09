@@ -5,7 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Http\Client\Common\Plugin\LoggerPlugin;
 use Http\Message\Formatter\FullHttpMessageFormatter;
 use Sourceability\OpenAIClient\Client;
-use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestUserMessage;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponse;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -26,20 +26,14 @@ $requests = [
         model: 'gpt-3.5-turbo',
         temperature: 0,
         messages: [
-            new ChatCompletionRequestMessage(
-                role: 'user',
-                content: 'The jane php library is very useful because'
-            )
+            new ChatCompletionRequestUserMessage('The jane php library is very useful because')
         ],
     ),
     new CreateChatCompletionRequest(
         model: 'gpt-3.5-turbo',
         temperature: 0,
         messages: [
-            new ChatCompletionRequestMessage(
-                role: 'user',
-                content: 'Symfony symfony symfony is like sourceability on a'
-            )
+            new ChatCompletionRequestUserMessage('Symfony symfony symfony is like sourceability on a')
         ],
     ),
 ];

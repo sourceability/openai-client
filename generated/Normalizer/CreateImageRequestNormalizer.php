@@ -52,8 +52,18 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
             $object->setPrompt($data['prompt']);
             unset($data['prompt']);
         }
+        if (\array_key_exists('user', $data)) {
+            $object->setUser($data['user']);
+            unset($data['user']);
+        }
         if (\array_key_exists('model', $data) && $data['model'] !== null) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
             unset($data['model']);
         } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
             $object->setModel(null);
@@ -86,13 +96,9 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
         } elseif (\array_key_exists('style', $data) && $data['style'] === null) {
             $object->setStyle(null);
         }
-        if (\array_key_exists('user', $data)) {
-            $object->setUser($data['user']);
-            unset($data['user']);
-        }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -105,8 +111,17 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
     {
         $data = [];
         $data['prompt'] = $object->getPrompt();
+        if ($object->isInitialized('user') && $object->getUser() !== null) {
+            $data['user'] = $object->getUser();
+        }
         if ($object->isInitialized('model') && $object->getModel() !== null) {
-            $data['model'] = $object->getModel();
+            $value = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value = $object->getModel();
+            }
+            $data['model'] = $value;
         }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
@@ -123,12 +138,9 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
         if ($object->isInitialized('style') && $object->getStyle() !== null) {
             $data['style'] = $object->getStyle();
         }
-        if ($object->isInitialized('user') && $object->getUser() !== null) {
-            $data['user'] = $object->getUser();
-        }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;

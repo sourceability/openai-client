@@ -53,13 +53,13 @@ class RunToolCallObjectNormalizer implements DenormalizerInterface, NormalizerIn
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('function', $data)) {
             $object->setFunction($this->denormalizer->denormalize($data['function'], RunToolCallObjectFunction::class, 'json', $context));
             unset($data['function']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -76,8 +76,8 @@ class RunToolCallObjectNormalizer implements DenormalizerInterface, NormalizerIn
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['type'] = $object->getType();
         $data['function'] = $this->normalizer->normalize($object->getFunction(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

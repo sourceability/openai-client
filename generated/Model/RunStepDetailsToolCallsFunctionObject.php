@@ -18,7 +18,7 @@ class RunStepDetailsToolCallsFunctionObject extends ArrayObject
     /**
      * The type of tool call. This is always going to be `function` for this type of tool call.
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     /**
      * The definition of the function that was called.
@@ -27,19 +27,19 @@ class RunStepDetailsToolCallsFunctionObject extends ArrayObject
 
     /**
      * @param string $id The ID of the tool call object.
-     * @param string $type The type of tool call. This is always going to be `function` for this type of tool call.
      * @param RunStepDetailsToolCallsFunctionObjectFunction $function The definition of the function that was called.
+     * @param string $type The type of tool call. This is always going to be `function` for this type of tool call.
      */
-    public function __construct($id = null, $type = null, $function = null)
+    public function __construct($id = null, $function = null, $type = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

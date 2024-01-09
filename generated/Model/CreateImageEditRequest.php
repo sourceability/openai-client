@@ -27,8 +27,6 @@ class CreateImageEditRequest extends ArrayObject
 
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
-     *
-     * @var mixed|null
      */
     protected string $model = 'dall-e-2';
 
@@ -56,13 +54,13 @@ class CreateImageEditRequest extends ArrayObject
      * @param string $image The image to edit. Must be a valid PNG file, less than 4MB, and square. If mask is not provided, image must have transparency, which will be used as the mask.
      * @param string $prompt A text description of the desired image(s). The maximum length is 1000 characters.
      * @param string $mask An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
-     * @param mixed|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
+     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+     * @param string|string|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
      * @param int|null $n The number of images to generate. Must be between 1 and 10.
      * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-     * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct($image = null, $prompt = null, $mask = null, $model = 'dall-e-2', $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
+    public function __construct($image = null, $prompt = null, $mask = null, $user = null, $model = 'dall-e-2', $n = 1, $size = '1024x1024', $responseFormat = 'url')
     {
         if ($image !== null) {
             $this->setImage($image);
@@ -72,6 +70,9 @@ class CreateImageEditRequest extends ArrayObject
         }
         if ($mask !== null) {
             $this->setMask($mask);
+        }
+        if ($user !== null) {
+            $this->setUser($user);
         }
         if ($model !== null) {
             $this->setModel($model);
@@ -84,9 +85,6 @@ class CreateImageEditRequest extends ArrayObject
         }
         if ($responseFormat !== null) {
             $this->setResponseFormat($responseFormat);
-        }
-        if ($user !== null) {
-            $this->setUser($user);
         }
     }
 
@@ -152,7 +150,7 @@ class CreateImageEditRequest extends ArrayObject
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
      *
-     * @return mixed
+     * @return string|string|null
      */
     public function getModel(): string
     {
@@ -161,8 +159,10 @@ class CreateImageEditRequest extends ArrayObject
 
     /**
      * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @param string|string|null $model
      */
-    public function setModel(mixed $model): self
+    public function setModel(string $model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

@@ -18,7 +18,7 @@ class RunStepObject extends ArrayObject
     /**
      * The object type, which is always `thread.run.step`.
      */
-    protected ?string $object = null;
+    protected string $object = 'thread.run.step';
 
     /**
      * The Unix timestamp (in seconds) for when the run step was created.
@@ -91,7 +91,6 @@ class RunStepObject extends ArrayObject
 
     /**
      * @param string $id The identifier of the run step, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `thread.run.step`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the run step was created.
      * @param string $assistantId The ID of the [assistant](/docs/api-reference/assistants) associated with the run step.
      * @param string $threadId The ID of the [thread](/docs/api-reference/threads) that was run.
@@ -105,14 +104,12 @@ class RunStepObject extends ArrayObject
      * @param int|null $failedAt The Unix timestamp (in seconds) for when the run step failed.
      * @param int|null $completedAt The Unix timestamp (in seconds) for when the run step completed.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+     * @param string $object The object type, which is always `thread.run.step`.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $assistantId = null, $threadId = null, $runId = null, $type = null, $status = null, $stepDetails = null, $lastError = null, $expiredAt = null, $cancelledAt = null, $failedAt = null, $completedAt = null, $metadata = null)
+    public function __construct($id = null, $createdAt = null, $assistantId = null, $threadId = null, $runId = null, $type = null, $status = null, $stepDetails = null, $lastError = null, $expiredAt = null, $cancelledAt = null, $failedAt = null, $completedAt = null, $metadata = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
@@ -152,6 +149,9 @@ class RunStepObject extends ArrayObject
         }
         if ($metadata !== null) {
             $this->setMetadata($metadata);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

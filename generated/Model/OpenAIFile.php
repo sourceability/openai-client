@@ -33,7 +33,7 @@ class OpenAIFile extends ArrayObject
     /**
      * The object type, which is always `file`.
      */
-    protected ?string $object = null;
+    protected string $object = 'file';
 
     /**
      * The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`.
@@ -59,12 +59,12 @@ class OpenAIFile extends ArrayObject
      * @param int $bytes The size of the file, in bytes.
      * @param int $createdAt The Unix timestamp (in seconds) for when the file was created.
      * @param string $filename The name of the file.
-     * @param string $object The object type, which is always `file`.
      * @param string $purpose The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`.
      * @param string $status Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.
      * @param string $statusDetails Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`.
+     * @param string $object The object type, which is always `file`.
      */
-    public function __construct($id = null, $bytes = null, $createdAt = null, $filename = null, $object = null, $purpose = null, $status = null, $statusDetails = null)
+    public function __construct($id = null, $bytes = null, $createdAt = null, $filename = null, $purpose = null, $status = null, $statusDetails = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -78,9 +78,6 @@ class OpenAIFile extends ArrayObject
         if ($filename !== null) {
             $this->setFilename($filename);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($purpose !== null) {
             $this->setPurpose($purpose);
         }
@@ -89,6 +86,9 @@ class OpenAIFile extends ArrayObject
         }
         if ($statusDetails !== null) {
             $this->setStatusDetails($statusDetails);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

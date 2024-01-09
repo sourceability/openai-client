@@ -81,10 +81,6 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('organization_id', $data)) {
             $object->setOrganizationId($data['organization_id']);
             unset($data['organization_id']);
@@ -121,6 +117,10 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
             $object->setValidationFiles($values_3);
             unset($data['validation_files']);
         }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
         foreach ($data as $key => $value_4) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value_4;
@@ -147,7 +147,6 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
         $data['fine_tuned_model'] = $object->getFineTunedModel();
         $data['hyperparams'] = $this->normalizer->normalize($object->getHyperparams(), 'json', $context);
         $data['model'] = $object->getModel();
-        $data['object'] = $object->getObject();
         $data['organization_id'] = $object->getOrganizationId();
         $values_1 = [];
         foreach ($object->getResultFiles() as $value_1) {
@@ -166,6 +165,7 @@ class FineTuneNormalizer implements DenormalizerInterface, NormalizerInterface, 
             $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
         }
         $data['validation_files'] = $values_3;
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_4) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_4;

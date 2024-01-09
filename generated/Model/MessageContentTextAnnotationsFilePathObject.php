@@ -13,7 +13,7 @@ class MessageContentTextAnnotationsFilePathObject extends ArrayObject
     /**
      * Always `file_path`.
      */
-    protected ?string $type = null;
+    protected string $type = 'file_path';
 
     /**
      * The text in the message content that needs to be replaced.
@@ -27,17 +27,14 @@ class MessageContentTextAnnotationsFilePathObject extends ArrayObject
     protected ?int $endIndex = null;
 
     /**
-     * @param string $type Always `file_path`.
      * @param string $text The text in the message content that needs to be replaced.
      * @param MessageContentTextAnnotationsFilePathObjectFilePath $filePath
      * @param int $startIndex
      * @param int $endIndex
+     * @param string $type Always `file_path`.
      */
-    public function __construct($type = null, $text = null, $filePath = null, $startIndex = null, $endIndex = null)
+    public function __construct($text = null, $filePath = null, $startIndex = null, $endIndex = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($text !== null) {
             $this->setText($text);
         }
@@ -49,6 +46,9 @@ class MessageContentTextAnnotationsFilePathObject extends ArrayObject
         }
         if ($endIndex !== null) {
             $this->setEndIndex($endIndex);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

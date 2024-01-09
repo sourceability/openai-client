@@ -87,12 +87,6 @@ class CreateFineTuneRequestNormalizer implements DenormalizerInterface, Normaliz
         } elseif (\array_key_exists('classification_positive_class', $data) && $data['classification_positive_class'] === null) {
             $object->setClassificationPositiveClass(null);
         }
-        if (\array_key_exists('compute_classification_metrics', $data) && $data['compute_classification_metrics'] !== null) {
-            $object->setComputeClassificationMetrics($data['compute_classification_metrics']);
-            unset($data['compute_classification_metrics']);
-        } elseif (\array_key_exists('compute_classification_metrics', $data) && $data['compute_classification_metrics'] === null) {
-            $object->setComputeClassificationMetrics(null);
-        }
         if (\array_key_exists('hyperparameters', $data)) {
             $object->setHyperparameters($this->denormalizer->denormalize($data['hyperparameters'], CreateFineTuneRequestHyperparameters::class, 'json', $context));
             unset($data['hyperparameters']);
@@ -102,18 +96,6 @@ class CreateFineTuneRequestNormalizer implements DenormalizerInterface, Normaliz
             unset($data['learning_rate_multiplier']);
         } elseif (\array_key_exists('learning_rate_multiplier', $data) && $data['learning_rate_multiplier'] === null) {
             $object->setLearningRateMultiplier(null);
-        }
-        if (\array_key_exists('model', $data) && $data['model'] !== null) {
-            $object->setModel($data['model']);
-            unset($data['model']);
-        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
-            $object->setModel(null);
-        }
-        if (\array_key_exists('prompt_loss_weight', $data) && $data['prompt_loss_weight'] !== null) {
-            $object->setPromptLossWeight($data['prompt_loss_weight']);
-            unset($data['prompt_loss_weight']);
-        } elseif (\array_key_exists('prompt_loss_weight', $data) && $data['prompt_loss_weight'] === null) {
-            $object->setPromptLossWeight(null);
         }
         if (\array_key_exists('suffix', $data) && $data['suffix'] !== null) {
             $object->setSuffix($data['suffix']);
@@ -127,9 +109,33 @@ class CreateFineTuneRequestNormalizer implements DenormalizerInterface, Normaliz
         } elseif (\array_key_exists('validation_file', $data) && $data['validation_file'] === null) {
             $object->setValidationFile(null);
         }
-        foreach ($data as $key => $value_1) {
+        if (\array_key_exists('compute_classification_metrics', $data) && $data['compute_classification_metrics'] !== null) {
+            $object->setComputeClassificationMetrics($data['compute_classification_metrics']);
+            unset($data['compute_classification_metrics']);
+        } elseif (\array_key_exists('compute_classification_metrics', $data) && $data['compute_classification_metrics'] === null) {
+            $object->setComputeClassificationMetrics(null);
+        }
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
+            $value_1 = $data['model'];
+            if (is_string($data['model'])) {
+                $value_1 = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value_1 = $data['model'];
+            }
+            $object->setModel($value_1);
+            unset($data['model']);
+        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
+        }
+        if (\array_key_exists('prompt_loss_weight', $data) && $data['prompt_loss_weight'] !== null) {
+            $object->setPromptLossWeight($data['prompt_loss_weight']);
+            unset($data['prompt_loss_weight']);
+        } elseif (\array_key_exists('prompt_loss_weight', $data) && $data['prompt_loss_weight'] === null) {
+            $object->setPromptLossWeight(null);
+        }
+        foreach ($data as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_1;
+                $object[$key] = $value_2;
             }
         }
         return $object;
@@ -158,20 +164,11 @@ class CreateFineTuneRequestNormalizer implements DenormalizerInterface, Normaliz
         if ($object->isInitialized('classificationPositiveClass') && $object->getClassificationPositiveClass() !== null) {
             $data['classification_positive_class'] = $object->getClassificationPositiveClass();
         }
-        if ($object->isInitialized('computeClassificationMetrics') && $object->getComputeClassificationMetrics() !== null) {
-            $data['compute_classification_metrics'] = $object->getComputeClassificationMetrics();
-        }
         if ($object->isInitialized('hyperparameters') && $object->getHyperparameters() !== null) {
             $data['hyperparameters'] = $this->normalizer->normalize($object->getHyperparameters(), 'json', $context);
         }
         if ($object->isInitialized('learningRateMultiplier') && $object->getLearningRateMultiplier() !== null) {
             $data['learning_rate_multiplier'] = $object->getLearningRateMultiplier();
-        }
-        if ($object->isInitialized('model') && $object->getModel() !== null) {
-            $data['model'] = $object->getModel();
-        }
-        if ($object->isInitialized('promptLossWeight') && $object->getPromptLossWeight() !== null) {
-            $data['prompt_loss_weight'] = $object->getPromptLossWeight();
         }
         if ($object->isInitialized('suffix') && $object->getSuffix() !== null) {
             $data['suffix'] = $object->getSuffix();
@@ -179,9 +176,24 @@ class CreateFineTuneRequestNormalizer implements DenormalizerInterface, Normaliz
         if ($object->isInitialized('validationFile') && $object->getValidationFile() !== null) {
             $data['validation_file'] = $object->getValidationFile();
         }
-        foreach ($object as $key => $value_1) {
+        if ($object->isInitialized('computeClassificationMetrics') && $object->getComputeClassificationMetrics() !== null) {
+            $data['compute_classification_metrics'] = $object->getComputeClassificationMetrics();
+        }
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $value_1 = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value_1 = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value_1 = $object->getModel();
+            }
+            $data['model'] = $value_1;
+        }
+        if ($object->isInitialized('promptLossWeight') && $object->getPromptLossWeight() !== null) {
+            $data['prompt_loss_weight'] = $object->getPromptLossWeight();
+        }
+        foreach ($object as $key => $value_2) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value_1;
+                $data[$key] = $value_2;
             }
         }
         return $data;

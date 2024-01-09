@@ -13,7 +13,7 @@ class RunStepDetailsToolCallsObject extends ArrayObject
     /**
      * Always `tool_calls`.
      */
-    protected ?string $type = null;
+    protected string $type = 'tool_calls';
 
     /**
      * An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
@@ -23,16 +23,16 @@ class RunStepDetailsToolCallsObject extends ArrayObject
     protected ?array $toolCalls = null;
 
     /**
-     * @param string $type Always `tool_calls`.
      * @param array<string, mixed>[] $toolCalls An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+     * @param string $type Always `tool_calls`.
      */
-    public function __construct($type = null, $toolCalls = null)
+    public function __construct($toolCalls = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($toolCalls !== null) {
             $this->setToolCalls($toolCalls);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

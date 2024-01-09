@@ -37,12 +37,12 @@ class CreateChatCompletionResponse extends ArrayObject
 
     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
      */
-    protected ?string $systemFingerprint = null;
+    protected ?string $system_fingerprint = null;
 
     /**
      * The object type, which is always `chat.completion`.
      */
-    protected ?string $object = null;
+    protected string $object = 'chat.completion';
 
     /**
      * Usage statistics for the completion request.
@@ -54,12 +54,12 @@ class CreateChatCompletionResponse extends ArrayObject
      * @param CreateChatCompletionResponseChoicesItem[] $choices A list of chat completion choices. Can be more than one if `n` is greater than 1.
      * @param int $created The Unix timestamp (in seconds) of when the chat completion was created.
      * @param string $model The model used for the chat completion.
-     * @param string $systemFingerprint This fingerprint represents the backend configuration that the model runs with.
-     *                                  Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
-     * @param string $object The object type, which is always `chat.completion`.
+     * @param string|null $system_fingerprint This fingerprint represents the backend configuration that the model runs with.
+     *                                        Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
      * @param CompletionUsage $usage Usage statistics for the completion request.
+     * @param string $object The object type, which is always `chat.completion`.
      */
-    public function __construct($id = null, $choices = null, $created = null, $model = null, $systemFingerprint = null, $object = null, $usage = null)
+    public function __construct($id = null, $choices = null, $created = null, $model = null, $system_fingerprint = null, $usage = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -73,14 +73,14 @@ class CreateChatCompletionResponse extends ArrayObject
         if ($model !== null) {
             $this->setModel($model);
         }
-        if ($systemFingerprint !== null) {
-            $this->setSystemFingerprint($systemFingerprint);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
+        if ($system_fingerprint !== null) {
+            $this->setSystem_fingerprint($system_fingerprint);
         }
         if ($usage !== null) {
             $this->setUsage($usage);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 
@@ -170,9 +170,9 @@ class CreateChatCompletionResponse extends ArrayObject
 
     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
      */
-    public function getSystemFingerprint(): string
+    public function getSystemFingerprint(): ?string
     {
-        return $this->systemFingerprint;
+        return $this->system_fingerprint;
     }
 
     /**
@@ -180,10 +180,10 @@ class CreateChatCompletionResponse extends ArrayObject
 
     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
      */
-    public function setSystemFingerprint(string $systemFingerprint): self
+    public function setSystemFingerprint(?string $system_fingerprint): self
     {
-        $this->initialized['systemFingerprint'] = true;
-        $this->systemFingerprint = $systemFingerprint;
+        $this->initialized['system_fingerprint'] = true;
+        $this->system_fingerprint = $system_fingerprint;
         return $this;
     }
 

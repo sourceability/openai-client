@@ -18,7 +18,7 @@ class AssistantObject extends ArrayObject
     /**
      * The object type, which is always `assistant`.
      */
-    protected ?string $object = null;
+    protected string $object = 'assistant';
 
     /**
      * The Unix timestamp (in seconds) for when the assistant was created.
@@ -48,7 +48,7 @@ class AssistantObject extends ArrayObject
     /**
      * A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
      *
-     * @var mixed[]
+     * @var AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]
      */
     protected array $tools = [];
 
@@ -68,23 +68,20 @@ class AssistantObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `assistant`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the assistant was created.
      * @param string|null $name The name of the assistant. The maximum length is 256 characters.
      * @param string|null $description The description of the assistant. The maximum length is 512 characters.
      * @param string $model ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
      * @param string|null $instructions The system instructions that the assistant uses. The maximum length is 32768 characters.
-     * @param mixed[] $tools A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
-     * @param string[] $fileIds A list of [file](/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+     * @param string $object The object type, which is always `assistant`.
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[] $tools A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+     * @param string[] $fileIds A list of [file](/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $name = null, $description = null, $model = null, $instructions = null, $tools = [], $fileIds = [], $metadata = null)
+    public function __construct($id = null, $createdAt = null, $name = null, $description = null, $model = null, $instructions = null, $metadata = null, $object = null, $tools = [], $fileIds = [])
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
@@ -101,14 +98,17 @@ class AssistantObject extends ArrayObject
         if ($instructions !== null) {
             $this->setInstructions($instructions);
         }
+        if ($metadata !== null) {
+            $this->setMetadata($metadata);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
+        }
         if ($tools !== null) {
             $this->setTools($tools);
         }
         if ($fileIds !== null) {
             $this->setFileIds($fileIds);
-        }
-        if ($metadata !== null) {
-            $this->setMetadata($metadata);
         }
     }
 
@@ -246,7 +246,7 @@ class AssistantObject extends ArrayObject
     /**
      * A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
      *
-     * @return mixed[]
+     * @return AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[]
      */
     public function getTools(): array
     {
@@ -256,7 +256,7 @@ class AssistantObject extends ArrayObject
     /**
      * A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
      *
-     * @param mixed[] $tools
+     * @param AssistantToolsCode[]|AssistantToolsRetrieval[]|AssistantToolsFunction[] $tools
      */
     public function setTools(array $tools): self
     {

@@ -58,10 +58,6 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
             $object->setChoices($values);
             unset($data['choices']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created', $data)) {
             $object->setCreated($data['created']);
             unset($data['created']);
@@ -69,6 +65,10 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
         if (\array_key_exists('usage', $data)) {
             $object->setUsage($this->denormalizer->denormalize($data['usage'], CompletionUsage::class, 'json', $context));
             unset($data['usage']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -89,9 +89,9 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['choices'] = $values;
-        $data['object'] = $object->getObject();
         $data['created'] = $object->getCreated();
         $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

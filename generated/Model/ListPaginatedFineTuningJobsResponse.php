@@ -17,7 +17,7 @@ class ListPaginatedFineTuningJobsResponse extends ArrayObject
 
     protected ?bool $hasMore = null;
 
-    protected ?string $object = null;
+    protected string $object = 'list';
 
     /**
      * @param FineTuningJob[] $data

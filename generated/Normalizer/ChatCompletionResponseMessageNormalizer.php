@@ -64,13 +64,13 @@ class ChatCompletionResponseMessageNormalizer implements DenormalizerInterface, 
             $object->setToolCalls($values);
             unset($data['tool_calls']);
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
-        }
         if (\array_key_exists('function_call', $data)) {
             $object->setFunctionCall($this->denormalizer->denormalize($data['function_call'], ChatCompletionResponseMessageFunctionCall::class, 'json', $context));
             unset($data['function_call']);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -94,10 +94,10 @@ class ChatCompletionResponseMessageNormalizer implements DenormalizerInterface, 
             }
             $data['tool_calls'] = $values;
         }
-        $data['role'] = $object->getRole();
         if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
             $data['function_call'] = $this->normalizer->normalize($object->getFunctionCall(), 'json', $context);
         }
+        $data['role'] = $object->getRole();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

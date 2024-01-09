@@ -49,16 +49,48 @@ class CreateEmbeddingRequestNormalizer implements DenormalizerInterface, Normali
             return $object;
         }
         if (\array_key_exists('input', $data)) {
-            $object->setInput($data['input']);
+            $value = $data['input'];
+            if (is_string($data['input'])) {
+                $value = $data['input'];
+            } elseif (is_array($data['input']) && $this->isOnlyNumericKeys($data['input'])) {
+                $values = [];
+                foreach ($data['input'] as $value_1) {
+                    $values[] = $value_1;
+                }
+                $value = $values;
+            } elseif (is_array($data['input']) && $this->isOnlyNumericKeys($data['input'])) {
+                $values_1 = [];
+                foreach ($data['input'] as $value_2) {
+                    $values_1[] = $value_2;
+                }
+                $value = $values_1;
+            } elseif (is_array($data['input']) && $this->isOnlyNumericKeys($data['input'])) {
+                $values_2 = [];
+                foreach ($data['input'] as $value_3) {
+                    $values_3 = [];
+                    foreach ($value_3 as $value_4) {
+                        $values_3[] = $value_4;
+                    }
+                    $values_2[] = $values_3;
+                }
+                $value = $values_2;
+            }
+            $object->setInput($value);
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
-        }
-        if (\array_key_exists('encoding_format', $data)) {
-            $object->setEncodingFormat($data['encoding_format']);
+            $value_5 = $data['model'];
+            if (is_string($data['model'])) {
+                $value_5 = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value_5 = $data['model'];
+            }
+            $object->setModel($value_5);
         }
         if (\array_key_exists('user', $data)) {
             $object->setUser($data['user']);
+        }
+        if (\array_key_exists('encoding_format', $data)) {
+            $object->setEncodingFormat($data['encoding_format']);
         }
         return $object;
     }
@@ -69,13 +101,45 @@ class CreateEmbeddingRequestNormalizer implements DenormalizerInterface, Normali
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['input'] = $object->getInput();
-        $data['model'] = $object->getModel();
-        if ($object->isInitialized('encodingFormat') && $object->getEncodingFormat() !== null) {
-            $data['encoding_format'] = $object->getEncodingFormat();
+        $value = $object->getInput();
+        if (is_string($object->getInput())) {
+            $value = $object->getInput();
+        } elseif (is_array($object->getInput())) {
+            $values = [];
+            foreach ($object->getInput() as $value_1) {
+                $values[] = $value_1;
+            }
+            $value = $values;
+        } elseif (is_array($object->getInput())) {
+            $values_1 = [];
+            foreach ($object->getInput() as $value_2) {
+                $values_1[] = $value_2;
+            }
+            $value = $values_1;
+        } elseif (is_array($object->getInput())) {
+            $values_2 = [];
+            foreach ($object->getInput() as $value_3) {
+                $values_3 = [];
+                foreach ($value_3 as $value_4) {
+                    $values_3[] = $value_4;
+                }
+                $values_2[] = $values_3;
+            }
+            $value = $values_2;
         }
+        $data['input'] = $value;
+        $value_5 = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value_5 = $object->getModel();
+        } elseif (is_string($object->getModel())) {
+            $value_5 = $object->getModel();
+        }
+        $data['model'] = $value_5;
         if ($object->isInitialized('user') && $object->getUser() !== null) {
             $data['user'] = $object->getUser();
+        }
+        if ($object->isInitialized('encodingFormat') && $object->getEncodingFormat() !== null) {
+            $data['encoding_format'] = $object->getEncodingFormat();
         }
         return $data;
     }

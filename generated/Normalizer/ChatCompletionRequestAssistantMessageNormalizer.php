@@ -56,10 +56,6 @@ class ChatCompletionRequestAssistantMessageNormalizer implements DenormalizerInt
         } elseif (\array_key_exists('content', $data) && $data['content'] === null) {
             $object->setContent(null);
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
-        }
         if (\array_key_exists('name', $data)) {
             $object->setName($data['name']);
             unset($data['name']);
@@ -75,6 +71,10 @@ class ChatCompletionRequestAssistantMessageNormalizer implements DenormalizerInt
         if (\array_key_exists('function_call', $data)) {
             $object->setFunctionCall($this->denormalizer->denormalize($data['function_call'], ChatCompletionRequestAssistantMessageFunctionCall::class, 'json', $context));
             unset($data['function_call']);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -93,7 +93,6 @@ class ChatCompletionRequestAssistantMessageNormalizer implements DenormalizerInt
         if ($object->isInitialized('content') && $object->getContent() !== null) {
             $data['content'] = $object->getContent();
         }
-        $data['role'] = $object->getRole();
         if ($object->isInitialized('name') && $object->getName() !== null) {
             $data['name'] = $object->getName();
         }
@@ -107,6 +106,7 @@ class ChatCompletionRequestAssistantMessageNormalizer implements DenormalizerInt
         if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
             $data['function_call'] = $this->normalizer->normalize($object->getFunctionCall(), 'json', $context);
         }
+        $data['role'] = $object->getRole();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;

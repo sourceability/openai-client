@@ -14,7 +14,7 @@ class DeleteAssistantResponse extends ArrayObject
 
     protected ?bool $deleted = null;
 
-    protected ?string $object = null;
+    protected string $object = 'assistant.deleted';
 
     /**
      * @param string $id

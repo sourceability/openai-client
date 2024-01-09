@@ -13,7 +13,7 @@ class ChatCompletionRequestMessageContentPartText extends ArrayObject
     /**
      * The type of the content part.
      */
-    protected ?string $type = null;
+    protected string $type = 'text';
 
     /**
      * The text content.
@@ -21,16 +21,16 @@ class ChatCompletionRequestMessageContentPartText extends ArrayObject
     protected ?string $text = null;
 
     /**
-     * @param string $type The type of the content part.
      * @param string $text The text content.
+     * @param string $type The type of the content part.
      */
-    public function __construct($type = null, $text = null)
+    public function __construct($text = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($text !== null) {
             $this->setText($text);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

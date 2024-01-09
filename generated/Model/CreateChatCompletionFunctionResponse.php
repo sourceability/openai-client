@@ -42,7 +42,7 @@ class CreateChatCompletionFunctionResponse extends ArrayObject
     /**
      * The object type, which is always `chat.completion`.
      */
-    protected ?string $object = null;
+    protected string $object = 'chat.completion';
 
     /**
      * Usage statistics for the completion request.
@@ -56,10 +56,10 @@ class CreateChatCompletionFunctionResponse extends ArrayObject
      * @param string $model The model used for the chat completion.
      * @param string $systemFingerprint This fingerprint represents the backend configuration that the model runs with.
      *                                  Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
-     * @param string $object The object type, which is always `chat.completion`.
      * @param CompletionUsage $usage Usage statistics for the completion request.
+     * @param string $object The object type, which is always `chat.completion`.
      */
-    public function __construct($id = null, $choices = null, $created = null, $model = null, $systemFingerprint = null, $object = null, $usage = null)
+    public function __construct($id = null, $choices = null, $created = null, $model = null, $systemFingerprint = null, $usage = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
@@ -76,11 +76,11 @@ class CreateChatCompletionFunctionResponse extends ArrayObject
         if ($systemFingerprint !== null) {
             $this->setSystemFingerprint($systemFingerprint);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($usage !== null) {
             $this->setUsage($usage);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

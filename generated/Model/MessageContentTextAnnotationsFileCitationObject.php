@@ -13,7 +13,7 @@ class MessageContentTextAnnotationsFileCitationObject extends ArrayObject
     /**
      * Always `file_citation`.
      */
-    protected ?string $type = null;
+    protected string $type = 'file_citation';
 
     /**
      * The text in the message content that needs to be replaced.
@@ -27,17 +27,14 @@ class MessageContentTextAnnotationsFileCitationObject extends ArrayObject
     protected ?int $endIndex = null;
 
     /**
-     * @param string $type Always `file_citation`.
      * @param string $text The text in the message content that needs to be replaced.
      * @param MessageContentTextAnnotationsFileCitationObjectFileCitation $fileCitation
      * @param int $startIndex
      * @param int $endIndex
+     * @param string $type Always `file_citation`.
      */
-    public function __construct($type = null, $text = null, $fileCitation = null, $startIndex = null, $endIndex = null)
+    public function __construct($text = null, $fileCitation = null, $startIndex = null, $endIndex = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($text !== null) {
             $this->setText($text);
         }
@@ -49,6 +46,9 @@ class MessageContentTextAnnotationsFileCitationObject extends ArrayObject
         }
         if ($endIndex !== null) {
             $this->setEndIndex($endIndex);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

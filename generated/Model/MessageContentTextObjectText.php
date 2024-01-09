@@ -16,13 +16,13 @@ class MessageContentTextObjectText extends ArrayObject
     protected ?string $value = null;
 
     /**
-     * @var mixed[]
+     * @var MessageContentTextAnnotationsFileCitationObject[]|MessageContentTextAnnotationsFilePathObject[]
      */
     protected ?array $annotations = null;
 
     /**
      * @param string $value The data that makes up the text.
-     * @param mixed[] $annotations
+     * @param MessageContentTextAnnotationsFileCitationObject[]|MessageContentTextAnnotationsFilePathObject[] $annotations
      */
     public function __construct($value = null, $annotations = null)
     {
@@ -58,7 +58,7 @@ class MessageContentTextObjectText extends ArrayObject
     }
 
     /**
-     * @return mixed[]
+     * @return MessageContentTextAnnotationsFileCitationObject[]|MessageContentTextAnnotationsFilePathObject[]
      */
     public function getAnnotations(): array
     {
@@ -66,7 +66,7 @@ class MessageContentTextObjectText extends ArrayObject
     }
 
     /**
-     * @param mixed[] $annotations
+     * @param MessageContentTextAnnotationsFileCitationObject[]|MessageContentTextAnnotationsFilePathObject[] $annotations
      */
     public function setAnnotations(array $annotations): self
     {

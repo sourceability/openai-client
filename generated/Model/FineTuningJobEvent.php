@@ -18,7 +18,7 @@ class FineTuningJobEvent extends ArrayObject
 
     protected ?string $message = null;
 
-    protected ?string $object = null;
+    protected string $object = 'fine_tuning.job.event';
 
     /**
      * @param string $id

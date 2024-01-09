@@ -6,6 +6,9 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsCode;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsFunction;
+use Sourceability\OpenAIClient\Generated\Model\AssistantToolsRetrieval;
 use Sourceability\OpenAIClient\Generated\Model\CreateAssistantRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
@@ -49,7 +52,11 @@ class CreateAssistantRequestNormalizer implements DenormalizerInterface, Normali
             return $object;
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
         }
         if (\array_key_exists('name', $data) && $data['name'] !== null) {
             $object->setName($data['name']);
@@ -66,28 +73,36 @@ class CreateAssistantRequestNormalizer implements DenormalizerInterface, Normali
         } elseif (\array_key_exists('instructions', $data) && $data['instructions'] === null) {
             $object->setInstructions(null);
         }
-        if (\array_key_exists('tools', $data)) {
-            $values = [];
-            foreach ($data['tools'] as $value) {
-                $values[] = $value;
-            }
-            $object->setTools($values);
-        }
-        if (\array_key_exists('file_ids', $data)) {
-            $values_1 = [];
-            foreach ($data['file_ids'] as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $object->setFileIds($values_1);
-        }
         if (\array_key_exists('metadata', $data) && $data['metadata'] !== null) {
-            $values_2 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['metadata'] as $key => $value_2) {
-                $values_2[$key] = $value_2;
+            $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data['metadata'] as $key => $value_1) {
+                $values[$key] = $value_1;
             }
-            $object->setMetadata($values_2);
+            $object->setMetadata($values);
         } elseif (\array_key_exists('metadata', $data) && $data['metadata'] === null) {
             $object->setMetadata(null);
+        }
+        if (\array_key_exists('tools', $data)) {
+            $values_1 = [];
+            foreach ($data['tools'] as $value_2) {
+                $value_3 = $value_2;
+                if (is_array($value_2) and (isset($value_2['type']) and $value_2['type'] === 'code_interpreter')) {
+                    $value_3 = $this->denormalizer->denormalize($value_2, AssistantToolsCode::class, 'json', $context);
+                } elseif (is_array($value_2) and (isset($value_2['type']) and $value_2['type'] === 'retrieval')) {
+                    $value_3 = $this->denormalizer->denormalize($value_2, AssistantToolsRetrieval::class, 'json', $context);
+                } elseif (is_array($value_2) and (isset($value_2['type']) and $value_2['type'] === 'function') and isset($value_2['function'])) {
+                    $value_3 = $this->denormalizer->denormalize($value_2, AssistantToolsFunction::class, 'json', $context);
+                }
+                $values_1[] = $value_3;
+            }
+            $object->setTools($values_1);
+        }
+        if (\array_key_exists('file_ids', $data)) {
+            $values_2 = [];
+            foreach ($data['file_ids'] as $value_4) {
+                $values_2[] = $value_4;
+            }
+            $object->setFileIds($values_2);
         }
         return $object;
     }
@@ -98,7 +113,11 @@ class CreateAssistantRequestNormalizer implements DenormalizerInterface, Normali
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['model'] = $object->getModel();
+        $value = $object->getModel();
+        if (is_string($object->getModel())) {
+            $value = $object->getModel();
+        }
+        $data['model'] = $value;
         if ($object->isInitialized('name') && $object->getName() !== null) {
             $data['name'] = $object->getName();
         }
@@ -108,26 +127,34 @@ class CreateAssistantRequestNormalizer implements DenormalizerInterface, Normali
         if ($object->isInitialized('instructions') && $object->getInstructions() !== null) {
             $data['instructions'] = $object->getInstructions();
         }
-        if ($object->isInitialized('tools') && $object->getTools() !== null) {
+        if ($object->isInitialized('metadata') && $object->getMetadata() !== null) {
             $values = [];
-            foreach ($object->getTools() as $value) {
-                $values[] = $value;
+            foreach ($object->getMetadata() as $key => $value_1) {
+                $values[$key] = $value_1;
             }
-            $data['tools'] = $values;
+            $data['metadata'] = $values;
+        }
+        if ($object->isInitialized('tools') && $object->getTools() !== null) {
+            $values_1 = [];
+            foreach ($object->getTools() as $value_2) {
+                $value_3 = $value_2;
+                if (is_object($value_2)) {
+                    $value_3 = $this->normalizer->normalize($value_2, 'json', $context);
+                } elseif (is_object($value_2)) {
+                    $value_3 = $this->normalizer->normalize($value_2, 'json', $context);
+                } elseif (is_object($value_2)) {
+                    $value_3 = $this->normalizer->normalize($value_2, 'json', $context);
+                }
+                $values_1[] = $value_3;
+            }
+            $data['tools'] = $values_1;
         }
         if ($object->isInitialized('fileIds') && $object->getFileIds() !== null) {
-            $values_1 = [];
-            foreach ($object->getFileIds() as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $data['file_ids'] = $values_1;
-        }
-        if ($object->isInitialized('metadata') && $object->getMetadata() !== null) {
             $values_2 = [];
-            foreach ($object->getMetadata() as $key => $value_2) {
-                $values_2[$key] = $value_2;
+            foreach ($object->getFileIds() as $value_4) {
+                $values_2[] = $value_4;
             }
-            $data['metadata'] = $values_2;
+            $data['file_ids'] = $values_2;
         }
         return $data;
     }

@@ -13,21 +13,21 @@ class ChatCompletionRequestMessageContentPartImage extends ArrayObject
     /**
      * The type of the content part.
      */
-    protected ?string $type = null;
+    protected string $type = 'image_url';
 
     protected ?ChatCompletionRequestMessageContentPartImageImageUrl $imageUrl = null;
 
     /**
-     * @param string $type The type of the content part.
      * @param ChatCompletionRequestMessageContentPartImageImageUrl $imageUrl
+     * @param string $type The type of the content part.
      */
-    public function __construct($type = null, $imageUrl = null)
+    public function __construct($imageUrl = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($imageUrl !== null) {
             $this->setImageUrl($imageUrl);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

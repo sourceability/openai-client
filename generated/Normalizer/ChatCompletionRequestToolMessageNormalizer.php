@@ -48,10 +48,6 @@ class ChatCompletionRequestToolMessageNormalizer implements DenormalizerInterfac
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
-        }
         if (\array_key_exists('content', $data)) {
             $object->setContent($data['content']);
             unset($data['content']);
@@ -59,6 +55,10 @@ class ChatCompletionRequestToolMessageNormalizer implements DenormalizerInterfac
         if (\array_key_exists('tool_call_id', $data)) {
             $object->setToolCallId($data['tool_call_id']);
             unset($data['tool_call_id']);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -74,9 +74,9 @@ class ChatCompletionRequestToolMessageNormalizer implements DenormalizerInterfac
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['role'] = $object->getRole();
         $data['content'] = $object->getContent();
         $data['tool_call_id'] = $object->getToolCallId();
+        $data['role'] = $object->getRole();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

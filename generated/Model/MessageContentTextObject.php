@@ -13,21 +13,21 @@ class MessageContentTextObject extends ArrayObject
     /**
      * Always `text`.
      */
-    protected ?string $type = null;
+    protected string $type = 'text';
 
     protected ?MessageContentTextObjectText $text = null;
 
     /**
-     * @param string $type Always `text`.
      * @param MessageContentTextObjectText $text
+     * @param string $type Always `text`.
      */
-    public function __construct($type = null, $text = null)
+    public function __construct($text = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($text !== null) {
             $this->setText($text);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

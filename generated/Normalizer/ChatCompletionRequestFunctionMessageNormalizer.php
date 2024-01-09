@@ -48,10 +48,6 @@ class ChatCompletionRequestFunctionMessageNormalizer implements DenormalizerInte
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('role', $data)) {
-            $object->setRole($data['role']);
-            unset($data['role']);
-        }
         if (\array_key_exists('content', $data) && $data['content'] !== null) {
             $object->setContent($data['content']);
             unset($data['content']);
@@ -61,6 +57,10 @@ class ChatCompletionRequestFunctionMessageNormalizer implements DenormalizerInte
         if (\array_key_exists('name', $data)) {
             $object->setName($data['name']);
             unset($data['name']);
+        }
+        if (\array_key_exists('role', $data)) {
+            $object->setRole($data['role']);
+            unset($data['role']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -76,9 +76,9 @@ class ChatCompletionRequestFunctionMessageNormalizer implements DenormalizerInte
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['role'] = $object->getRole();
         $data['content'] = $object->getContent();
         $data['name'] = $object->getName();
+        $data['role'] = $object->getRole();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

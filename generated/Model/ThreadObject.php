@@ -18,7 +18,7 @@ class ThreadObject extends ArrayObject
     /**
      * The object type, which is always `thread`.
      */
-    protected ?string $object = null;
+    protected string $object = 'thread';
 
     /**
      * The Unix timestamp (in seconds) for when the thread was created.
@@ -34,23 +34,23 @@ class ThreadObject extends ArrayObject
 
     /**
      * @param string $id The identifier, which can be referenced in API endpoints.
-     * @param string $object The object type, which is always `thread`.
      * @param int $createdAt The Unix timestamp (in seconds) for when the thread was created.
      * @param array<string, mixed>|null $metadata Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+     * @param string $object The object type, which is always `thread`.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $metadata = null)
+    public function __construct($id = null, $createdAt = null, $metadata = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
-        }
-        if ($object !== null) {
-            $this->setObject($object);
         }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
         }
         if ($metadata !== null) {
             $this->setMetadata($metadata);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

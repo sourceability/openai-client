@@ -13,14 +13,14 @@ class ChatCompletionRequestUserMessage extends ArrayObject
     /**
      * The contents of the user message.
      *
-     * @var mixed
+     * @var string|ChatCompletionRequestMessageContentPartText[]|ChatCompletionRequestMessageContentPartImage[]
      */
     protected $content = null;
 
     /**
      * The role of the messages author, in this case `user`.
      */
-    protected ?string $role = null;
+    protected string $role = 'user';
 
     /**
      * An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -28,20 +28,20 @@ class ChatCompletionRequestUserMessage extends ArrayObject
     protected ?string $name = null;
 
     /**
-     * @param mixed $content The contents of the user message.
-     * @param string $role The role of the messages author, in this case `user`.
+     * @param string|ChatCompletionRequestMessageContentPartText[]|ChatCompletionRequestMessageContentPartImage[] $content The contents of the user message.
      * @param string $name An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+     * @param string $role The role of the messages author, in this case `user`.
      */
-    public function __construct(mixed $content = null, $role = null, $name = null)
+    public function __construct($content = null, $name = null, $role = null)
     {
         if ($content !== null) {
             $this->setContent($content);
         }
-        if ($role !== null) {
-            $this->setRole($role);
-        }
         if ($name !== null) {
             $this->setName($name);
+        }
+        if ($role !== null) {
+            $this->setRole($role);
         }
     }
 
@@ -53,7 +53,7 @@ class ChatCompletionRequestUserMessage extends ArrayObject
     /**
      * The contents of the user message.
      *
-     * @return mixed
+     * @return string|ChatCompletionRequestMessageContentPartText[]|ChatCompletionRequestMessageContentPartImage[]
      */
     public function getContent()
     {
@@ -62,8 +62,10 @@ class ChatCompletionRequestUserMessage extends ArrayObject
 
     /**
      * The contents of the user message.
+     *
+     * @param string|ChatCompletionRequestMessageContentPartText[]|ChatCompletionRequestMessageContentPartImage[] $content
      */
-    public function setContent(mixed $content): self
+    public function setContent($content): self
     {
         $this->initialized['content'] = true;
         $this->content = $content;

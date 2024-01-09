@@ -13,21 +13,21 @@ class ChatCompletionNamedToolChoice extends ArrayObject
     /**
      * The type of the tool. Currently, only `function` is supported.
      */
-    protected ?string $type = null;
+    protected string $type = 'function';
 
     protected ?ChatCompletionNamedToolChoiceFunction $function = null;
 
     /**
-     * @param string $type The type of the tool. Currently, only `function` is supported.
      * @param ChatCompletionNamedToolChoiceFunction $function
+     * @param string $type The type of the tool. Currently, only `function` is supported.
      */
-    public function __construct($type = null, $function = null)
+    public function __construct($function = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($function !== null) {
             $this->setFunction($function);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

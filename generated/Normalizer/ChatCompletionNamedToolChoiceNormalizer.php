@@ -49,13 +49,13 @@ class ChatCompletionNamedToolChoiceNormalizer implements DenormalizerInterface, 
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('function', $data)) {
             $object->setFunction($this->denormalizer->denormalize($data['function'], ChatCompletionNamedToolChoiceFunction::class, 'json', $context));
             unset($data['function']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -71,8 +71,8 @@ class ChatCompletionNamedToolChoiceNormalizer implements DenormalizerInterface, 
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['function'] = $this->normalizer->normalize($object->getFunction(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

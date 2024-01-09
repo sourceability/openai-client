@@ -11,7 +11,7 @@ class CreateSpeechRequest
     /**
      * One of the available [TTS models](/docs/models/tts): `tts-1` or `tts-1-hd`
      *
-     * @var mixed
+     * @var string|string
      */
     protected $model = null;
 
@@ -36,13 +36,13 @@ class CreateSpeechRequest
     protected float $speed = 1.0;
 
     /**
-     * @param mixed $model One of the available [TTS models](/docs/models/tts): `tts-1` or `tts-1-hd`
+     * @param string|string $model One of the available [TTS models](/docs/models/tts): `tts-1` or `tts-1-hd`
      * @param string $input The text to generate audio for. The maximum length is 4096 characters.
      * @param string $voice The voice to use when generating the audio. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech/voice-options).
      * @param string $responseFormat The format to audio in. Supported formats are `mp3`, `opus`, `aac`, and `flac`.
      * @param float $speed The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default.
      */
-    public function __construct(mixed $model = null, $input = null, $voice = null, $responseFormat = 'mp3', $speed = 1.0)
+    public function __construct($model = null, $input = null, $voice = null, $responseFormat = 'mp3', $speed = 1.0)
     {
         if ($model !== null) {
             $this->setModel($model);
@@ -69,7 +69,7 @@ class CreateSpeechRequest
     /**
      * One of the available [TTS models](/docs/models/tts): `tts-1` or `tts-1-hd`
      *
-     * @return mixed
+     * @return string|string
      */
     public function getModel()
     {
@@ -78,8 +78,10 @@ class CreateSpeechRequest
 
     /**
      * One of the available [TTS models](/docs/models/tts): `tts-1` or `tts-1-hd`
+     *
+     * @param string|string $model
      */
-    public function setModel(mixed $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;

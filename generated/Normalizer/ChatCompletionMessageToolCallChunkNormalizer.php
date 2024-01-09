@@ -57,13 +57,13 @@ class ChatCompletionMessageToolCallChunkNormalizer implements DenormalizerInterf
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('function', $data)) {
             $object->setFunction($this->denormalizer->denormalize($data['function'], ChatCompletionMessageToolCallChunkFunction::class, 'json', $context));
             unset($data['function']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -83,11 +83,11 @@ class ChatCompletionMessageToolCallChunkNormalizer implements DenormalizerInterf
         if ($object->isInitialized('id') && $object->getId() !== null) {
             $data['id'] = $object->getId();
         }
-        if ($object->isInitialized('type') && $object->getType() !== null) {
-            $data['type'] = $object->getType();
-        }
         if ($object->isInitialized('function') && $object->getFunction() !== null) {
             $data['function'] = $this->normalizer->normalize($object->getFunction(), 'json', $context);
+        }
+        if ($object->isInitialized('type') && $object->getType() !== null) {
+            $data['type'] = $object->getType();
         }
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {

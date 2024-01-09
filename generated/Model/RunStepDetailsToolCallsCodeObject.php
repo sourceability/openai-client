@@ -18,7 +18,7 @@ class RunStepDetailsToolCallsCodeObject extends ArrayObject
     /**
      * The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
      */
-    protected ?string $type = null;
+    protected string $type = 'code_interpreter';
 
     /**
      * The Code Interpreter tool call definition.
@@ -27,19 +27,19 @@ class RunStepDetailsToolCallsCodeObject extends ArrayObject
 
     /**
      * @param string $id The ID of the tool call.
-     * @param string $type The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
      * @param RunStepDetailsToolCallsCodeObjectCodeInterpreter $codeInterpreter The Code Interpreter tool call definition.
+     * @param string $type The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
      */
-    public function __construct($id = null, $type = null, $codeInterpreter = null)
+    public function __construct($id = null, $codeInterpreter = null, $type = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($codeInterpreter !== null) {
             $this->setCodeInterpreter($codeInterpreter);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 

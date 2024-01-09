@@ -49,13 +49,13 @@ class RunObjectRequiredActionNormalizer implements DenormalizerInterface, Normal
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
         if (\array_key_exists('submit_tool_outputs', $data)) {
             $object->setSubmitToolOutputs($this->denormalizer->denormalize($data['submit_tool_outputs'], RunObjectRequiredActionSubmitToolOutputs::class, 'json', $context));
             unset($data['submit_tool_outputs']);
+        }
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -71,8 +71,8 @@ class RunObjectRequiredActionNormalizer implements DenormalizerInterface, Normal
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
         $data['submit_tool_outputs'] = $this->normalizer->normalize($object->getSubmitToolOutputs(), 'json', $context);
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;

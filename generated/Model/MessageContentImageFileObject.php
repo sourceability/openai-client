@@ -13,21 +13,21 @@ class MessageContentImageFileObject extends ArrayObject
     /**
      * Always `image_file`.
      */
-    protected ?string $type = null;
+    protected string $type = 'image_file';
 
     protected ?MessageContentImageFileObjectImageFile $imageFile = null;
 
     /**
-     * @param string $type Always `image_file`.
      * @param MessageContentImageFileObjectImageFile $imageFile
+     * @param string $type Always `image_file`.
      */
-    public function __construct($type = null, $imageFile = null)
+    public function __construct($imageFile = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
-        }
         if ($imageFile !== null) {
             $this->setImageFile($imageFile);
+        }
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 
