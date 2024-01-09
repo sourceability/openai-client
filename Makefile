@@ -3,10 +3,6 @@ SHELL = /bin/bash
 openai-openapi:
 	git clone git@github.com:openai/openai-openapi.git
 
-var/openapi-no-deprecated.yaml:
-	mkdir -p ./var
-	yq eval 'del(.paths | .. | select(has("deprecated") and .deprecated == true))' ./openai-openapi/openapi.yaml > $@
-
 generated: openai-openapi
 	vendor/bin/jane-openapi generate
 
@@ -39,5 +35,5 @@ pre-commit:
 	$(MAKE) -k rector cs phpunit
 
 .PHONY: build
-build: var/openapi-no-deprecated.yaml
+build:
 	time (time bin/jane generate ; for in in {1..4} ; do time (vendor/bin/rector process ; vendor/bin/ecs --fix); done)

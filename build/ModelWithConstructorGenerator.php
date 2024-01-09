@@ -47,6 +47,9 @@ class ModelWithConstructorGenerator extends ModelGenerator
     protected function createConstructorArgumentDoc(Property $property): string
     {
         $docTypeHint = $property->getType()->getDocTypeHint('');
+        if ($docTypeHint instanceof Name) {
+            $docTypeHint = $docTypeHint->toString();
+        }
         if ($property->isNullable() && ! str_contains($docTypeHint, 'null')) {
             $docTypeHint .= '|null';
         }
