@@ -10,16 +10,25 @@ class CreateModerationResponseResultsItem extends ArrayObject
 {
     protected array $initialized = [];
 
+    /**
+     * Whether the content violates [OpenAI's usage policies](/policies/usage-policies).
+     */
     protected ?bool $flagged = null;
 
+    /**
+     * A list of the categories, and whether they are flagged or not.
+     */
     protected ?CreateModerationResponseResultsItemCategories $categories = null;
 
+    /**
+     * A list of the categories along with their scores as predicted by model.
+     */
     protected ?CreateModerationResponseResultsItemCategoryScores $categoryScores = null;
 
     /**
-     * @param bool $flagged
-     * @param CreateModerationResponseResultsItemCategories $categories
-     * @param CreateModerationResponseResultsItemCategoryScores $categoryScores
+     * @param bool $flagged Whether the content violates [OpenAI's usage policies](/policies/usage-policies).
+     * @param CreateModerationResponseResultsItemCategories $categories A list of the categories, and whether they are flagged or not.
+     * @param CreateModerationResponseResultsItemCategoryScores $categoryScores A list of the categories along with their scores as predicted by model.
      */
     public function __construct($flagged = null, $categories = null, $categoryScores = null)
     {
@@ -39,11 +48,17 @@ class CreateModerationResponseResultsItem extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
+    /**
+     * Whether the content violates [OpenAI's usage policies](/policies/usage-policies).
+     */
     public function getFlagged(): bool
     {
         return $this->flagged;
     }
 
+    /**
+     * Whether the content violates [OpenAI's usage policies](/policies/usage-policies).
+     */
     public function setFlagged(bool $flagged): self
     {
         $this->initialized['flagged'] = true;
@@ -51,11 +66,17 @@ class CreateModerationResponseResultsItem extends ArrayObject
         return $this;
     }
 
+    /**
+     * A list of the categories, and whether they are flagged or not.
+     */
     public function getCategories(): CreateModerationResponseResultsItemCategories
     {
         return $this->categories;
     }
 
+    /**
+     * A list of the categories, and whether they are flagged or not.
+     */
     public function setCategories(CreateModerationResponseResultsItemCategories $categories): self
     {
         $this->initialized['categories'] = true;
@@ -63,11 +84,17 @@ class CreateModerationResponseResultsItem extends ArrayObject
         return $this;
     }
 
+    /**
+     * A list of the categories along with their scores as predicted by model.
+     */
     public function getCategoryScores(): CreateModerationResponseResultsItemCategoryScores
     {
         return $this->categoryScores;
     }
 
+    /**
+     * A list of the categories along with their scores as predicted by model.
+     */
     public function setCategoryScores(CreateModerationResponseResultsItemCategoryScores $categoryScores): self
     {
         $this->initialized['categoryScores'] = true;

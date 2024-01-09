@@ -23,12 +23,12 @@ class CreateModerationRequestNormalizer implements DenormalizerInterface, Normal
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateModerationRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateModerationRequest::class;
     }
@@ -49,16 +49,32 @@ class CreateModerationRequestNormalizer implements DenormalizerInterface, Normal
             return $object;
         }
         if (\array_key_exists('input', $data)) {
-            $object->setInput($data['input']);
+            $value = $data['input'];
+            if (is_string($data['input'])) {
+                $value = $data['input'];
+            } elseif (is_array($data['input']) && $this->isOnlyNumericKeys($data['input'])) {
+                $values = [];
+                foreach ($data['input'] as $value_1) {
+                    $values[] = $value_1;
+                }
+                $value = $values;
+            }
+            $object->setInput($value);
             unset($data['input']);
         }
         if (\array_key_exists('model', $data)) {
-            $object->setModel($data['model']);
+            $value_2 = $data['model'];
+            if (is_string($data['model'])) {
+                $value_2 = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value_2 = $data['model'];
+            }
+            $object->setModel($value_2);
             unset($data['model']);
         }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_3;
             }
         }
         return $object;
@@ -70,15 +86,38 @@ class CreateModerationRequestNormalizer implements DenormalizerInterface, Normal
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['input'] = $object->getInput();
-        if ($object->isInitialized('model') && $object->getModel() !== null) {
-            $data['model'] = $object->getModel();
+        $value = $object->getInput();
+        if (is_string($object->getInput())) {
+            $value = $object->getInput();
+        } elseif (is_array($object->getInput())) {
+            $values = [];
+            foreach ($object->getInput() as $value_1) {
+                $values[] = $value_1;
+            }
+            $value = $values;
         }
-        foreach ($object as $key => $value) {
+        $data['input'] = $value;
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $value_2 = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value_2 = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value_2 = $object->getModel();
+            }
+            $data['model'] = $value_2;
+        }
+        foreach ($object as $key => $value_3) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_3;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateModerationRequest::class => false,
+        ];
     }
 }

@@ -23,12 +23,12 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateImageEditRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateImageEditRequest::class;
     }
@@ -52,13 +52,29 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
             $object->setImage($data['image']);
             unset($data['image']);
         }
+        if (\array_key_exists('prompt', $data)) {
+            $object->setPrompt($data['prompt']);
+            unset($data['prompt']);
+        }
         if (\array_key_exists('mask', $data)) {
             $object->setMask($data['mask']);
             unset($data['mask']);
         }
-        if (\array_key_exists('prompt', $data)) {
-            $object->setPrompt($data['prompt']);
-            unset($data['prompt']);
+        if (\array_key_exists('user', $data)) {
+            $object->setUser($data['user']);
+            unset($data['user']);
+        }
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
+            unset($data['model']);
+        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
         }
         if (\array_key_exists('n', $data) && $data['n'] !== null) {
             $object->setN($data['n']);
@@ -78,13 +94,9 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
         } elseif (\array_key_exists('response_format', $data) && $data['response_format'] === null) {
             $object->setResponseFormat(null);
         }
-        if (\array_key_exists('user', $data)) {
-            $object->setUser($data['user']);
-            unset($data['user']);
-        }
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -97,10 +109,22 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
     {
         $data = [];
         $data['image'] = $object->getImage();
+        $data['prompt'] = $object->getPrompt();
         if ($object->isInitialized('mask') && $object->getMask() !== null) {
             $data['mask'] = $object->getMask();
         }
-        $data['prompt'] = $object->getPrompt();
+        if ($object->isInitialized('user') && $object->getUser() !== null) {
+            $data['user'] = $object->getUser();
+        }
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $value = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value = $object->getModel();
+            }
+            $data['model'] = $value;
+        }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
         }
@@ -110,14 +134,18 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
         if ($object->isInitialized('responseFormat') && $object->getResponseFormat() !== null) {
             $data['response_format'] = $object->getResponseFormat();
         }
-        if ($object->isInitialized('user') && $object->getUser() !== null) {
-            $data['user'] = $object->getUser();
-        }
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateImageEditRequest::class => false,
+        ];
     }
 }

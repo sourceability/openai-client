@@ -23,12 +23,12 @@ class CreateEmbeddingResponseUsageNormalizer implements DenormalizerInterface, N
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateEmbeddingResponseUsage::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateEmbeddingResponseUsage::class;
     }
@@ -78,5 +78,12 @@ class CreateEmbeddingResponseUsageNormalizer implements DenormalizerInterface, N
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateEmbeddingResponseUsage::class => false,
+        ];
     }
 }

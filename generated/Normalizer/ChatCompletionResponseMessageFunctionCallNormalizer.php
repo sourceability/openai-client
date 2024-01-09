@@ -23,12 +23,12 @@ class ChatCompletionResponseMessageFunctionCallNormalizer implements Denormalize
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ChatCompletionResponseMessageFunctionCall::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ChatCompletionResponseMessageFunctionCall::class;
     }
@@ -48,13 +48,13 @@ class ChatCompletionResponseMessageFunctionCallNormalizer implements Denormalize
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('name', $data)) {
-            $object->setName($data['name']);
-            unset($data['name']);
-        }
         if (\array_key_exists('arguments', $data)) {
             $object->setArguments($data['arguments']);
             unset($data['arguments']);
+        }
+        if (\array_key_exists('name', $data)) {
+            $object->setName($data['name']);
+            unset($data['name']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -70,17 +70,20 @@ class ChatCompletionResponseMessageFunctionCallNormalizer implements Denormalize
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        if ($object->isInitialized('name') && $object->getName() !== null) {
-            $data['name'] = $object->getName();
-        }
-        if ($object->isInitialized('arguments') && $object->getArguments() !== null) {
-            $data['arguments'] = $object->getArguments();
-        }
+        $data['arguments'] = $object->getArguments();
+        $data['name'] = $object->getName();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ChatCompletionResponseMessageFunctionCall::class => false,
+        ];
     }
 }

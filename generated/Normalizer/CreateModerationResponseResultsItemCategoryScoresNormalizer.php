@@ -23,12 +23,12 @@ class CreateModerationResponseResultsItemCategoryScoresNormalizer implements Den
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateModerationResponseResultsItemCategoryScores::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateModerationResponseResultsItemCategoryScores::class;
     }
@@ -51,8 +51,20 @@ class CreateModerationResponseResultsItemCategoryScoresNormalizer implements Den
         if (\array_key_exists('hate/threatening', $data) && \is_int($data['hate/threatening'])) {
             $data['hate/threatening'] = (float) $data['hate/threatening'];
         }
+        if (\array_key_exists('harassment', $data) && \is_int($data['harassment'])) {
+            $data['harassment'] = (float) $data['harassment'];
+        }
+        if (\array_key_exists('harassment/threatening', $data) && \is_int($data['harassment/threatening'])) {
+            $data['harassment/threatening'] = (float) $data['harassment/threatening'];
+        }
         if (\array_key_exists('self-harm', $data) && \is_int($data['self-harm'])) {
             $data['self-harm'] = (float) $data['self-harm'];
+        }
+        if (\array_key_exists('self-harm/intent', $data) && \is_int($data['self-harm/intent'])) {
+            $data['self-harm/intent'] = (float) $data['self-harm/intent'];
+        }
+        if (\array_key_exists('self-harm/instructions', $data) && \is_int($data['self-harm/instructions'])) {
+            $data['self-harm/instructions'] = (float) $data['self-harm/instructions'];
         }
         if (\array_key_exists('sexual', $data) && \is_int($data['sexual'])) {
             $data['sexual'] = (float) $data['sexual'];
@@ -77,9 +89,25 @@ class CreateModerationResponseResultsItemCategoryScoresNormalizer implements Den
             $object->setHateThreatening($data['hate/threatening']);
             unset($data['hate/threatening']);
         }
+        if (\array_key_exists('harassment', $data)) {
+            $object->setHarassment($data['harassment']);
+            unset($data['harassment']);
+        }
+        if (\array_key_exists('harassment/threatening', $data)) {
+            $object->setHarassmentThreatening($data['harassment/threatening']);
+            unset($data['harassment/threatening']);
+        }
         if (\array_key_exists('self-harm', $data)) {
             $object->setSelfHarm($data['self-harm']);
             unset($data['self-harm']);
+        }
+        if (\array_key_exists('self-harm/intent', $data)) {
+            $object->setSelfHarmIntent($data['self-harm/intent']);
+            unset($data['self-harm/intent']);
+        }
+        if (\array_key_exists('self-harm/instructions', $data)) {
+            $object->setSelfHarmInstructions($data['self-harm/instructions']);
+            unset($data['self-harm/instructions']);
         }
         if (\array_key_exists('sexual', $data)) {
             $object->setSexual($data['sexual']);
@@ -113,7 +141,11 @@ class CreateModerationResponseResultsItemCategoryScoresNormalizer implements Den
         $data = [];
         $data['hate'] = $object->getHate();
         $data['hate/threatening'] = $object->getHateThreatening();
+        $data['harassment'] = $object->getHarassment();
+        $data['harassment/threatening'] = $object->getHarassmentThreatening();
         $data['self-harm'] = $object->getSelfHarm();
+        $data['self-harm/intent'] = $object->getSelfHarmIntent();
+        $data['self-harm/instructions'] = $object->getSelfHarmInstructions();
         $data['sexual'] = $object->getSexual();
         $data['sexual/minors'] = $object->getSexualMinors();
         $data['violence'] = $object->getViolence();
@@ -124,5 +156,12 @@ class CreateModerationResponseResultsItemCategoryScoresNormalizer implements Den
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateModerationResponseResultsItemCategoryScores::class => false,
+        ];
     }
 }

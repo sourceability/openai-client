@@ -12,25 +12,25 @@ class DeleteFileResponse extends ArrayObject
 
     protected ?string $id = null;
 
-    protected ?string $object = null;
+    protected string $object = 'file';
 
     protected ?bool $deleted = null;
 
     /**
      * @param string $id
-     * @param string $object
      * @param bool $deleted
+     * @param string $object
      */
-    public function __construct($id = null, $object = null, $deleted = null)
+    public function __construct($id = null, $deleted = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($deleted !== null) {
             $this->setDeleted($deleted);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

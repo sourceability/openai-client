@@ -10,42 +10,30 @@ class ListFineTunesResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $object = null;
-
     /**
-     * @var FineTune[]|null
+     * @var FineTune[]
      */
     protected ?array $data = null;
 
+    protected string $object = 'list';
+
     /**
-     * @param string $object
      * @param FineTune[] $data
+     * @param string $object
      */
-    public function __construct($object = null, $data = null)
+    public function __construct($data = null, $object = null)
     {
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($data !== null) {
             $this->setData($data);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 
     public function isInitialized($property): bool
     {
         return array_key_exists($property, $this->initialized);
-    }
-
-    public function getObject(): string
-    {
-        return $this->object;
-    }
-
-    public function setObject(string $object): self
-    {
-        $this->initialized['object'] = true;
-        $this->object = $object;
-        return $this;
     }
 
     /**
@@ -63,6 +51,18 @@ class ListFineTunesResponse extends ArrayObject
     {
         $this->initialized['data'] = true;
         $this->data = $data;
+        return $this;
+    }
+
+    public function getObject(): string
+    {
+        return $this->object;
+    }
+
+    public function setObject(string $object): self
+    {
+        $this->initialized['object'] = true;
+        $this->object = $object;
         return $this;
     }
 }

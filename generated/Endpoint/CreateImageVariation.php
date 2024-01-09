@@ -42,15 +42,12 @@ class CreateImageVariation extends BaseEndpoint implements Endpoint
                 $bodyBuilder->addResource($key, $value);
             }
             return [[
-                'Content-Type' => ['multipart/form-data; boundary="' . ($bodyBuilder->getBoundary() . '""')],
+                'Content-Type' => ['multipart/form-data; boundary="' . ($bodyBuilder->getBoundary() . '"')],
             ], $bodyBuilder->build()];
         }
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -60,7 +57,7 @@ class CreateImageVariation extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
     }
 
     /**

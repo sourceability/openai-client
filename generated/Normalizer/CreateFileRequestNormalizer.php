@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\CreateFileRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
@@ -22,12 +23,12 @@ class CreateFileRequestNormalizer implements DenormalizerInterface, NormalizerIn
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateFileRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateFileRequest::class;
     }
@@ -57,7 +58,7 @@ class CreateFileRequestNormalizer implements DenormalizerInterface, NormalizerIn
     }
 
     /**
-     * @return array{file: mixed, purpose: mixed}
+     * @return array|string|int|float|bool|ArrayObject|null
      */
     public function normalize($object, $format = null, array $context = [])
     {
@@ -65,5 +66,12 @@ class CreateFileRequestNormalizer implements DenormalizerInterface, NormalizerIn
         $data['file'] = $object->getFile();
         $data['purpose'] = $object->getPurpose();
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateFileRequest::class => false,
+        ];
     }
 }

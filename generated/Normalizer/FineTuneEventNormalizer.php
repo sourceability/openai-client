@@ -23,12 +23,12 @@ class FineTuneEventNormalizer implements DenormalizerInterface, NormalizerInterf
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === FineTuneEvent::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === FineTuneEvent::class;
     }
@@ -48,10 +48,6 @@ class FineTuneEventNormalizer implements DenormalizerInterface, NormalizerInterf
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created_at', $data)) {
             $object->setCreatedAt($data['created_at']);
             unset($data['created_at']);
@@ -63,6 +59,10 @@ class FineTuneEventNormalizer implements DenormalizerInterface, NormalizerInterf
         if (\array_key_exists('message', $data)) {
             $object->setMessage($data['message']);
             unset($data['message']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -78,15 +78,22 @@ class FineTuneEventNormalizer implements DenormalizerInterface, NormalizerInterf
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['object'] = $object->getObject();
         $data['created_at'] = $object->getCreatedAt();
         $data['level'] = $object->getLevel();
         $data['message'] = $object->getMessage();
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            FineTuneEvent::class => false,
+        ];
     }
 }

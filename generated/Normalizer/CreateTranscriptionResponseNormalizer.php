@@ -23,12 +23,12 @@ class CreateTranscriptionResponseNormalizer implements DenormalizerInterface, No
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateTranscriptionResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateTranscriptionResponse::class;
     }
@@ -73,5 +73,12 @@ class CreateTranscriptionResponseNormalizer implements DenormalizerInterface, No
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateTranscriptionResponse::class => false,
+        ];
     }
 }

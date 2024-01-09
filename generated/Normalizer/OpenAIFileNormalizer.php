@@ -23,12 +23,12 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === OpenAIFile::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === OpenAIFile::class;
     }
@@ -52,10 +52,6 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('bytes', $data)) {
             $object->setBytes($data['bytes']);
             unset($data['bytes']);
@@ -76,19 +72,17 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
             $object->setStatus($data['status']);
             unset($data['status']);
         }
-        if (\array_key_exists('status_details', $data) && $data['status_details'] !== null) {
-            $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['status_details'] as $key => $value) {
-                $values[$key] = $value;
-            }
-            $object->setStatusDetails($values);
+        if (\array_key_exists('status_details', $data)) {
+            $object->setStatusDetails($data['status_details']);
             unset($data['status_details']);
-        } elseif (\array_key_exists('status_details', $data) && $data['status_details'] === null) {
-            $object->setStatusDetails(null);
         }
-        foreach ($data as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_1;
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
+        foreach ($data as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $object[$key] = $value;
             }
         }
         return $object;
@@ -101,26 +95,27 @@ class OpenAIFileNormalizer implements DenormalizerInterface, NormalizerInterface
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['bytes'] = $object->getBytes();
         $data['created_at'] = $object->getCreatedAt();
         $data['filename'] = $object->getFilename();
         $data['purpose'] = $object->getPurpose();
-        if ($object->isInitialized('status') && $object->getStatus() !== null) {
-            $data['status'] = $object->getStatus();
-        }
+        $data['status'] = $object->getStatus();
         if ($object->isInitialized('statusDetails') && $object->getStatusDetails() !== null) {
-            $values = [];
-            foreach ($object->getStatusDetails() as $key => $value) {
-                $values[$key] = $value;
-            }
-            $data['status_details'] = $values;
+            $data['status_details'] = $object->getStatusDetails();
         }
-        foreach ($object as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_1;
+        $data['object'] = $object->getObject();
+        foreach ($object as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            OpenAIFile::class => false,
+        ];
     }
 }

@@ -11,19 +11,21 @@ class CreateEditRequest extends ArrayObject
     protected array $initialized = [];
 
     /**
-     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     * The instruction that tells the model how to edit the prompt.
      */
-    protected ?string $model = null;
+    protected ?string $instruction = null;
+
+    /**
+     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     *
+     * @var string|string
+     */
+    protected $model = null;
 
     /**
      * The input text to use as a starting point for the edit.
      */
     protected ?string $input = '';
-
-    /**
-     * The instruction that tells the model how to edit the prompt.
-     */
-    protected ?string $instruction = null;
 
     /**
      * How many edits to generate for the input and instruction.
@@ -47,25 +49,25 @@ class CreateEditRequest extends ArrayObject
     protected $topP = 1;
 
     /**
-     * @param string $model ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
-     * @param string|null $input The input text to use as a starting point for the edit.
      * @param string $instruction The instruction that tells the model how to edit the prompt.
+     * @param string|string $model ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     * @param string|null $input The input text to use as a starting point for the edit.
      * @param int|null $n How many edits to generate for the input and instruction.
      * @param float|null $temperature What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      *                                We generally recommend altering this or `top_p` but not both.
      * @param float|null $topP An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      *                         We generally recommend altering this or `temperature` but not both.
      */
-    public function __construct($model = null, $input = '', $instruction = null, $n = 1, $temperature = 1, $topP = 1)
+    public function __construct($instruction = null, $model = null, $input = '', $n = 1, $temperature = 1, $topP = 1)
     {
+        if ($instruction !== null) {
+            $this->setInstruction($instruction);
+        }
         if ($model !== null) {
             $this->setModel($model);
         }
         if ($input !== null) {
             $this->setInput($input);
-        }
-        if ($instruction !== null) {
-            $this->setInstruction($instruction);
         }
         if ($n !== null) {
             $this->setN($n);
@@ -84,17 +86,39 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     * The instruction that tells the model how to edit the prompt.
      */
-    public function getModel(): string
+    public function getInstruction(): string
+    {
+        return $this->instruction;
+    }
+
+    /**
+     * The instruction that tells the model how to edit the prompt.
+     */
+    public function setInstruction(string $instruction): self
+    {
+        $this->initialized['instruction'] = true;
+        $this->instruction = $instruction;
+        return $this;
+    }
+
+    /**
+     * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     *
+     * @return string|string
+     */
+    public function getModel()
     {
         return $this->model;
     }
 
     /**
      * ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+     *
+     * @param string|string $model
      */
-    public function setModel(string $model): self
+    public function setModel($model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;
@@ -120,24 +144,6 @@ class CreateEditRequest extends ArrayObject
     }
 
     /**
-     * The instruction that tells the model how to edit the prompt.
-     */
-    public function getInstruction(): string
-    {
-        return $this->instruction;
-    }
-
-    /**
-     * The instruction that tells the model how to edit the prompt.
-     */
-    public function setInstruction(string $instruction): self
-    {
-        $this->initialized['instruction'] = true;
-        $this->instruction = $instruction;
-        return $this;
-    }
-
-    /**
      * How many edits to generate for the input and instruction.
      */
     public function getN(): ?int
@@ -157,6 +163,7 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+
     We generally recommend altering this or `top_p` but not both.
      */
     public function getTemperature(): ?float
@@ -166,6 +173,7 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+
     We generally recommend altering this or `top_p` but not both.
      */
     public function setTemperature(?float $temperature): self
@@ -177,6 +185,7 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
     We generally recommend altering this or `temperature` but not both.
      */
     public function getTopP(): ?float
@@ -186,6 +195,7 @@ class CreateEditRequest extends ArrayObject
 
     /**
      * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
     We generally recommend altering this or `temperature` but not both.
      */
     public function setTopP(?float $topP): self

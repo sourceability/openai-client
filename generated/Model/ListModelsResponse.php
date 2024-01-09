@@ -10,24 +10,24 @@ class ListModelsResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $object = null;
+    protected string $object = 'list';
 
     /**
-     * @var Model[]|null
+     * @var Model[]
      */
     protected ?array $data = null;
 
     /**
-     * @param string $object
      * @param Model[] $data
+     * @param string $object
      */
-    public function __construct($object = null, $data = null)
+    public function __construct($data = null, $object = null)
     {
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($data !== null) {
             $this->setData($data);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 

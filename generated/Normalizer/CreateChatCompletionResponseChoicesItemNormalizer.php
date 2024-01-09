@@ -8,6 +8,7 @@ use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionResponseMessage;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponseChoicesItem;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionResponseChoicesItemLogprobs;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -24,12 +25,12 @@ class CreateChatCompletionResponseChoicesItemNormalizer implements DenormalizerI
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateChatCompletionResponseChoicesItem::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateChatCompletionResponseChoicesItem::class;
     }
@@ -49,6 +50,10 @@ class CreateChatCompletionResponseChoicesItemNormalizer implements DenormalizerI
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
+        if (\array_key_exists('finish_reason', $data)) {
+            $object->setFinishReason($data['finish_reason']);
+            unset($data['finish_reason']);
+        }
         if (\array_key_exists('index', $data)) {
             $object->setIndex($data['index']);
             unset($data['index']);
@@ -57,11 +62,11 @@ class CreateChatCompletionResponseChoicesItemNormalizer implements DenormalizerI
             $object->setMessage($this->denormalizer->denormalize($data['message'], ChatCompletionResponseMessage::class, 'json', $context));
             unset($data['message']);
         }
-        if (\array_key_exists('finish_reason', $data) && $data['finish_reason'] !== null) {
-            $object->setFinishReason($data['finish_reason']);
-            unset($data['finish_reason']);
-        } elseif (\array_key_exists('finish_reason', $data) && $data['finish_reason'] === null) {
-            $object->setFinishReason(null);
+        if (\array_key_exists('logprobs', $data) && $data['logprobs'] !== null) {
+            $object->setLogprobs($this->denormalizer->denormalize($data['logprobs'], CreateChatCompletionResponseChoicesItemLogprobs::class, 'json', $context));
+            unset($data['logprobs']);
+        } elseif (\array_key_exists('logprobs', $data) && $data['logprobs'] === null) {
+            $object->setLogprobs(null);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -77,20 +82,22 @@ class CreateChatCompletionResponseChoicesItemNormalizer implements DenormalizerI
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        if ($object->isInitialized('index') && $object->getIndex() !== null) {
-            $data['index'] = $object->getIndex();
-        }
-        if ($object->isInitialized('message') && $object->getMessage() !== null) {
-            $data['message'] = $this->normalizer->normalize($object->getMessage(), 'json', $context);
-        }
-        if ($object->isInitialized('finishReason') && $object->getFinishReason() !== null) {
-            $data['finish_reason'] = $object->getFinishReason();
-        }
+        $data['finish_reason'] = $object->getFinishReason();
+        $data['index'] = $object->getIndex();
+        $data['message'] = $this->normalizer->normalize($object->getMessage(), 'json', $context);
+        $data['logprobs'] = $this->normalizer->normalize($object->getLogprobs(), 'json', $context);
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateChatCompletionResponseChoicesItem::class => false,
+        ];
     }
 }

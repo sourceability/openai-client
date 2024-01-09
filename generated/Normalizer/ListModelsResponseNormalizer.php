@@ -24,12 +24,12 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ListModelsResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ListModelsResponse::class;
     }
@@ -49,10 +49,6 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('data', $data)) {
             $values = [];
             foreach ($data['data'] as $value) {
@@ -60,6 +56,10 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
             }
             $object->setData($values);
             unset($data['data']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -75,17 +75,24 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['object'] = $object->getObject();
         $values = [];
         foreach ($object->getData() as $value) {
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['data'] = $values;
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value_1;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ListModelsResponse::class => false,
+        ];
     }
 }

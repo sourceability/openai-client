@@ -110,7 +110,7 @@ class Client extends BaseClient
         return $this->processEndpoint($endpoint)->wait();
     }
 
-    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [], ?string $apiKey = null): static
+    public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [], ?string $apiKey = null, ?string $baseUri = null): static
     {
         if ($apiKey !== null) {
             $additionalPlugins[] = new AuthenticationPlugin(new Bearer($apiKey));
@@ -119,7 +119,7 @@ class Client extends BaseClient
         if ($httpClient === null) {
             $httpClient = HttpAsyncClientDiscovery::find();
             $plugins = [];
-            $uri = Psr17FactoryDiscovery::findUriFactory()->createUri('https://api.openai.com/v1');
+            $uri = Psr17FactoryDiscovery::findUriFactory()->createUri($baseUri ?? 'https://api.openai.com/v1');
             $plugins[] = new AddHostPlugin($uri);
             $plugins[] = new AddPathPlugin($uri);
             if (count($additionalPlugins) > 0) {

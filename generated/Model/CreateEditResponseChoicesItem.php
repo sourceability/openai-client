@@ -10,33 +10,39 @@ class CreateEditResponseChoicesItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $text = null;
-
-    protected ?int $index = null;
-
-    protected ?CreateEditResponseChoicesItemLogprobs $logprobs = null;
-
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
     protected ?string $finishReason = null;
 
     /**
-     * @param string $text
-     * @param int $index
-     * @param CreateEditResponseChoicesItemLogprobs|null $logprobs
-     * @param string $finishReason
+     * The index of the choice in the list of choices.
      */
-    public function __construct($text = null, $index = null, $logprobs = null, $finishReason = null)
+    protected ?int $index = null;
+
+    /**
+     * The edited result.
+     */
+    protected ?string $text = null;
+
+    /**
+     * @param string $finishReason The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+     *                             `length` if the maximum number of tokens specified in the request was reached,
+     *                             or `content_filter` if content was omitted due to a flag from our content filters.
+     * @param int $index The index of the choice in the list of choices.
+     * @param string $text The edited result.
+     */
+    public function __construct($finishReason = null, $index = null, $text = null)
     {
-        if ($text !== null) {
-            $this->setText($text);
+        if ($finishReason !== null) {
+            $this->setFinishReason($finishReason);
         }
         if ($index !== null) {
             $this->setIndex($index);
         }
-        if ($logprobs !== null) {
-            $this->setLogprobs($logprobs);
-        }
-        if ($finishReason !== null) {
-            $this->setFinishReason($finishReason);
+        if ($text !== null) {
+            $this->setText($text);
         }
     }
 
@@ -45,23 +51,37 @@ class CreateEditResponseChoicesItem extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
-    public function getText(): string
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
+    public function getFinishReason(): string
     {
-        return $this->text;
+        return $this->finishReason;
     }
 
-    public function setText(string $text): self
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
+    public function setFinishReason(string $finishReason): self
     {
-        $this->initialized['text'] = true;
-        $this->text = $text;
+        $this->initialized['finishReason'] = true;
+        $this->finishReason = $finishReason;
         return $this;
     }
 
+    /**
+     * The index of the choice in the list of choices.
+     */
     public function getIndex(): int
     {
         return $this->index;
     }
 
+    /**
+     * The index of the choice in the list of choices.
+     */
     public function setIndex(int $index): self
     {
         $this->initialized['index'] = true;
@@ -69,27 +89,21 @@ class CreateEditResponseChoicesItem extends ArrayObject
         return $this;
     }
 
-    public function getLogprobs(): ?CreateEditResponseChoicesItemLogprobs
+    /**
+     * The edited result.
+     */
+    public function getText(): string
     {
-        return $this->logprobs;
+        return $this->text;
     }
 
-    public function setLogprobs(?CreateEditResponseChoicesItemLogprobs $logprobs): self
+    /**
+     * The edited result.
+     */
+    public function setText(string $text): self
     {
-        $this->initialized['logprobs'] = true;
-        $this->logprobs = $logprobs;
-        return $this;
-    }
-
-    public function getFinishReason(): string
-    {
-        return $this->finishReason;
-    }
-
-    public function setFinishReason(string $finishReason): self
-    {
-        $this->initialized['finishReason'] = true;
-        $this->finishReason = $finishReason;
+        $this->initialized['text'] = true;
+        $this->text = $text;
         return $this;
     }
 }

@@ -31,14 +31,11 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
     $rectorConfig->rule(AddMethodCallBasedStrictParamTypeRector::class);
     $rectorConfig->rule(AddParamTypeFromPropertyTypeRector::class);
-    $rectorConfig->rule(ArrayShapeFromConstantArrayReturnRector::class);
     $rectorConfig->rule(ParamTypeByMethodCallTypeRector::class);
-    $rectorConfig->rule(ParamTypeFromStrictTypedPropertyRector::class);
     $rectorConfig->rule(PropertyTypeFromStrictSetterGetterRector::class);
     $rectorConfig->rule(ReturnTypeFromReturnDirectArrayRector::class);
     $rectorConfig->rule(ReturnTypeFromReturnNewRector::class);
     $rectorConfig->rule(TypedPropertyFromStrictConstructorRector::class);
-    $rectorConfig->rule(TypedPropertyFromStrictGetterMethodReturnTypeRector::class);
     $rectorConfig->ruleWithConfiguration(TypedPropertyFromAssignsRector::class, [
         TypedPropertyFromAssignsRector::INLINE_PUBLIC => true,
     ]);

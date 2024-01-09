@@ -23,12 +23,12 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateImageRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateImageRequest::class;
     }
@@ -52,17 +52,31 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
             $object->setPrompt($data['prompt']);
             unset($data['prompt']);
         }
+        if (\array_key_exists('user', $data)) {
+            $object->setUser($data['user']);
+            unset($data['user']);
+        }
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
+            $value = $data['model'];
+            if (is_string($data['model'])) {
+                $value = $data['model'];
+            } elseif (is_string($data['model'])) {
+                $value = $data['model'];
+            }
+            $object->setModel($value);
+            unset($data['model']);
+        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
+        }
         if (\array_key_exists('n', $data) && $data['n'] !== null) {
             $object->setN($data['n']);
             unset($data['n']);
         } elseif (\array_key_exists('n', $data) && $data['n'] === null) {
             $object->setN(null);
         }
-        if (\array_key_exists('size', $data) && $data['size'] !== null) {
-            $object->setSize($data['size']);
-            unset($data['size']);
-        } elseif (\array_key_exists('size', $data) && $data['size'] === null) {
-            $object->setSize(null);
+        if (\array_key_exists('quality', $data)) {
+            $object->setQuality($data['quality']);
+            unset($data['quality']);
         }
         if (\array_key_exists('response_format', $data) && $data['response_format'] !== null) {
             $object->setResponseFormat($data['response_format']);
@@ -70,13 +84,21 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
         } elseif (\array_key_exists('response_format', $data) && $data['response_format'] === null) {
             $object->setResponseFormat(null);
         }
-        if (\array_key_exists('user', $data)) {
-            $object->setUser($data['user']);
-            unset($data['user']);
+        if (\array_key_exists('size', $data) && $data['size'] !== null) {
+            $object->setSize($data['size']);
+            unset($data['size']);
+        } elseif (\array_key_exists('size', $data) && $data['size'] === null) {
+            $object->setSize(null);
         }
-        foreach ($data as $key => $value) {
+        if (\array_key_exists('style', $data) && $data['style'] !== null) {
+            $object->setStyle($data['style']);
+            unset($data['style']);
+        } elseif (\array_key_exists('style', $data) && $data['style'] === null) {
+            $object->setStyle(null);
+        }
+        foreach ($data as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+                $object[$key] = $value_1;
             }
         }
         return $object;
@@ -89,23 +111,45 @@ class CreateImageRequestNormalizer implements DenormalizerInterface, NormalizerI
     {
         $data = [];
         $data['prompt'] = $object->getPrompt();
+        if ($object->isInitialized('user') && $object->getUser() !== null) {
+            $data['user'] = $object->getUser();
+        }
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $value = $object->getModel();
+            if (is_string($object->getModel())) {
+                $value = $object->getModel();
+            } elseif (is_string($object->getModel())) {
+                $value = $object->getModel();
+            }
+            $data['model'] = $value;
+        }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
         }
-        if ($object->isInitialized('size') && $object->getSize() !== null) {
-            $data['size'] = $object->getSize();
+        if ($object->isInitialized('quality') && $object->getQuality() !== null) {
+            $data['quality'] = $object->getQuality();
         }
         if ($object->isInitialized('responseFormat') && $object->getResponseFormat() !== null) {
             $data['response_format'] = $object->getResponseFormat();
         }
-        if ($object->isInitialized('user') && $object->getUser() !== null) {
-            $data['user'] = $object->getUser();
+        if ($object->isInitialized('size') && $object->getSize() !== null) {
+            $data['size'] = $object->getSize();
         }
-        foreach ($object as $key => $value) {
+        if ($object->isInitialized('style') && $object->getStyle() !== null) {
+            $data['style'] = $object->getStyle();
+        }
+        foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
+                $data[$key] = $value_1;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateImageRequest::class => false,
+        ];
     }
 }

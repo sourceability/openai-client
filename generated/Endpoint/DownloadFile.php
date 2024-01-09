@@ -15,7 +15,7 @@ class DownloadFile extends BaseEndpoint implements Endpoint
     use EndpointTrait;
 
     /**
-     * @param string $file_id The ID of the file to use for this request
+     * @param string $file_id The ID of the file to use for this request.
      */
     public function __construct(
         protected string $file_id
@@ -37,9 +37,6 @@ class DownloadFile extends BaseEndpoint implements Endpoint
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -49,7 +46,7 @@ class DownloadFile extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
     }
 
     protected function transformResponseBody(ResponseInterface $response, SerializerInterface $serializer, ?string $contentType = null)
@@ -57,7 +54,7 @@ class DownloadFile extends BaseEndpoint implements Endpoint
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (($contentType === null) === false && ($status === 200 && mb_strpos($contentType, 'application/json') !== false)) {
-            return json_decode($body, null, 512, JSON_THROW_ON_ERROR);
+            return json_decode($body);
         }
     }
 }

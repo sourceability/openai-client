@@ -11,44 +11,44 @@ class CreateCompletionResponseChoicesItemLogprobs extends ArrayObject
     protected array $initialized = [];
 
     /**
-     * @var string[]|null
-     */
-    protected ?array $tokens = null;
-
-    /**
-     * @var float[]|null
-     */
-    protected ?array $tokenLogprobs = null;
-
-    /**
-     * @var mixed[][]|null
-     */
-    protected ?array $topLogprobs = null;
-
-    /**
-     * @var int[]|null
+     * @var int[]
      */
     protected ?array $textOffset = null;
 
     /**
-     * @param string[] $tokens
-     * @param float[] $tokenLogprobs
-     * @param mixed[][] $topLogprobs
-     * @param int[] $textOffset
+     * @var float[]
      */
-    public function __construct($tokens = null, $tokenLogprobs = null, $topLogprobs = null, $textOffset = null)
+    protected ?array $tokenLogprobs = null;
+
+    /**
+     * @var string[]
+     */
+    protected ?array $tokens = null;
+
+    /**
+     * @var array<string, float>[]
+     */
+    protected ?array $topLogprobs = null;
+
+    /**
+     * @param int[] $textOffset
+     * @param float[] $tokenLogprobs
+     * @param string[] $tokens
+     * @param array<string, float>[] $topLogprobs
+     */
+    public function __construct($textOffset = null, $tokenLogprobs = null, $tokens = null, $topLogprobs = null)
     {
-        if ($tokens !== null) {
-            $this->setTokens($tokens);
+        if ($textOffset !== null) {
+            $this->setTextOffset($textOffset);
         }
         if ($tokenLogprobs !== null) {
             $this->setTokenLogprobs($tokenLogprobs);
         }
+        if ($tokens !== null) {
+            $this->setTokens($tokens);
+        }
         if ($topLogprobs !== null) {
             $this->setTopLogprobs($topLogprobs);
-        }
-        if ($textOffset !== null) {
-            $this->setTextOffset($textOffset);
         }
     }
 
@@ -58,20 +58,20 @@ class CreateCompletionResponseChoicesItemLogprobs extends ArrayObject
     }
 
     /**
-     * @return string[]
+     * @return int[]
      */
-    public function getTokens(): array
+    public function getTextOffset(): array
     {
-        return $this->tokens;
+        return $this->textOffset;
     }
 
     /**
-     * @param string[] $tokens
+     * @param int[] $textOffset
      */
-    public function setTokens(array $tokens): self
+    public function setTextOffset(array $textOffset): self
     {
-        $this->initialized['tokens'] = true;
-        $this->tokens = $tokens;
+        $this->initialized['textOffset'] = true;
+        $this->textOffset = $textOffset;
         return $this;
     }
 
@@ -94,7 +94,25 @@ class CreateCompletionResponseChoicesItemLogprobs extends ArrayObject
     }
 
     /**
-     * @return mixed[][]
+     * @return string[]
+     */
+    public function getTokens(): array
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * @param string[] $tokens
+     */
+    public function setTokens(array $tokens): self
+    {
+        $this->initialized['tokens'] = true;
+        $this->tokens = $tokens;
+        return $this;
+    }
+
+    /**
+     * @return array<string, float>[]
      */
     public function getTopLogprobs(): array
     {
@@ -102,30 +120,12 @@ class CreateCompletionResponseChoicesItemLogprobs extends ArrayObject
     }
 
     /**
-     * @param mixed[][] $topLogprobs
+     * @param array<string, float>[] $topLogprobs
      */
     public function setTopLogprobs(array $topLogprobs): self
     {
         $this->initialized['topLogprobs'] = true;
         $this->topLogprobs = $topLogprobs;
-        return $this;
-    }
-
-    /**
-     * @return int[]
-     */
-    public function getTextOffset(): array
-    {
-        return $this->textOffset;
-    }
-
-    /**
-     * @param int[] $textOffset
-     */
-    public function setTextOffset(array $textOffset): self
-    {
-        $this->initialized['textOffset'] = true;
-        $this->textOffset = $textOffset;
         return $this;
     }
 }

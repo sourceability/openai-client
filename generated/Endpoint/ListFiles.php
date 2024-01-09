@@ -9,11 +9,22 @@ use Sourceability\OpenAIClient\Generated\Model\ListFilesResponse;
 use Sourceability\OpenAIClient\Generated\Runtime\Client\BaseEndpoint;
 use Sourceability\OpenAIClient\Generated\Runtime\Client\Endpoint;
 use Sourceability\OpenAIClient\Generated\Runtime\Client\EndpointTrait;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ListFiles extends BaseEndpoint implements Endpoint
 {
     use EndpointTrait;
+
+    /**
+     * @param array $queryParameters {
+     *     @var string Only return files with the given purpose.
+     * }
+     */
+    public function __construct(array $queryParameters = [])
+    {
+        $this->queryParameters = $queryParameters;
+    }
 
     public function getMethod(): string
     {
@@ -30,9 +41,6 @@ class ListFiles extends BaseEndpoint implements Endpoint
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -42,7 +50,17 @@ class ListFiles extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
+    }
+
+    protected function getQueryOptionsResolver(): OptionsResolver
+    {
+        $optionsResolver = parent::getQueryOptionsResolver();
+        $optionsResolver->setDefined(['purpose']);
+        $optionsResolver->setRequired([]);
+        $optionsResolver->setDefaults([]);
+        $optionsResolver->addAllowedTypes('purpose', ['string']);
+        return $optionsResolver;
     }
 
     /**

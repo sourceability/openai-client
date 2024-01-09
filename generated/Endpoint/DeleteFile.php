@@ -16,7 +16,7 @@ class DeleteFile extends BaseEndpoint implements Endpoint
     use EndpointTrait;
 
     /**
-     * @param string $file_id The ID of the file to use for this request
+     * @param string $file_id The ID of the file to use for this request.
      */
     public function __construct(
         protected string $file_id
@@ -38,9 +38,6 @@ class DeleteFile extends BaseEndpoint implements Endpoint
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -50,7 +47,7 @@ class DeleteFile extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
     }
 
     /**
