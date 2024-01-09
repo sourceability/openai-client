@@ -25,12 +25,12 @@ class CreateModerationResponseResultsItemNormalizer implements DenormalizerInter
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateModerationResponseResultsItem::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateModerationResponseResultsItem::class;
     }
@@ -85,5 +85,12 @@ class CreateModerationResponseResultsItemNormalizer implements DenormalizerInter
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateModerationResponseResultsItem::class => false,
+        ];
     }
 }

@@ -10,24 +10,30 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $text = null;
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
+    protected ?string $finishReason = null;
 
     protected ?int $index = null;
 
     protected ?CreateCompletionResponseChoicesItemLogprobs $logprobs = null;
 
-    protected ?string $finishReason = null;
+    protected ?string $text = null;
 
     /**
-     * @param string $text
+     * @param string $finishReason The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+     *                             `length` if the maximum number of tokens specified in the request was reached,
+     *                             or `content_filter` if content was omitted due to a flag from our content filters.
      * @param int $index
      * @param CreateCompletionResponseChoicesItemLogprobs|null $logprobs
-     * @param string|null $finishReason
+     * @param string $text
      */
-    public function __construct($text = null, $index = null, $logprobs = null, $finishReason = null)
+    public function __construct($finishReason = null, $index = null, $logprobs = null, $text = null)
     {
-        if ($text !== null) {
-            $this->setText($text);
+        if ($finishReason !== null) {
+            $this->setFinishReason($finishReason);
         }
         if ($index !== null) {
             $this->setIndex($index);
@@ -35,8 +41,8 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
         if ($logprobs !== null) {
             $this->setLogprobs($logprobs);
         }
-        if ($finishReason !== null) {
-            $this->setFinishReason($finishReason);
+        if ($text !== null) {
+            $this->setText($text);
         }
     }
 
@@ -45,15 +51,23 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
-    public function getText(): string
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
+    public function getFinishReason(): string
     {
-        return $this->text;
+        return $this->finishReason;
     }
 
-    public function setText(string $text): self
+    /**
+     * The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+    or `content_filter` if content was omitted due to a flag from our content filters.
+     */
+    public function setFinishReason(string $finishReason): self
     {
-        $this->initialized['text'] = true;
-        $this->text = $text;
+        $this->initialized['finishReason'] = true;
+        $this->finishReason = $finishReason;
         return $this;
     }
 
@@ -81,15 +95,15 @@ class CreateCompletionResponseChoicesItem extends ArrayObject
         return $this;
     }
 
-    public function getFinishReason(): ?string
+    public function getText(): string
     {
-        return $this->finishReason;
+        return $this->text;
     }
 
-    public function setFinishReason(?string $finishReason): self
+    public function setText(string $text): self
     {
-        $this->initialized['finishReason'] = true;
-        $this->finishReason = $finishReason;
+        $this->initialized['text'] = true;
+        $this->text = $text;
         return $this;
     }
 }

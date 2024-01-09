@@ -16,14 +16,21 @@ class CreateImageEditRequest extends ArrayObject
     protected ?string $image = null;
 
     /**
+     * A text description of the desired image(s). The maximum length is 1000 characters.
+     */
+    protected ?string $prompt = null;
+
+    /**
      * An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
      */
     protected ?string $mask = null;
 
     /**
-     * A text description of the desired image(s). The maximum length is 1000 characters.
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @var mixed|null
      */
-    protected ?string $prompt = null;
+    protected string $model = 'dall-e-2';
 
     /**
      * The number of images to generate. Must be between 1 and 10.
@@ -47,23 +54,27 @@ class CreateImageEditRequest extends ArrayObject
 
     /**
      * @param string $image The image to edit. Must be a valid PNG file, less than 4MB, and square. If mask is not provided, image must have transparency, which will be used as the mask.
-     * @param string $mask An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
      * @param string $prompt A text description of the desired image(s). The maximum length is 1000 characters.
+     * @param string $mask An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
+     * @param mixed|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
      * @param int|null $n The number of images to generate. Must be between 1 and 10.
      * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
      * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct($image = null, $mask = null, $prompt = null, $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
+    public function __construct($image = null, $prompt = null, $mask = null, $model = 'dall-e-2', $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
     {
         if ($image !== null) {
             $this->setImage($image);
         }
+        if ($prompt !== null) {
+            $this->setPrompt($prompt);
+        }
         if ($mask !== null) {
             $this->setMask($mask);
         }
-        if ($prompt !== null) {
-            $this->setPrompt($prompt);
+        if ($model !== null) {
+            $this->setModel($model);
         }
         if ($n !== null) {
             $this->setN($n);
@@ -103,6 +114,24 @@ class CreateImageEditRequest extends ArrayObject
     }
 
     /**
+     * A text description of the desired image(s). The maximum length is 1000 characters.
+     */
+    public function getPrompt(): string
+    {
+        return $this->prompt;
+    }
+
+    /**
+     * A text description of the desired image(s). The maximum length is 1000 characters.
+     */
+    public function setPrompt(string $prompt): self
+    {
+        $this->initialized['prompt'] = true;
+        $this->prompt = $prompt;
+        return $this;
+    }
+
+    /**
      * An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
      */
     public function getMask(): string
@@ -121,20 +150,22 @@ class CreateImageEditRequest extends ArrayObject
     }
 
     /**
-     * A text description of the desired image(s). The maximum length is 1000 characters.
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @return mixed
      */
-    public function getPrompt(): string
+    public function getModel(): string
     {
-        return $this->prompt;
+        return $this->model;
     }
 
     /**
-     * A text description of the desired image(s). The maximum length is 1000 characters.
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
      */
-    public function setPrompt(string $prompt): self
+    public function setModel(mixed $model): self
     {
-        $this->initialized['prompt'] = true;
-        $this->prompt = $prompt;
+        $this->initialized['model'] = true;
+        $this->model = $model;
         return $this;
     }
 

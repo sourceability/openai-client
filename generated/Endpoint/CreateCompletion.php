@@ -41,9 +41,6 @@ class CreateCompletion extends BaseEndpoint implements Endpoint
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -53,7 +50,7 @@ class CreateCompletion extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
     }
 
     /**

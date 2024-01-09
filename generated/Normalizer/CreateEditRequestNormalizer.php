@@ -23,12 +23,12 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateEditRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateEditRequest::class;
     }
@@ -54,6 +54,10 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
+        if (\array_key_exists('instruction', $data)) {
+            $object->setInstruction($data['instruction']);
+            unset($data['instruction']);
+        }
         if (\array_key_exists('model', $data)) {
             $object->setModel($data['model']);
             unset($data['model']);
@@ -63,10 +67,6 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
             unset($data['input']);
         } elseif (\array_key_exists('input', $data) && $data['input'] === null) {
             $object->setInput(null);
-        }
-        if (\array_key_exists('instruction', $data)) {
-            $object->setInstruction($data['instruction']);
-            unset($data['instruction']);
         }
         if (\array_key_exists('n', $data) && $data['n'] !== null) {
             $object->setN($data['n']);
@@ -100,11 +100,11 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
+        $data['instruction'] = $object->getInstruction();
         $data['model'] = $object->getModel();
         if ($object->isInitialized('input') && $object->getInput() !== null) {
             $data['input'] = $object->getInput();
         }
-        $data['instruction'] = $object->getInstruction();
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
         }
@@ -120,5 +120,12 @@ class CreateEditRequestNormalizer implements DenormalizerInterface, NormalizerIn
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateEditRequest::class => false,
+        ];
     }
 }

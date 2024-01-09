@@ -12,25 +12,25 @@ class DeleteModelResponse extends ArrayObject
 
     protected ?string $id = null;
 
-    protected ?string $object = null;
-
     protected ?bool $deleted = null;
+
+    protected ?string $object = null;
 
     /**
      * @param string $id
-     * @param string $object
      * @param bool $deleted
+     * @param string $object
      */
-    public function __construct($id = null, $object = null, $deleted = null)
+    public function __construct($id = null, $deleted = null, $object = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($deleted !== null) {
             $this->setDeleted($deleted);
+        }
+        if ($object !== null) {
+            $this->setObject($object);
         }
     }
 
@@ -51,18 +51,6 @@ class DeleteModelResponse extends ArrayObject
         return $this;
     }
 
-    public function getObject(): string
-    {
-        return $this->object;
-    }
-
-    public function setObject(string $object): self
-    {
-        $this->initialized['object'] = true;
-        $this->object = $object;
-        return $this;
-    }
-
     public function getDeleted(): bool
     {
         return $this->deleted;
@@ -72,6 +60,18 @@ class DeleteModelResponse extends ArrayObject
     {
         $this->initialized['deleted'] = true;
         $this->deleted = $deleted;
+        return $this;
+    }
+
+    public function getObject(): string
+    {
+        return $this->object;
+    }
+
+    public function setObject(string $object): self
+    {
+        $this->initialized['object'] = true;
+        $this->object = $object;
         return $this;
     }
 }

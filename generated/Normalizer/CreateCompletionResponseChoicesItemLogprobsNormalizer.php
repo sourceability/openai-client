@@ -23,12 +23,12 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateCompletionResponseChoicesItemLogprobs::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateCompletionResponseChoicesItemLogprobs::class;
     }
@@ -48,13 +48,13 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('tokens', $data)) {
+        if (\array_key_exists('text_offset', $data)) {
             $values = [];
-            foreach ($data['tokens'] as $value) {
+            foreach ($data['text_offset'] as $value) {
                 $values[] = $value;
             }
-            $object->setTokens($values);
-            unset($data['tokens']);
+            $object->setTextOffset($values);
+            unset($data['text_offset']);
         }
         if (\array_key_exists('token_logprobs', $data)) {
             $values_1 = [];
@@ -64,25 +64,25 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
             $object->setTokenLogprobs($values_1);
             unset($data['token_logprobs']);
         }
-        if (\array_key_exists('top_logprobs', $data)) {
+        if (\array_key_exists('tokens', $data)) {
             $values_2 = [];
-            foreach ($data['top_logprobs'] as $value_2) {
-                $values_3 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-                foreach ($value_2 as $key => $value_3) {
-                    $values_3[$key] = $value_3;
-                }
-                $values_2[] = $values_3;
+            foreach ($data['tokens'] as $value_2) {
+                $values_2[] = $value_2;
             }
-            $object->setTopLogprobs($values_2);
-            unset($data['top_logprobs']);
+            $object->setTokens($values_2);
+            unset($data['tokens']);
         }
-        if (\array_key_exists('text_offset', $data)) {
-            $values_4 = [];
-            foreach ($data['text_offset'] as $value_4) {
-                $values_4[] = $value_4;
+        if (\array_key_exists('top_logprobs', $data)) {
+            $values_3 = [];
+            foreach ($data['top_logprobs'] as $value_3) {
+                $values_4 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+                foreach ($value_3 as $key => $value_4) {
+                    $values_4[$key] = $value_4;
+                }
+                $values_3[] = $values_4;
             }
-            $object->setTextOffset($values_4);
-            unset($data['text_offset']);
+            $object->setTopLogprobs($values_3);
+            unset($data['top_logprobs']);
         }
         foreach ($data as $key_1 => $value_5) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -98,12 +98,12 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        if ($object->isInitialized('tokens') && $object->getTokens() !== null) {
+        if ($object->isInitialized('textOffset') && $object->getTextOffset() !== null) {
             $values = [];
-            foreach ($object->getTokens() as $value) {
+            foreach ($object->getTextOffset() as $value) {
                 $values[] = $value;
             }
-            $data['tokens'] = $values;
+            $data['text_offset'] = $values;
         }
         if ($object->isInitialized('tokenLogprobs') && $object->getTokenLogprobs() !== null) {
             $values_1 = [];
@@ -112,23 +112,23 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
             }
             $data['token_logprobs'] = $values_1;
         }
-        if ($object->isInitialized('topLogprobs') && $object->getTopLogprobs() !== null) {
+        if ($object->isInitialized('tokens') && $object->getTokens() !== null) {
             $values_2 = [];
-            foreach ($object->getTopLogprobs() as $value_2) {
-                $values_3 = [];
-                foreach ($value_2 as $key => $value_3) {
-                    $values_3[$key] = $value_3;
-                }
-                $values_2[] = $values_3;
+            foreach ($object->getTokens() as $value_2) {
+                $values_2[] = $value_2;
             }
-            $data['top_logprobs'] = $values_2;
+            $data['tokens'] = $values_2;
         }
-        if ($object->isInitialized('textOffset') && $object->getTextOffset() !== null) {
-            $values_4 = [];
-            foreach ($object->getTextOffset() as $value_4) {
-                $values_4[] = $value_4;
+        if ($object->isInitialized('topLogprobs') && $object->getTopLogprobs() !== null) {
+            $values_3 = [];
+            foreach ($object->getTopLogprobs() as $value_3) {
+                $values_4 = [];
+                foreach ($value_3 as $key => $value_4) {
+                    $values_4[$key] = $value_4;
+                }
+                $values_3[] = $values_4;
             }
-            $data['text_offset'] = $values_4;
+            $data['top_logprobs'] = $values_3;
         }
         foreach ($object as $key_1 => $value_5) {
             if (preg_match('/.*/', (string) $key_1)) {
@@ -136,5 +136,12 @@ class CreateCompletionResponseChoicesItemLogprobsNormalizer implements Denormali
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateCompletionResponseChoicesItemLogprobs::class => false,
+        ];
     }
 }

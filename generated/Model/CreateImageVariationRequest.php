@@ -16,19 +16,26 @@ class CreateImageVariationRequest extends ArrayObject
     protected ?string $image = null;
 
     /**
-     * The number of images to generate. Must be between 1 and 10.
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @var mixed|null
      */
-    protected ?int $n = 1;
+    protected string $model = 'dall-e-2';
 
     /**
-     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+     * The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
      */
-    protected ?string $size = '1024x1024';
+    protected ?int $n = 1;
 
     /**
      * The format in which the generated images are returned. Must be one of `url` or `b64_json`.
      */
     protected ?string $responseFormat = 'url';
+
+    /**
+     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+     */
+    protected ?string $size = '1024x1024';
 
     /**
      * A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
@@ -37,24 +44,28 @@ class CreateImageVariationRequest extends ArrayObject
 
     /**
      * @param string $image The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
-     * @param int|null $n The number of images to generate. Must be between 1 and 10.
-     * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+     * @param mixed|null $model The model to use for image generation. Only `dall-e-2` is supported at this time.
+     * @param int|null $n The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
      * @param string|null $responseFormat The format in which the generated images are returned. Must be one of `url` or `b64_json`.
+     * @param string|null $size The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
      * @param string $user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
      */
-    public function __construct($image = null, $n = 1, $size = '1024x1024', $responseFormat = 'url', $user = null)
+    public function __construct($image = null, $model = 'dall-e-2', $n = 1, $responseFormat = 'url', $size = '1024x1024', $user = null)
     {
         if ($image !== null) {
             $this->setImage($image);
         }
+        if ($model !== null) {
+            $this->setModel($model);
+        }
         if ($n !== null) {
             $this->setN($n);
         }
-        if ($size !== null) {
-            $this->setSize($size);
-        }
         if ($responseFormat !== null) {
             $this->setResponseFormat($responseFormat);
+        }
+        if ($size !== null) {
+            $this->setSize($size);
         }
         if ($user !== null) {
             $this->setUser($user);
@@ -85,7 +96,27 @@ class CreateImageVariationRequest extends ArrayObject
     }
 
     /**
-     * The number of images to generate. Must be between 1 and 10.
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     *
+     * @return mixed
+     */
+    public function getModel(): string
+    {
+        return $this->model;
+    }
+
+    /**
+     * The model to use for image generation. Only `dall-e-2` is supported at this time.
+     */
+    public function setModel(mixed $model): self
+    {
+        $this->initialized['model'] = true;
+        $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
      */
     public function getN(): ?int
     {
@@ -93,30 +124,12 @@ class CreateImageVariationRequest extends ArrayObject
     }
 
     /**
-     * The number of images to generate. Must be between 1 and 10.
+     * The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
      */
     public function setN(?int $n): self
     {
         $this->initialized['n'] = true;
         $this->n = $n;
-        return $this;
-    }
-
-    /**
-     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-     */
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    /**
-     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-     */
-    public function setSize(?string $size): self
-    {
-        $this->initialized['size'] = true;
-        $this->size = $size;
         return $this;
     }
 
@@ -135,6 +148,24 @@ class CreateImageVariationRequest extends ArrayObject
     {
         $this->initialized['responseFormat'] = true;
         $this->responseFormat = $responseFormat;
+        return $this;
+    }
+
+    /**
+     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+     */
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    /**
+     * The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+     */
+    public function setSize(?string $size): self
+    {
+        $this->initialized['size'] = true;
+        $this->size = $size;
         return $this;
     }
 

@@ -23,12 +23,12 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === Model::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === Model::class;
     }
@@ -52,13 +52,13 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('created', $data)) {
             $object->setCreated($data['created']);
             unset($data['created']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         if (\array_key_exists('owned_by', $data)) {
             $object->setOwnedBy($data['owned_by']);
@@ -79,8 +79,8 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['created'] = $object->getCreated();
+        $data['object'] = $object->getObject();
         $data['owned_by'] = $object->getOwnedBy();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -88,5 +88,12 @@ class ModelNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            Model::class => false,
+        ];
     }
 }

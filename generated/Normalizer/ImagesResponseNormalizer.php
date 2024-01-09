@@ -6,8 +6,8 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\Image;
 use Sourceability\OpenAIClient\Generated\Model\ImagesResponse;
-use Sourceability\OpenAIClient\Generated\Model\ImagesResponseDataItem;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -24,12 +24,12 @@ class ImagesResponseNormalizer implements DenormalizerInterface, NormalizerInter
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ImagesResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ImagesResponse::class;
     }
@@ -56,7 +56,7 @@ class ImagesResponseNormalizer implements DenormalizerInterface, NormalizerInter
         if (\array_key_exists('data', $data)) {
             $values = [];
             foreach ($data['data'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, ImagesResponseDataItem::class, 'json', $context);
+                $values[] = $this->denormalizer->denormalize($value, Image::class, 'json', $context);
             }
             $object->setData($values);
             unset($data['data']);
@@ -87,5 +87,12 @@ class ImagesResponseNormalizer implements DenormalizerInterface, NormalizerInter
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ImagesResponse::class => false,
+        ];
     }
 }

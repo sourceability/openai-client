@@ -23,12 +23,12 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateImageEditRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateImageEditRequest::class;
     }
@@ -52,13 +52,19 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
             $object->setImage($data['image']);
             unset($data['image']);
         }
+        if (\array_key_exists('prompt', $data)) {
+            $object->setPrompt($data['prompt']);
+            unset($data['prompt']);
+        }
         if (\array_key_exists('mask', $data)) {
             $object->setMask($data['mask']);
             unset($data['mask']);
         }
-        if (\array_key_exists('prompt', $data)) {
-            $object->setPrompt($data['prompt']);
-            unset($data['prompt']);
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
+            $object->setModel($data['model']);
+            unset($data['model']);
+        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
         }
         if (\array_key_exists('n', $data) && $data['n'] !== null) {
             $object->setN($data['n']);
@@ -97,10 +103,13 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
     {
         $data = [];
         $data['image'] = $object->getImage();
+        $data['prompt'] = $object->getPrompt();
         if ($object->isInitialized('mask') && $object->getMask() !== null) {
             $data['mask'] = $object->getMask();
         }
-        $data['prompt'] = $object->getPrompt();
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $data['model'] = $object->getModel();
+        }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
         }
@@ -119,5 +128,12 @@ class CreateImageEditRequestNormalizer implements DenormalizerInterface, Normali
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateImageEditRequest::class => false,
+        ];
     }
 }

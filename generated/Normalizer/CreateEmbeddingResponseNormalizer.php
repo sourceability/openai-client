@@ -7,8 +7,8 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponse;
-use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponseDataItem;
 use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingResponseUsage;
+use Sourceability\OpenAIClient\Generated\Model\Embedding;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -25,12 +25,12 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateEmbeddingResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateEmbeddingResponse::class;
     }
@@ -50,21 +50,21 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
+        if (\array_key_exists('data', $data)) {
+            $values = [];
+            foreach ($data['data'] as $value) {
+                $values[] = $this->denormalizer->denormalize($value, Embedding::class, 'json', $context);
+            }
+            $object->setData($values);
+            unset($data['data']);
         }
         if (\array_key_exists('model', $data)) {
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('data', $data)) {
-            $values = [];
-            foreach ($data['data'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, CreateEmbeddingResponseDataItem::class, 'json', $context);
-            }
-            $object->setData($values);
-            unset($data['data']);
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         if (\array_key_exists('usage', $data)) {
             $object->setUsage($this->denormalizer->denormalize($data['usage'], CreateEmbeddingResponseUsage::class, 'json', $context));
@@ -84,13 +84,13 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['object'] = $object->getObject();
-        $data['model'] = $object->getModel();
         $values = [];
         foreach ($object->getData() as $value) {
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['data'] = $values;
+        $data['model'] = $object->getModel();
+        $data['object'] = $object->getObject();
         $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -98,5 +98,12 @@ class CreateEmbeddingResponseNormalizer implements DenormalizerInterface, Normal
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateEmbeddingResponse::class => false,
+        ];
     }
 }

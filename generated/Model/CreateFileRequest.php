@@ -9,22 +9,21 @@ class CreateFileRequest
     protected array $initialized = [];
 
     /**
-     * Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
-    If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
+     * The File object (not file name) to be uploaded.
      */
     protected ?string $file = null;
 
     /**
-     * The intended purpose of the uploaded documents.
-    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
+     * The intended purpose of the uploaded file.
+
+    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning) and "assistants" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.
      */
     protected ?string $purpose = null;
 
     /**
-     * @param string $file Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
-     *                     If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
-     * @param string $purpose The intended purpose of the uploaded documents.
-     *                        Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
+     * @param string $file The File object (not file name) to be uploaded.
+     * @param string $purpose The intended purpose of the uploaded file.
+     *                        Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning) and "assistants" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.
      */
     public function __construct($file = null, $purpose = null)
     {
@@ -42,8 +41,7 @@ class CreateFileRequest
     }
 
     /**
-     * Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
-    If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
+     * The File object (not file name) to be uploaded.
      */
     public function getFile(): string
     {
@@ -51,8 +49,7 @@ class CreateFileRequest
     }
 
     /**
-     * Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
-    If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
+     * The File object (not file name) to be uploaded.
      */
     public function setFile(string $file): self
     {
@@ -62,8 +59,9 @@ class CreateFileRequest
     }
 
     /**
-     * The intended purpose of the uploaded documents.
-    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
+     * The intended purpose of the uploaded file.
+
+    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning) and "assistants" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.
      */
     public function getPurpose(): string
     {
@@ -71,8 +69,9 @@ class CreateFileRequest
     }
 
     /**
-     * The intended purpose of the uploaded documents.
-    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
+     * The intended purpose of the uploaded file.
+
+    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning) and "assistants" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.
      */
     public function setPurpose(string $purpose): self
     {

@@ -23,12 +23,12 @@ class ChatCompletionFunctionsNormalizer implements DenormalizerInterface, Normal
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ChatCompletionFunctions::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ChatCompletionFunctions::class;
     }
@@ -48,13 +48,13 @@ class ChatCompletionFunctionsNormalizer implements DenormalizerInterface, Normal
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('name', $data)) {
-            $object->setName($data['name']);
-            unset($data['name']);
-        }
         if (\array_key_exists('description', $data)) {
             $object->setDescription($data['description']);
             unset($data['description']);
+        }
+        if (\array_key_exists('name', $data)) {
+            $object->setName($data['name']);
+            unset($data['name']);
         }
         if (\array_key_exists('parameters', $data)) {
             $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
@@ -78,10 +78,10 @@ class ChatCompletionFunctionsNormalizer implements DenormalizerInterface, Normal
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['name'] = $object->getName();
         if ($object->isInitialized('description') && $object->getDescription() !== null) {
             $data['description'] = $object->getDescription();
         }
+        $data['name'] = $object->getName();
         if ($object->isInitialized('parameters') && $object->getParameters() !== null) {
             $values = [];
             foreach ($object->getParameters() as $key => $value) {
@@ -95,5 +95,12 @@ class ChatCompletionFunctionsNormalizer implements DenormalizerInterface, Normal
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ChatCompletionFunctions::class => false,
+        ];
     }
 }

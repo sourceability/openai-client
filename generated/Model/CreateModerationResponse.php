@@ -10,19 +10,27 @@ class CreateModerationResponse extends ArrayObject
 {
     protected array $initialized = [];
 
+    /**
+     * The unique identifier for the moderation request.
+     */
     protected ?string $id = null;
 
+    /**
+     * The model used to generate the moderation results.
+     */
     protected ?string $model = null;
 
     /**
-     * @var CreateModerationResponseResultsItem[]|null
+     * A list of moderation objects.
+     *
+     * @var CreateModerationResponseResultsItem[]
      */
     protected ?array $results = null;
 
     /**
-     * @param string $id
-     * @param string $model
-     * @param CreateModerationResponseResultsItem[] $results
+     * @param string $id The unique identifier for the moderation request.
+     * @param string $model The model used to generate the moderation results.
+     * @param CreateModerationResponseResultsItem[] $results A list of moderation objects.
      */
     public function __construct($id = null, $model = null, $results = null)
     {
@@ -42,11 +50,17 @@ class CreateModerationResponse extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
+    /**
+     * The unique identifier for the moderation request.
+     */
     public function getId(): string
     {
         return $this->id;
     }
 
+    /**
+     * The unique identifier for the moderation request.
+     */
     public function setId(string $id): self
     {
         $this->initialized['id'] = true;
@@ -54,11 +68,17 @@ class CreateModerationResponse extends ArrayObject
         return $this;
     }
 
+    /**
+     * The model used to generate the moderation results.
+     */
     public function getModel(): string
     {
         return $this->model;
     }
 
+    /**
+     * The model used to generate the moderation results.
+     */
     public function setModel(string $model): self
     {
         $this->initialized['model'] = true;
@@ -67,6 +87,8 @@ class CreateModerationResponse extends ArrayObject
     }
 
     /**
+     * A list of moderation objects.
+     *
      * @return CreateModerationResponseResultsItem[]
      */
     public function getResults(): array
@@ -75,6 +97,8 @@ class CreateModerationResponse extends ArrayObject
     }
 
     /**
+     * A list of moderation objects.
+     *
      * @param CreateModerationResponseResultsItem[] $results
      */
     public function setResults(array $results): self

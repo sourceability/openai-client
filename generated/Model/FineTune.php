@@ -6,106 +6,141 @@ namespace Sourceability\OpenAIClient\Generated\Model;
 
 use ArrayObject;
 
+/**
+ * @deprecated
+ */
 class FineTune extends ArrayObject
 {
     protected array $initialized = [];
 
+    /**
+     * The object identifier, which can be referenced in the API endpoints.
+     */
     protected ?string $id = null;
 
-    protected ?string $object = null;
-
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was created.
+     */
     protected ?int $createdAt = null;
 
-    protected ?int $updatedAt = null;
-
-    protected ?string $model = null;
-
-    protected ?string $fineTunedModel = null;
-
-    protected ?string $organizationId = null;
-
-    protected ?string $status = null;
-
     /**
-     * @var mixed[]|null
-     */
-    protected ?iterable $hyperparams = null;
-
-    /**
-     * @var OpenAIFile[]|null
-     */
-    protected ?array $trainingFiles = null;
-
-    /**
-     * @var OpenAIFile[]|null
-     */
-    protected ?array $validationFiles = null;
-
-    /**
-     * @var OpenAIFile[]|null
-     */
-    protected ?array $resultFiles = null;
-
-    /**
-     * @var FineTuneEvent[]|null
+     * The list of events that have been observed in the lifecycle of the FineTune job.
+     *
+     * @var FineTuneEvent[]
      */
     protected ?array $events = null;
 
     /**
-     * @param string $id
-     * @param string $object
-     * @param int $createdAt
-     * @param int $updatedAt
-     * @param string $model
-     * @param string|null $fineTunedModel
-     * @param string $organizationId
-     * @param string $status
-     * @param mixed[] $hyperparams
-     * @param OpenAIFile[] $trainingFiles
-     * @param OpenAIFile[] $validationFiles
-     * @param OpenAIFile[] $resultFiles
-     * @param FineTuneEvent[] $events
+     * The name of the fine-tuned model that is being created.
      */
-    public function __construct($id = null, $object = null, $createdAt = null, $updatedAt = null, $model = null, $fineTunedModel = null, $organizationId = null, $status = null, $hyperparams = null, $trainingFiles = null, $validationFiles = null, $resultFiles = null, $events = null)
+    protected ?string $fineTunedModel = null;
+
+    /**
+     * The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/hyperparameters) for more details.
+     */
+    protected ?FineTuneHyperparams $hyperparams = null;
+
+    /**
+     * The base model that is being fine-tuned.
+     */
+    protected ?string $model = null;
+
+    /**
+     * The object type, which is always "fine-tune".
+     */
+    protected ?string $object = null;
+
+    /**
+     * The organization that owns the fine-tuning job.
+     */
+    protected ?string $organizationId = null;
+
+    /**
+     * The compiled results files for the fine-tuning job.
+     *
+     * @var OpenAIFile[]
+     */
+    protected ?array $resultFiles = null;
+
+    /**
+     * The current status of the fine-tuning job, which can be either `created`, `running`, `succeeded`, `failed`, or `cancelled`.
+     */
+    protected ?string $status = null;
+
+    /**
+     * The list of files used for training.
+     *
+     * @var OpenAIFile[]
+     */
+    protected ?array $trainingFiles = null;
+
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was last updated.
+     */
+    protected ?int $updatedAt = null;
+
+    /**
+     * The list of files used for validation.
+     *
+     * @var OpenAIFile[]
+     */
+    protected ?array $validationFiles = null;
+
+    /**
+     * @param string $id The object identifier, which can be referenced in the API endpoints.
+     * @param int $createdAt The Unix timestamp (in seconds) for when the fine-tuning job was created.
+     * @param FineTuneEvent[] $events The list of events that have been observed in the lifecycle of the FineTune job.
+     * @param string|null $fineTunedModel The name of the fine-tuned model that is being created.
+     * @param FineTuneHyperparams $hyperparams The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/hyperparameters) for more details.
+     * @param string $model The base model that is being fine-tuned.
+     * @param string $object The object type, which is always "fine-tune".
+     * @param string $organizationId The organization that owns the fine-tuning job.
+     * @param OpenAIFile[] $resultFiles The compiled results files for the fine-tuning job.
+     * @param string $status The current status of the fine-tuning job, which can be either `created`, `running`, `succeeded`, `failed`, or `cancelled`.
+     * @param OpenAIFile[] $trainingFiles The list of files used for training.
+     * @param int $updatedAt The Unix timestamp (in seconds) for when the fine-tuning job was last updated.
+     * @param OpenAIFile[] $validationFiles The list of files used for validation.
+     */
+    public function __construct($id = null, $createdAt = null, $events = null, $fineTunedModel = null, $hyperparams = null, $model = null, $object = null, $organizationId = null, $resultFiles = null, $status = null, $trainingFiles = null, $updatedAt = null, $validationFiles = null)
     {
         if ($id !== null) {
             $this->setId($id);
         }
-        if ($object !== null) {
-            $this->setObject($object);
-        }
         if ($createdAt !== null) {
             $this->setCreatedAt($createdAt);
         }
-        if ($updatedAt !== null) {
-            $this->setUpdatedAt($updatedAt);
-        }
-        if ($model !== null) {
-            $this->setModel($model);
+        if ($events !== null) {
+            $this->setEvents($events);
         }
         if ($fineTunedModel !== null) {
             $this->setFineTunedModel($fineTunedModel);
         }
-        if ($organizationId !== null) {
-            $this->setOrganizationId($organizationId);
-        }
-        if ($status !== null) {
-            $this->setStatus($status);
-        }
         if ($hyperparams !== null) {
             $this->setHyperparams($hyperparams);
         }
-        if ($trainingFiles !== null) {
-            $this->setTrainingFiles($trainingFiles);
+        if ($model !== null) {
+            $this->setModel($model);
         }
-        if ($validationFiles !== null) {
-            $this->setValidationFiles($validationFiles);
+        if ($object !== null) {
+            $this->setObject($object);
+        }
+        if ($organizationId !== null) {
+            $this->setOrganizationId($organizationId);
         }
         if ($resultFiles !== null) {
             $this->setResultFiles($resultFiles);
         }
-        if ($events !== null) {
-            $this->setEvents($events);
+        if ($status !== null) {
+            $this->setStatus($status);
+        }
+        if ($trainingFiles !== null) {
+            $this->setTrainingFiles($trainingFiles);
+        }
+        if ($updatedAt !== null) {
+            $this->setUpdatedAt($updatedAt);
+        }
+        if ($validationFiles !== null) {
+            $this->setValidationFiles($validationFiles);
         }
     }
 
@@ -114,11 +149,17 @@ class FineTune extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
+    /**
+     * The object identifier, which can be referenced in the API endpoints.
+     */
     public function getId(): string
     {
         return $this->id;
     }
 
+    /**
+     * The object identifier, which can be referenced in the API endpoints.
+     */
     public function setId(string $id): self
     {
         $this->initialized['id'] = true;
@@ -126,23 +167,17 @@ class FineTune extends ArrayObject
         return $this;
     }
 
-    public function getObject(): string
-    {
-        return $this->object;
-    }
-
-    public function setObject(string $object): self
-    {
-        $this->initialized['object'] = true;
-        $this->object = $object;
-        return $this;
-    }
-
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was created.
+     */
     public function getCreatedAt(): int
     {
         return $this->createdAt;
     }
 
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was created.
+     */
     public function setCreatedAt(int $createdAt): self
     {
         $this->initialized['createdAt'] = true;
@@ -150,35 +185,39 @@ class FineTune extends ArrayObject
         return $this;
     }
 
-    public function getUpdatedAt(): int
+    /**
+     * The list of events that have been observed in the lifecycle of the FineTune job.
+     *
+     * @return FineTuneEvent[]
+     */
+    public function getEvents(): array
     {
-        return $this->updatedAt;
+        return $this->events;
     }
 
-    public function setUpdatedAt(int $updatedAt): self
+    /**
+     * The list of events that have been observed in the lifecycle of the FineTune job.
+     *
+     * @param FineTuneEvent[] $events
+     */
+    public function setEvents(array $events): self
     {
-        $this->initialized['updatedAt'] = true;
-        $this->updatedAt = $updatedAt;
+        $this->initialized['events'] = true;
+        $this->events = $events;
         return $this;
     }
 
-    public function getModel(): string
-    {
-        return $this->model;
-    }
-
-    public function setModel(string $model): self
-    {
-        $this->initialized['model'] = true;
-        $this->model = $model;
-        return $this;
-    }
-
+    /**
+     * The name of the fine-tuned model that is being created.
+     */
     public function getFineTunedModel(): ?string
     {
         return $this->fineTunedModel;
     }
 
+    /**
+     * The name of the fine-tuned model that is being created.
+     */
     public function setFineTunedModel(?string $fineTunedModel): self
     {
         $this->initialized['fineTunedModel'] = true;
@@ -186,42 +225,18 @@ class FineTune extends ArrayObject
         return $this;
     }
 
-    public function getOrganizationId(): string
-    {
-        return $this->organizationId;
-    }
-
-    public function setOrganizationId(string $organizationId): self
-    {
-        $this->initialized['organizationId'] = true;
-        $this->organizationId = $organizationId;
-        return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->initialized['status'] = true;
-        $this->status = $status;
-        return $this;
-    }
-
     /**
-     * @return mixed[]
+     * The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/hyperparameters) for more details.
      */
-    public function getHyperparams(): iterable
+    public function getHyperparams(): FineTuneHyperparams
     {
         return $this->hyperparams;
     }
 
     /**
-     * @param mixed[] $hyperparams
+     * The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](/docs/guides/legacy-fine-tuning/hyperparameters) for more details.
      */
-    public function setHyperparams(iterable $hyperparams): self
+    public function setHyperparams(FineTuneHyperparams $hyperparams): self
     {
         $this->initialized['hyperparams'] = true;
         $this->hyperparams = $hyperparams;
@@ -229,42 +244,62 @@ class FineTune extends ArrayObject
     }
 
     /**
-     * @return OpenAIFile[]
+     * The base model that is being fine-tuned.
      */
-    public function getTrainingFiles(): array
+    public function getModel(): string
     {
-        return $this->trainingFiles;
+        return $this->model;
     }
 
     /**
-     * @param OpenAIFile[] $trainingFiles
+     * The base model that is being fine-tuned.
      */
-    public function setTrainingFiles(array $trainingFiles): self
+    public function setModel(string $model): self
     {
-        $this->initialized['trainingFiles'] = true;
-        $this->trainingFiles = $trainingFiles;
+        $this->initialized['model'] = true;
+        $this->model = $model;
         return $this;
     }
 
     /**
-     * @return OpenAIFile[]
+     * The object type, which is always "fine-tune".
      */
-    public function getValidationFiles(): array
+    public function getObject(): string
     {
-        return $this->validationFiles;
+        return $this->object;
     }
 
     /**
-     * @param OpenAIFile[] $validationFiles
+     * The object type, which is always "fine-tune".
      */
-    public function setValidationFiles(array $validationFiles): self
+    public function setObject(string $object): self
     {
-        $this->initialized['validationFiles'] = true;
-        $this->validationFiles = $validationFiles;
+        $this->initialized['object'] = true;
+        $this->object = $object;
         return $this;
     }
 
     /**
+     * The organization that owns the fine-tuning job.
+     */
+    public function getOrganizationId(): string
+    {
+        return $this->organizationId;
+    }
+
+    /**
+     * The organization that owns the fine-tuning job.
+     */
+    public function setOrganizationId(string $organizationId): self
+    {
+        $this->initialized['organizationId'] = true;
+        $this->organizationId = $organizationId;
+        return $this;
+    }
+
+    /**
+     * The compiled results files for the fine-tuning job.
+     *
      * @return OpenAIFile[]
      */
     public function getResultFiles(): array
@@ -273,6 +308,8 @@ class FineTune extends ArrayObject
     }
 
     /**
+     * The compiled results files for the fine-tuning job.
+     *
      * @param OpenAIFile[] $resultFiles
      */
     public function setResultFiles(array $resultFiles): self
@@ -283,20 +320,82 @@ class FineTune extends ArrayObject
     }
 
     /**
-     * @return FineTuneEvent[]
+     * The current status of the fine-tuning job, which can be either `created`, `running`, `succeeded`, `failed`, or `cancelled`.
      */
-    public function getEvents(): array
+    public function getStatus(): string
     {
-        return $this->events;
+        return $this->status;
     }
 
     /**
-     * @param FineTuneEvent[] $events
+     * The current status of the fine-tuning job, which can be either `created`, `running`, `succeeded`, `failed`, or `cancelled`.
      */
-    public function setEvents(array $events): self
+    public function setStatus(string $status): self
     {
-        $this->initialized['events'] = true;
-        $this->events = $events;
+        $this->initialized['status'] = true;
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * The list of files used for training.
+     *
+     * @return OpenAIFile[]
+     */
+    public function getTrainingFiles(): array
+    {
+        return $this->trainingFiles;
+    }
+
+    /**
+     * The list of files used for training.
+     *
+     * @param OpenAIFile[] $trainingFiles
+     */
+    public function setTrainingFiles(array $trainingFiles): self
+    {
+        $this->initialized['trainingFiles'] = true;
+        $this->trainingFiles = $trainingFiles;
+        return $this;
+    }
+
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was last updated.
+     */
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * The Unix timestamp (in seconds) for when the fine-tuning job was last updated.
+     */
+    public function setUpdatedAt(int $updatedAt): self
+    {
+        $this->initialized['updatedAt'] = true;
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * The list of files used for validation.
+     *
+     * @return OpenAIFile[]
+     */
+    public function getValidationFiles(): array
+    {
+        return $this->validationFiles;
+    }
+
+    /**
+     * The list of files used for validation.
+     *
+     * @param OpenAIFile[] $validationFiles
+     */
+    public function setValidationFiles(array $validationFiles): self
+    {
+        $this->initialized['validationFiles'] = true;
+        $this->validationFiles = $validationFiles;
         return $this;
     }
 }

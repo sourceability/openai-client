@@ -24,12 +24,12 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ListModelsResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ListModelsResponse::class;
     }
@@ -87,5 +87,12 @@ class ListModelsResponseNormalizer implements DenormalizerInterface, NormalizerI
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ListModelsResponse::class => false,
+        ];
     }
 }

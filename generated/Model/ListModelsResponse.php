@@ -13,7 +13,7 @@ class ListModelsResponse extends ArrayObject
     protected ?string $object = null;
 
     /**
-     * @var Model[]|null
+     * @var Model[]
      */
     protected ?array $data = null;
 

@@ -23,12 +23,12 @@ class ErrorNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === Error::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === Error::class;
     }
@@ -48,9 +48,11 @@ class ErrorNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
+        if (\array_key_exists('code', $data) && $data['code'] !== null) {
+            $object->setCode($data['code']);
+            unset($data['code']);
+        } elseif (\array_key_exists('code', $data) && $data['code'] === null) {
+            $object->setCode(null);
         }
         if (\array_key_exists('message', $data)) {
             $object->setMessage($data['message']);
@@ -62,11 +64,9 @@ class ErrorNormalizer implements DenormalizerInterface, NormalizerInterface, Den
         } elseif (\array_key_exists('param', $data) && $data['param'] === null) {
             $object->setParam(null);
         }
-        if (\array_key_exists('code', $data) && $data['code'] !== null) {
-            $object->setCode($data['code']);
-            unset($data['code']);
-        } elseif (\array_key_exists('code', $data) && $data['code'] === null) {
-            $object->setCode(null);
+        if (\array_key_exists('type', $data)) {
+            $object->setType($data['type']);
+            unset($data['type']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -82,15 +82,22 @@ class ErrorNormalizer implements DenormalizerInterface, NormalizerInterface, Den
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['type'] = $object->getType();
+        $data['code'] = $object->getCode();
         $data['message'] = $object->getMessage();
         $data['param'] = $object->getParam();
-        $data['code'] = $object->getCode();
+        $data['type'] = $object->getType();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            Error::class => false,
+        ];
     }
 }

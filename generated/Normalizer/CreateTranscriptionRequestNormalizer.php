@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranscriptionRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
@@ -22,12 +23,12 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateTranscriptionRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateTranscriptionRequest::class;
     }
@@ -56,6 +57,9 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
         if (\array_key_exists('model', $data)) {
             $object->setModel($data['model']);
         }
+        if (\array_key_exists('language', $data)) {
+            $object->setLanguage($data['language']);
+        }
         if (\array_key_exists('prompt', $data)) {
             $object->setPrompt($data['prompt']);
         }
@@ -65,20 +69,20 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
         if (\array_key_exists('temperature', $data)) {
             $object->setTemperature($data['temperature']);
         }
-        if (\array_key_exists('language', $data)) {
-            $object->setLanguage($data['language']);
-        }
         return $object;
     }
 
     /**
-     * @return array{file: mixed, model: mixed, prompt?: mixed, response_format?: mixed, temperature?: mixed, language?: mixed}
+     * @return array|string|int|float|bool|ArrayObject|null
      */
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
         $data['file'] = $object->getFile();
         $data['model'] = $object->getModel();
+        if ($object->isInitialized('language') && $object->getLanguage() !== null) {
+            $data['language'] = $object->getLanguage();
+        }
         if ($object->isInitialized('prompt') && $object->getPrompt() !== null) {
             $data['prompt'] = $object->getPrompt();
         }
@@ -88,9 +92,13 @@ class CreateTranscriptionRequestNormalizer implements DenormalizerInterface, Nor
         if ($object->isInitialized('temperature') && $object->getTemperature() !== null) {
             $data['temperature'] = $object->getTemperature();
         }
-        if ($object->isInitialized('language') && $object->getLanguage() !== null) {
-            $data['language'] = $object->getLanguage();
-        }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateTranscriptionRequest::class => false,
+        ];
     }
 }

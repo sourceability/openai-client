@@ -6,9 +6,9 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CompletionUsage;
 use Sourceability\OpenAIClient\Generated\Model\CreateEditResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseChoicesItem;
-use Sourceability\OpenAIClient\Generated\Model\CreateEditResponseUsage;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -25,12 +25,12 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateEditResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateEditResponse::class;
     }
@@ -50,14 +50,6 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
-        if (\array_key_exists('created', $data)) {
-            $object->setCreated($data['created']);
-            unset($data['created']);
-        }
         if (\array_key_exists('choices', $data)) {
             $values = [];
             foreach ($data['choices'] as $value) {
@@ -66,8 +58,16 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
             $object->setChoices($values);
             unset($data['choices']);
         }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
+        }
+        if (\array_key_exists('created', $data)) {
+            $object->setCreated($data['created']);
+            unset($data['created']);
+        }
         if (\array_key_exists('usage', $data)) {
-            $object->setUsage($this->denormalizer->denormalize($data['usage'], CreateEditResponseUsage::class, 'json', $context));
+            $object->setUsage($this->denormalizer->denormalize($data['usage'], CompletionUsage::class, 'json', $context));
             unset($data['usage']);
         }
         foreach ($data as $key => $value_1) {
@@ -84,13 +84,13 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['object'] = $object->getObject();
-        $data['created'] = $object->getCreated();
         $values = [];
         foreach ($object->getChoices() as $value) {
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['choices'] = $values;
+        $data['object'] = $object->getObject();
+        $data['created'] = $object->getCreated();
         $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
         foreach ($object as $key => $value_1) {
             if (preg_match('/.*/', (string) $key)) {
@@ -98,5 +98,12 @@ class CreateEditResponseNormalizer implements DenormalizerInterface, NormalizerI
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateEditResponse::class => false,
+        ];
     }
 }

@@ -6,9 +6,9 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
+use Sourceability\OpenAIClient\Generated\Model\CompletionUsage;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponse;
 use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseChoicesItem;
-use Sourceability\OpenAIClient\Generated\Model\CreateCompletionResponseUsage;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -25,12 +25,12 @@ class CreateCompletionResponseNormalizer implements DenormalizerInterface, Norma
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateCompletionResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateCompletionResponse::class;
     }
@@ -54,9 +54,13 @@ class CreateCompletionResponseNormalizer implements DenormalizerInterface, Norma
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
+        if (\array_key_exists('choices', $data)) {
+            $values = [];
+            foreach ($data['choices'] as $value) {
+                $values[] = $this->denormalizer->denormalize($value, CreateCompletionResponseChoicesItem::class, 'json', $context);
+            }
+            $object->setChoices($values);
+            unset($data['choices']);
         }
         if (\array_key_exists('created', $data)) {
             $object->setCreated($data['created']);
@@ -66,16 +70,16 @@ class CreateCompletionResponseNormalizer implements DenormalizerInterface, Norma
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('choices', $data)) {
-            $values = [];
-            foreach ($data['choices'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, CreateCompletionResponseChoicesItem::class, 'json', $context);
-            }
-            $object->setChoices($values);
-            unset($data['choices']);
+        if (\array_key_exists('system_fingerprint', $data)) {
+            $object->setSystemFingerprint($data['system_fingerprint']);
+            unset($data['system_fingerprint']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         if (\array_key_exists('usage', $data)) {
-            $object->setUsage($this->denormalizer->denormalize($data['usage'], CreateCompletionResponseUsage::class, 'json', $context));
+            $object->setUsage($this->denormalizer->denormalize($data['usage'], CompletionUsage::class, 'json', $context));
             unset($data['usage']);
         }
         foreach ($data as $key => $value_1) {
@@ -93,14 +97,17 @@ class CreateCompletionResponseNormalizer implements DenormalizerInterface, Norma
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
-        $data['created'] = $object->getCreated();
-        $data['model'] = $object->getModel();
         $values = [];
         foreach ($object->getChoices() as $value) {
             $values[] = $this->normalizer->normalize($value, 'json', $context);
         }
         $data['choices'] = $values;
+        $data['created'] = $object->getCreated();
+        $data['model'] = $object->getModel();
+        if ($object->isInitialized('systemFingerprint') && $object->getSystemFingerprint() !== null) {
+            $data['system_fingerprint'] = $object->getSystemFingerprint();
+        }
+        $data['object'] = $object->getObject();
         if ($object->isInitialized('usage') && $object->getUsage() !== null) {
             $data['usage'] = $this->normalizer->normalize($object->getUsage(), 'json', $context);
         }
@@ -110,5 +117,12 @@ class CreateCompletionResponseNormalizer implements DenormalizerInterface, Norma
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateCompletionResponse::class => false,
+        ];
     }
 }

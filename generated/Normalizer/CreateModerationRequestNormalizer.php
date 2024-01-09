@@ -23,12 +23,12 @@ class CreateModerationRequestNormalizer implements DenormalizerInterface, Normal
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateModerationRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateModerationRequest::class;
     }
@@ -80,5 +80,12 @@ class CreateModerationRequestNormalizer implements DenormalizerInterface, Normal
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateModerationRequest::class => false,
+        ];
     }
 }

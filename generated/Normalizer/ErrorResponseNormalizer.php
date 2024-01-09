@@ -24,12 +24,12 @@ class ErrorResponseNormalizer implements DenormalizerInterface, NormalizerInterf
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === ErrorResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === ErrorResponse::class;
     }
@@ -74,5 +74,12 @@ class ErrorResponseNormalizer implements DenormalizerInterface, NormalizerInterf
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            ErrorResponse::class => false,
+        ];
     }
 }

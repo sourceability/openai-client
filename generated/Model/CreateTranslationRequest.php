@@ -9,14 +9,16 @@ class CreateTranslationRequest
     protected array $initialized = [];
 
     /**
-     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
      */
     protected ?string $file = null;
 
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
+     *
+     * @var mixed
      */
-    protected ?string $model = null;
+    protected $model = null;
 
     /**
      * An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.
@@ -24,7 +26,7 @@ class CreateTranslationRequest
     protected ?string $prompt = null;
 
     /**
-     * The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+     * The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      */
     protected string $responseFormat = 'json';
 
@@ -36,13 +38,13 @@ class CreateTranslationRequest
     protected $temperature = 0;
 
     /**
-     * @param string $file The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
-     * @param string $model ID of the model to use. Only `whisper-1` is currently available.
+     * @param string $file The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+     * @param mixed $model ID of the model to use. Only `whisper-1` is currently available.
      * @param string $prompt An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.
-     * @param string $responseFormat The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+     * @param string $responseFormat The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      * @param float $temperature The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
      */
-    public function __construct($file = null, $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
+    public function __construct($file = null, mixed $model = null, $prompt = null, $responseFormat = 'json', $temperature = 0)
     {
         if ($file !== null) {
             $this->setFile($file);
@@ -67,7 +69,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
      */
     public function getFile(): string
     {
@@ -75,7 +77,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
      */
     public function setFile(string $file): self
     {
@@ -86,8 +88,10 @@ class CreateTranslationRequest
 
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
+     *
+     * @return mixed
      */
-    public function getModel(): string
+    public function getModel()
     {
         return $this->model;
     }
@@ -95,7 +99,7 @@ class CreateTranslationRequest
     /**
      * ID of the model to use. Only `whisper-1` is currently available.
      */
-    public function setModel(string $model): self
+    public function setModel(mixed $model): self
     {
         $this->initialized['model'] = true;
         $this->model = $model;
@@ -121,7 +125,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+     * The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      */
     public function getResponseFormat(): string
     {
@@ -129,7 +133,7 @@ class CreateTranslationRequest
     }
 
     /**
-     * The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+     * The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
      */
     public function setResponseFormat(string $responseFormat): self
     {

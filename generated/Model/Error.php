@@ -10,24 +10,24 @@ class Error extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $type = null;
+    protected ?string $code = null;
 
     protected ?string $message = null;
 
     protected ?string $param = null;
 
-    protected ?string $code = null;
+    protected ?string $type = null;
 
     /**
-     * @param string $type
+     * @param string|null $code
      * @param string $message
      * @param string|null $param
-     * @param string|null $code
+     * @param string $type
      */
-    public function __construct($type = null, $message = null, $param = null, $code = null)
+    public function __construct($code = null, $message = null, $param = null, $type = null)
     {
-        if ($type !== null) {
-            $this->setType($type);
+        if ($code !== null) {
+            $this->setCode($code);
         }
         if ($message !== null) {
             $this->setMessage($message);
@@ -35,8 +35,8 @@ class Error extends ArrayObject
         if ($param !== null) {
             $this->setParam($param);
         }
-        if ($code !== null) {
-            $this->setCode($code);
+        if ($type !== null) {
+            $this->setType($type);
         }
     }
 
@@ -45,15 +45,15 @@ class Error extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
-    public function getType(): string
+    public function getCode(): ?string
     {
-        return $this->type;
+        return $this->code;
     }
 
-    public function setType(string $type): self
+    public function setCode(?string $code): self
     {
-        $this->initialized['type'] = true;
-        $this->type = $type;
+        $this->initialized['code'] = true;
+        $this->code = $code;
         return $this;
     }
 
@@ -81,15 +81,15 @@ class Error extends ArrayObject
         return $this;
     }
 
-    public function getCode(): ?string
+    public function getType(): string
     {
-        return $this->code;
+        return $this->type;
     }
 
-    public function setCode(?string $code): self
+    public function setType(string $type): self
     {
-        $this->initialized['code'] = true;
-        $this->code = $code;
+        $this->initialized['type'] = true;
+        $this->type = $type;
         return $this;
     }
 }

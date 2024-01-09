@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\CreateTranslationRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
@@ -22,12 +23,12 @@ class CreateTranslationRequestNormalizer implements DenormalizerInterface, Norma
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateTranslationRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateTranslationRequest::class;
     }
@@ -69,7 +70,7 @@ class CreateTranslationRequestNormalizer implements DenormalizerInterface, Norma
     }
 
     /**
-     * @return array{file: mixed, model: mixed, prompt?: mixed, response_format?: mixed, temperature?: mixed}
+     * @return array|string|int|float|bool|ArrayObject|null
      */
     public function normalize($object, $format = null, array $context = [])
     {
@@ -86,5 +87,12 @@ class CreateTranslationRequestNormalizer implements DenormalizerInterface, Norma
             $data['temperature'] = $object->getTemperature();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateTranslationRequest::class => false,
+        ];
     }
 }

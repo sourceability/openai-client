@@ -7,8 +7,9 @@ namespace Sourceability\OpenAIClient\Generated\Normalizer;
 use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\ChatCompletionFunctions;
-use Sourceability\OpenAIClient\Generated\Model\ChatCompletionRequestMessage;
+use Sourceability\OpenAIClient\Generated\Model\ChatCompletionTool;
 use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequest;
+use Sourceability\OpenAIClient\Generated\Model\CreateChatCompletionRequestResponseFormat;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -25,12 +26,12 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateChatCompletionRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateChatCompletionRequest::class;
     }
@@ -47,44 +48,98 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
             return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
         $object = new CreateChatCompletionRequest();
+        if (\array_key_exists('frequency_penalty', $data) && \is_int($data['frequency_penalty'])) {
+            $data['frequency_penalty'] = (float) $data['frequency_penalty'];
+        }
+        if (\array_key_exists('presence_penalty', $data) && \is_int($data['presence_penalty'])) {
+            $data['presence_penalty'] = (float) $data['presence_penalty'];
+        }
         if (\array_key_exists('temperature', $data) && \is_int($data['temperature'])) {
             $data['temperature'] = (float) $data['temperature'];
         }
         if (\array_key_exists('top_p', $data) && \is_int($data['top_p'])) {
             $data['top_p'] = (float) $data['top_p'];
         }
-        if (\array_key_exists('presence_penalty', $data) && \is_int($data['presence_penalty'])) {
-            $data['presence_penalty'] = (float) $data['presence_penalty'];
-        }
-        if (\array_key_exists('frequency_penalty', $data) && \is_int($data['frequency_penalty'])) {
-            $data['frequency_penalty'] = (float) $data['frequency_penalty'];
-        }
         if ($data === null || \is_array($data) === false) {
             return $object;
+        }
+        if (\array_key_exists('messages', $data)) {
+            $values = [];
+            foreach ($data['messages'] as $value) {
+                $values[] = $value;
+            }
+            $object->setMessages($values);
+            unset($data['messages']);
         }
         if (\array_key_exists('model', $data)) {
             $object->setModel($data['model']);
             unset($data['model']);
         }
-        if (\array_key_exists('messages', $data)) {
-            $values = [];
-            foreach ($data['messages'] as $value) {
-                $values[] = $this->denormalizer->denormalize($value, ChatCompletionRequestMessage::class, 'json', $context);
-            }
-            $object->setMessages($values);
-            unset($data['messages']);
+        if (\array_key_exists('frequency_penalty', $data) && $data['frequency_penalty'] !== null) {
+            $object->setFrequencyPenalty($data['frequency_penalty']);
+            unset($data['frequency_penalty']);
+        } elseif (\array_key_exists('frequency_penalty', $data) && $data['frequency_penalty'] === null) {
+            $object->setFrequencyPenalty(null);
         }
-        if (\array_key_exists('functions', $data)) {
-            $values_1 = [];
-            foreach ($data['functions'] as $value_1) {
-                $values_1[] = $this->denormalizer->denormalize($value_1, ChatCompletionFunctions::class, 'json', $context);
+        if (\array_key_exists('logit_bias', $data) && $data['logit_bias'] !== null) {
+            $values_1 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            foreach ($data['logit_bias'] as $key => $value_1) {
+                $values_1[$key] = $value_1;
             }
-            $object->setFunctions($values_1);
-            unset($data['functions']);
+            $object->setLogitBias($values_1);
+            unset($data['logit_bias']);
+        } elseif (\array_key_exists('logit_bias', $data) && $data['logit_bias'] === null) {
+            $object->setLogitBias(null);
         }
-        if (\array_key_exists('function_call', $data)) {
-            $object->setFunctionCall($data['function_call']);
-            unset($data['function_call']);
+        if (\array_key_exists('logprobs', $data) && $data['logprobs'] !== null) {
+            $object->setLogprobs($data['logprobs']);
+            unset($data['logprobs']);
+        } elseif (\array_key_exists('logprobs', $data) && $data['logprobs'] === null) {
+            $object->setLogprobs(null);
+        }
+        if (\array_key_exists('top_logprobs', $data) && $data['top_logprobs'] !== null) {
+            $object->setTopLogprobs($data['top_logprobs']);
+            unset($data['top_logprobs']);
+        } elseif (\array_key_exists('top_logprobs', $data) && $data['top_logprobs'] === null) {
+            $object->setTopLogprobs(null);
+        }
+        if (\array_key_exists('max_tokens', $data) && $data['max_tokens'] !== null) {
+            $object->setMaxTokens($data['max_tokens']);
+            unset($data['max_tokens']);
+        } elseif (\array_key_exists('max_tokens', $data) && $data['max_tokens'] === null) {
+            $object->setMaxTokens(null);
+        }
+        if (\array_key_exists('n', $data) && $data['n'] !== null) {
+            $object->setN($data['n']);
+            unset($data['n']);
+        } elseif (\array_key_exists('n', $data) && $data['n'] === null) {
+            $object->setN(null);
+        }
+        if (\array_key_exists('presence_penalty', $data) && $data['presence_penalty'] !== null) {
+            $object->setPresencePenalty($data['presence_penalty']);
+            unset($data['presence_penalty']);
+        } elseif (\array_key_exists('presence_penalty', $data) && $data['presence_penalty'] === null) {
+            $object->setPresencePenalty(null);
+        }
+        if (\array_key_exists('response_format', $data)) {
+            $object->setResponseFormat($this->denormalizer->denormalize($data['response_format'], CreateChatCompletionRequestResponseFormat::class, 'json', $context));
+            unset($data['response_format']);
+        }
+        if (\array_key_exists('seed', $data) && $data['seed'] !== null) {
+            $object->setSeed($data['seed']);
+            unset($data['seed']);
+        } elseif (\array_key_exists('seed', $data) && $data['seed'] === null) {
+            $object->setSeed(null);
+        }
+        if (\array_key_exists('stop', $data)) {
+            $object->setStop($data['stop']);
+            unset($data['stop']);
+        }
+        if (\array_key_exists('stream', $data) && $data['stream'] !== null) {
+            $object->setStream($data['stream']);
+            unset($data['stream']);
+        } elseif (\array_key_exists('stream', $data) && $data['stream'] === null) {
+            $object->setStream(null);
         }
         if (\array_key_exists('temperature', $data) && $data['temperature'] !== null) {
             $object->setTemperature($data['temperature']);
@@ -98,57 +153,37 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
         } elseif (\array_key_exists('top_p', $data) && $data['top_p'] === null) {
             $object->setTopP(null);
         }
-        if (\array_key_exists('n', $data) && $data['n'] !== null) {
-            $object->setN($data['n']);
-            unset($data['n']);
-        } elseif (\array_key_exists('n', $data) && $data['n'] === null) {
-            $object->setN(null);
-        }
-        if (\array_key_exists('stream', $data) && $data['stream'] !== null) {
-            $object->setStream($data['stream']);
-            unset($data['stream']);
-        } elseif (\array_key_exists('stream', $data) && $data['stream'] === null) {
-            $object->setStream(null);
-        }
-        if (\array_key_exists('stop', $data)) {
-            $object->setStop($data['stop']);
-            unset($data['stop']);
-        }
-        if (\array_key_exists('max_tokens', $data) && $data['max_tokens'] !== null) {
-            $object->setMaxTokens($data['max_tokens']);
-            unset($data['max_tokens']);
-        } elseif (\array_key_exists('max_tokens', $data) && $data['max_tokens'] === null) {
-            $object->setMaxTokens(null);
-        }
-        if (\array_key_exists('presence_penalty', $data) && $data['presence_penalty'] !== null) {
-            $object->setPresencePenalty($data['presence_penalty']);
-            unset($data['presence_penalty']);
-        } elseif (\array_key_exists('presence_penalty', $data) && $data['presence_penalty'] === null) {
-            $object->setPresencePenalty(null);
-        }
-        if (\array_key_exists('frequency_penalty', $data) && $data['frequency_penalty'] !== null) {
-            $object->setFrequencyPenalty($data['frequency_penalty']);
-            unset($data['frequency_penalty']);
-        } elseif (\array_key_exists('frequency_penalty', $data) && $data['frequency_penalty'] === null) {
-            $object->setFrequencyPenalty(null);
-        }
-        if (\array_key_exists('logit_bias', $data) && $data['logit_bias'] !== null) {
-            $values_2 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['logit_bias'] as $key => $value_2) {
-                $values_2[$key] = $value_2;
+        if (\array_key_exists('tools', $data)) {
+            $values_2 = [];
+            foreach ($data['tools'] as $value_2) {
+                $values_2[] = $this->denormalizer->denormalize($value_2, ChatCompletionTool::class, 'json', $context);
             }
-            $object->setLogitBias($values_2);
-            unset($data['logit_bias']);
-        } elseif (\array_key_exists('logit_bias', $data) && $data['logit_bias'] === null) {
-            $object->setLogitBias(null);
+            $object->setTools($values_2);
+            unset($data['tools']);
+        }
+        if (\array_key_exists('tool_choice', $data)) {
+            $object->setToolChoice($data['tool_choice']);
+            unset($data['tool_choice']);
         }
         if (\array_key_exists('user', $data)) {
             $object->setUser($data['user']);
             unset($data['user']);
         }
-        foreach ($data as $key_1 => $value_3) {
+        if (\array_key_exists('function_call', $data)) {
+            $object->setFunctionCall($data['function_call']);
+            unset($data['function_call']);
+        }
+        if (\array_key_exists('functions', $data)) {
+            $values_3 = [];
+            foreach ($data['functions'] as $value_3) {
+                $values_3[] = $this->denormalizer->denormalize($value_3, ChatCompletionFunctions::class, 'json', $context);
+            }
+            $object->setFunctions($values_3);
+            unset($data['functions']);
+        }
+        foreach ($data as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_3;
+                $object[$key_1] = $value_4;
             }
         }
         return $object;
@@ -160,21 +195,48 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['model'] = $object->getModel();
         $values = [];
         foreach ($object->getMessages() as $value) {
-            $values[] = $this->normalizer->normalize($value, 'json', $context);
+            $values[] = $value;
         }
         $data['messages'] = $values;
-        if ($object->isInitialized('functions') && $object->getFunctions() !== null) {
-            $values_1 = [];
-            foreach ($object->getFunctions() as $value_1) {
-                $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
-            }
-            $data['functions'] = $values_1;
+        $data['model'] = $object->getModel();
+        if ($object->isInitialized('frequencyPenalty') && $object->getFrequencyPenalty() !== null) {
+            $data['frequency_penalty'] = $object->getFrequencyPenalty();
         }
-        if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
-            $data['function_call'] = $object->getFunctionCall();
+        if ($object->isInitialized('logitBias') && $object->getLogitBias() !== null) {
+            $values_1 = [];
+            foreach ($object->getLogitBias() as $key => $value_1) {
+                $values_1[$key] = $value_1;
+            }
+            $data['logit_bias'] = $values_1;
+        }
+        if ($object->isInitialized('logprobs') && $object->getLogprobs() !== null) {
+            $data['logprobs'] = $object->getLogprobs();
+        }
+        if ($object->isInitialized('topLogprobs') && $object->getTopLogprobs() !== null) {
+            $data['top_logprobs'] = $object->getTopLogprobs();
+        }
+        if ($object->isInitialized('maxTokens') && $object->getMaxTokens() !== null) {
+            $data['max_tokens'] = $object->getMaxTokens();
+        }
+        if ($object->isInitialized('n') && $object->getN() !== null) {
+            $data['n'] = $object->getN();
+        }
+        if ($object->isInitialized('presencePenalty') && $object->getPresencePenalty() !== null) {
+            $data['presence_penalty'] = $object->getPresencePenalty();
+        }
+        if ($object->isInitialized('responseFormat') && $object->getResponseFormat() !== null) {
+            $data['response_format'] = $this->normalizer->normalize($object->getResponseFormat(), 'json', $context);
+        }
+        if ($object->isInitialized('seed') && $object->getSeed() !== null) {
+            $data['seed'] = $object->getSeed();
+        }
+        if ($object->isInitialized('stop') && $object->getStop() !== null) {
+            $data['stop'] = $object->getStop();
+        }
+        if ($object->isInitialized('stream') && $object->getStream() !== null) {
+            $data['stream'] = $object->getStream();
         }
         if ($object->isInitialized('temperature') && $object->getTemperature() !== null) {
             $data['temperature'] = $object->getTemperature();
@@ -182,39 +244,41 @@ class CreateChatCompletionRequestNormalizer implements DenormalizerInterface, No
         if ($object->isInitialized('topP') && $object->getTopP() !== null) {
             $data['top_p'] = $object->getTopP();
         }
-        if ($object->isInitialized('n') && $object->getN() !== null) {
-            $data['n'] = $object->getN();
-        }
-        if ($object->isInitialized('stream') && $object->getStream() !== null) {
-            $data['stream'] = $object->getStream();
-        }
-        if ($object->isInitialized('stop') && $object->getStop() !== null) {
-            $data['stop'] = $object->getStop();
-        }
-        if ($object->isInitialized('maxTokens') && $object->getMaxTokens() !== null) {
-            $data['max_tokens'] = $object->getMaxTokens();
-        }
-        if ($object->isInitialized('presencePenalty') && $object->getPresencePenalty() !== null) {
-            $data['presence_penalty'] = $object->getPresencePenalty();
-        }
-        if ($object->isInitialized('frequencyPenalty') && $object->getFrequencyPenalty() !== null) {
-            $data['frequency_penalty'] = $object->getFrequencyPenalty();
-        }
-        if ($object->isInitialized('logitBias') && $object->getLogitBias() !== null) {
+        if ($object->isInitialized('tools') && $object->getTools() !== null) {
             $values_2 = [];
-            foreach ($object->getLogitBias() as $key => $value_2) {
-                $values_2[$key] = $value_2;
+            foreach ($object->getTools() as $value_2) {
+                $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
             }
-            $data['logit_bias'] = $values_2;
+            $data['tools'] = $values_2;
+        }
+        if ($object->isInitialized('toolChoice') && $object->getToolChoice() !== null) {
+            $data['tool_choice'] = $object->getToolChoice();
         }
         if ($object->isInitialized('user') && $object->getUser() !== null) {
             $data['user'] = $object->getUser();
         }
-        foreach ($object as $key_1 => $value_3) {
+        if ($object->isInitialized('functionCall') && $object->getFunctionCall() !== null) {
+            $data['function_call'] = $object->getFunctionCall();
+        }
+        if ($object->isInitialized('functions') && $object->getFunctions() !== null) {
+            $values_3 = [];
+            foreach ($object->getFunctions() as $value_3) {
+                $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
+            }
+            $data['functions'] = $values_3;
+        }
+        foreach ($object as $key_1 => $value_4) {
             if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_3;
+                $data[$key_1] = $value_4;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateChatCompletionRequest::class => false,
+        ];
     }
 }

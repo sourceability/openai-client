@@ -21,6 +21,7 @@ class ListFineTuneEvents extends BaseEndpoint implements Endpoint
      * @param array $queryParameters {
      *     @var bool Whether to stream events for the fine-tune job. If set to true,
     If set to false, only events generated so far will be returned.
+
      * }
      */
     public function __construct(
@@ -45,9 +46,6 @@ class ListFineTuneEvents extends BaseEndpoint implements Endpoint
         return [[], null];
     }
 
-    /**
-     * @return array{Accept: string[]}
-     */
     public function getExtraHeaders(): array
     {
         return [
@@ -57,7 +55,7 @@ class ListFineTuneEvents extends BaseEndpoint implements Endpoint
 
     public function getAuthenticationScopes(): array
     {
-        return [];
+        return ['ApiKeyAuth'];
     }
 
     protected function getQueryOptionsResolver(): OptionsResolver

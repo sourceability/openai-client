@@ -23,12 +23,12 @@ class DeleteModelResponseNormalizer implements DenormalizerInterface, Normalizer
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === DeleteModelResponse::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === DeleteModelResponse::class;
     }
@@ -52,13 +52,13 @@ class DeleteModelResponseNormalizer implements DenormalizerInterface, Normalizer
             $object->setId($data['id']);
             unset($data['id']);
         }
-        if (\array_key_exists('object', $data)) {
-            $object->setObject($data['object']);
-            unset($data['object']);
-        }
         if (\array_key_exists('deleted', $data)) {
             $object->setDeleted($data['deleted']);
             unset($data['deleted']);
+        }
+        if (\array_key_exists('object', $data)) {
+            $object->setObject($data['object']);
+            unset($data['object']);
         }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
@@ -75,13 +75,20 @@ class DeleteModelResponseNormalizer implements DenormalizerInterface, Normalizer
     {
         $data = [];
         $data['id'] = $object->getId();
-        $data['object'] = $object->getObject();
         $data['deleted'] = $object->getDeleted();
+        $data['object'] = $object->getObject();
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $data[$key] = $value;
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            DeleteModelResponse::class => false,
+        ];
     }
 }

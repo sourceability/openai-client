@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sourceability\OpenAIClient\Generated\Normalizer;
 
+use ArrayObject;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Sourceability\OpenAIClient\Generated\Model\CreateEmbeddingRequest;
 use Sourceability\OpenAIClient\Generated\Runtime\Normalizer\CheckArray;
@@ -22,12 +23,12 @@ class CreateEmbeddingRequestNormalizer implements DenormalizerInterface, Normali
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateEmbeddingRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateEmbeddingRequest::class;
     }
@@ -47,11 +48,14 @@ class CreateEmbeddingRequestNormalizer implements DenormalizerInterface, Normali
         if ($data === null || \is_array($data) === false) {
             return $object;
         }
+        if (\array_key_exists('input', $data)) {
+            $object->setInput($data['input']);
+        }
         if (\array_key_exists('model', $data)) {
             $object->setModel($data['model']);
         }
-        if (\array_key_exists('input', $data)) {
-            $object->setInput($data['input']);
+        if (\array_key_exists('encoding_format', $data)) {
+            $object->setEncodingFormat($data['encoding_format']);
         }
         if (\array_key_exists('user', $data)) {
             $object->setUser($data['user']);
@@ -60,16 +64,26 @@ class CreateEmbeddingRequestNormalizer implements DenormalizerInterface, Normali
     }
 
     /**
-     * @return array{model: mixed, input: mixed, user?: mixed}
+     * @return array|string|int|float|bool|ArrayObject|null
      */
     public function normalize($object, $format = null, array $context = [])
     {
         $data = [];
-        $data['model'] = $object->getModel();
         $data['input'] = $object->getInput();
+        $data['model'] = $object->getModel();
+        if ($object->isInitialized('encodingFormat') && $object->getEncodingFormat() !== null) {
+            $data['encoding_format'] = $object->getEncodingFormat();
+        }
         if ($object->isInitialized('user') && $object->getUser() !== null) {
             $data['user'] = $object->getUser();
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateEmbeddingRequest::class => false,
+        ];
     }
 }

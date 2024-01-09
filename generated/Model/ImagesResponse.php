@@ -13,13 +13,13 @@ class ImagesResponse extends ArrayObject
     protected ?int $created = null;
 
     /**
-     * @var ImagesResponseDataItem[]|null
+     * @var Image[]
      */
     protected ?array $data = null;
 
     /**
      * @param int $created
-     * @param ImagesResponseDataItem[] $data
+     * @param Image[] $data
      */
     public function __construct($created = null, $data = null)
     {
@@ -49,7 +49,7 @@ class ImagesResponse extends ArrayObject
     }
 
     /**
-     * @return ImagesResponseDataItem[]
+     * @return Image[]
      */
     public function getData(): array
     {
@@ -57,7 +57,7 @@ class ImagesResponse extends ArrayObject
     }
 
     /**
-     * @param ImagesResponseDataItem[] $data
+     * @param Image[] $data
      */
     public function setData(array $data): self
     {

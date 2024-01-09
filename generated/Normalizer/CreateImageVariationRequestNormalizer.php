@@ -23,12 +23,12 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CreateImageVariationRequest::class;
     }
 
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data::class === CreateImageVariationRequest::class;
     }
@@ -52,23 +52,29 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
             $object->setImage($data['image']);
             unset($data['image']);
         }
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
+            $object->setModel($data['model']);
+            unset($data['model']);
+        } elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
+        }
         if (\array_key_exists('n', $data) && $data['n'] !== null) {
             $object->setN($data['n']);
             unset($data['n']);
         } elseif (\array_key_exists('n', $data) && $data['n'] === null) {
             $object->setN(null);
         }
-        if (\array_key_exists('size', $data) && $data['size'] !== null) {
-            $object->setSize($data['size']);
-            unset($data['size']);
-        } elseif (\array_key_exists('size', $data) && $data['size'] === null) {
-            $object->setSize(null);
-        }
         if (\array_key_exists('response_format', $data) && $data['response_format'] !== null) {
             $object->setResponseFormat($data['response_format']);
             unset($data['response_format']);
         } elseif (\array_key_exists('response_format', $data) && $data['response_format'] === null) {
             $object->setResponseFormat(null);
+        }
+        if (\array_key_exists('size', $data) && $data['size'] !== null) {
+            $object->setSize($data['size']);
+            unset($data['size']);
+        } elseif (\array_key_exists('size', $data) && $data['size'] === null) {
+            $object->setSize(null);
         }
         if (\array_key_exists('user', $data)) {
             $object->setUser($data['user']);
@@ -89,14 +95,17 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
     {
         $data = [];
         $data['image'] = $object->getImage();
+        if ($object->isInitialized('model') && $object->getModel() !== null) {
+            $data['model'] = $object->getModel();
+        }
         if ($object->isInitialized('n') && $object->getN() !== null) {
             $data['n'] = $object->getN();
         }
-        if ($object->isInitialized('size') && $object->getSize() !== null) {
-            $data['size'] = $object->getSize();
-        }
         if ($object->isInitialized('responseFormat') && $object->getResponseFormat() !== null) {
             $data['response_format'] = $object->getResponseFormat();
+        }
+        if ($object->isInitialized('size') && $object->getSize() !== null) {
+            $data['size'] = $object->getSize();
         }
         if ($object->isInitialized('user') && $object->getUser() !== null) {
             $data['user'] = $object->getUser();
@@ -107,5 +116,12 @@ class CreateImageVariationRequestNormalizer implements DenormalizerInterface, No
             }
         }
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            CreateImageVariationRequest::class => false,
+        ];
     }
 }

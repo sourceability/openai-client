@@ -6,37 +6,51 @@ namespace Sourceability\OpenAIClient\Generated\Model;
 
 use ArrayObject;
 
+/**
+ * @deprecated
+ */
 class CreateEditResponse extends ArrayObject
 {
     protected array $initialized = [];
 
-    protected ?string $object = null;
-
-    protected ?int $created = null;
-
     /**
-     * @var CreateEditResponseChoicesItem[]|null
+     * A list of edit choices. Can be more than one if `n` is greater than 1.
+     *
+     * @var CreateEditResponseChoicesItem[]
      */
     protected ?array $choices = null;
 
-    protected ?CreateEditResponseUsage $usage = null;
+    /**
+     * The object type, which is always `edit`.
+     */
+    protected ?string $object = null;
 
     /**
-     * @param string $object
-     * @param int $created
-     * @param CreateEditResponseChoicesItem[] $choices
-     * @param CreateEditResponseUsage $usage
+     * The Unix timestamp (in seconds) of when the edit was created.
      */
-    public function __construct($object = null, $created = null, $choices = null, $usage = null)
+    protected ?int $created = null;
+
+    /**
+     * Usage statistics for the completion request.
+     */
+    protected ?CompletionUsage $usage = null;
+
+    /**
+     * @param CreateEditResponseChoicesItem[] $choices A list of edit choices. Can be more than one if `n` is greater than 1.
+     * @param string $object The object type, which is always `edit`.
+     * @param int $created The Unix timestamp (in seconds) of when the edit was created.
+     * @param CompletionUsage $usage Usage statistics for the completion request.
+     */
+    public function __construct($choices = null, $object = null, $created = null, $usage = null)
     {
+        if ($choices !== null) {
+            $this->setChoices($choices);
+        }
         if ($object !== null) {
             $this->setObject($object);
         }
         if ($created !== null) {
             $this->setCreated($created);
-        }
-        if ($choices !== null) {
-            $this->setChoices($choices);
         }
         if ($usage !== null) {
             $this->setUsage($usage);
@@ -48,31 +62,9 @@ class CreateEditResponse extends ArrayObject
         return array_key_exists($property, $this->initialized);
     }
 
-    public function getObject(): string
-    {
-        return $this->object;
-    }
-
-    public function setObject(string $object): self
-    {
-        $this->initialized['object'] = true;
-        $this->object = $object;
-        return $this;
-    }
-
-    public function getCreated(): int
-    {
-        return $this->created;
-    }
-
-    public function setCreated(int $created): self
-    {
-        $this->initialized['created'] = true;
-        $this->created = $created;
-        return $this;
-    }
-
     /**
+     * A list of edit choices. Can be more than one if `n` is greater than 1.
+     *
      * @return CreateEditResponseChoicesItem[]
      */
     public function getChoices(): array
@@ -81,6 +73,8 @@ class CreateEditResponse extends ArrayObject
     }
 
     /**
+     * A list of edit choices. Can be more than one if `n` is greater than 1.
+     *
      * @param CreateEditResponseChoicesItem[] $choices
      */
     public function setChoices(array $choices): self
@@ -90,12 +84,54 @@ class CreateEditResponse extends ArrayObject
         return $this;
     }
 
-    public function getUsage(): CreateEditResponseUsage
+    /**
+     * The object type, which is always `edit`.
+     */
+    public function getObject(): string
+    {
+        return $this->object;
+    }
+
+    /**
+     * The object type, which is always `edit`.
+     */
+    public function setObject(string $object): self
+    {
+        $this->initialized['object'] = true;
+        $this->object = $object;
+        return $this;
+    }
+
+    /**
+     * The Unix timestamp (in seconds) of when the edit was created.
+     */
+    public function getCreated(): int
+    {
+        return $this->created;
+    }
+
+    /**
+     * The Unix timestamp (in seconds) of when the edit was created.
+     */
+    public function setCreated(int $created): self
+    {
+        $this->initialized['created'] = true;
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Usage statistics for the completion request.
+     */
+    public function getUsage(): CompletionUsage
     {
         return $this->usage;
     }
 
-    public function setUsage(CreateEditResponseUsage $usage): self
+    /**
+     * Usage statistics for the completion request.
+     */
+    public function setUsage(CompletionUsage $usage): self
     {
         $this->initialized['usage'] = true;
         $this->usage = $usage;
